@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id TINYTEXT,
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
     name TINYTEXT,
     email TINYTEXT,
     emailVerified TIMESTAMP,
@@ -7,7 +7,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE accounts (
-    id TINYTEXT,
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
     userId TINYTEXT,
     type TINYTEXT,
     provider TINYTEXT,
@@ -24,7 +24,7 @@ CREATE TABLE accounts (
 );
 
 CREATE TABLE sessions (
-    id TINYTEXT,
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
     expires TIMESTAMP,
     sessionToken TINYTEXT,
     userId TINYTEXT
