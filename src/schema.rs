@@ -34,7 +34,7 @@ diesel::table! {
         id -> Varchar,
         name -> Nullable<Tinytext>,
         email -> Nullable<Tinytext>,
-        emailVerified -> Timestamp,
+        emailVerified -> Nullable<Tinytext>,
         image -> Nullable<Mediumtext>,
     }
 }

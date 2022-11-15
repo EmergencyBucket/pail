@@ -1,8 +1,21 @@
-use rocket::serde::{Serialize, json::Json};
 pub mod api;
+pub mod schema;
+
+use rocket::serde::{Serialize, json::Json};
+use diesel::prelude::*;
+use dotenvy::dotenv;
+use std::env;
 
 #[macro_use]
 extern crate rocket;
+
+pub fn establish_connection() -> MysqlConnection {
+    dotenv().ok();
+
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    MysqlConnection::establish(&database_url)
+        .unwrap_or_else(|_| panic!("Error connecting to {}", database_url))
+}
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]
@@ -21,6 +34,7 @@ fn index() -> Json<Status> {
 
 #[launch]
 fn rocket() -> _ {
+    let conn = establish_connection();
     rocket::build()
     .mount("/", routes![index])
     .mount("/api/auth/user", routes![api::auth::user::testuser])
