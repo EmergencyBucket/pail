@@ -779,6 +779,7 @@ version = "1.0.0"
 dependencies = [
  "diesel",
  "dotenvy",
+ "rand",
  "regex",
  "rocket",
  "serde",

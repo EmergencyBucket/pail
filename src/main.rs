@@ -36,9 +36,5 @@ fn index() -> Json<Status> {
 fn rocket() -> _ {
     rocket::build()
         .mount("/", routes![index])
-        .mount("/api/auth/user", routes![api::auth::user::create_user])
-        .mount("/api/auth/user", routes![api::auth::user::get_user])
-        .mount("/api/auth/user/provider", routes![api::auth::user::get_user_by_account])
-        .mount("/api/auth/user", routes![api::auth::user::update_user])
-        .mount("/api/auth/user", routes![api::auth::user::delete_user])
+        .mount("/api/user", routes![api::auth::user::create_user])
 }

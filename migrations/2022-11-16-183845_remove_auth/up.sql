@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id VARCHAR(255) NOT NULL PRIMARY KEY,
+    username TINYTEXT,
+    email TINYTEXT
+);
