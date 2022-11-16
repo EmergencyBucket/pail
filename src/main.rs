@@ -1,10 +1,10 @@
 pub mod api;
 pub mod schema;
 
-use rocket::serde::{Serialize, json::Json};
 use diesel::prelude::*;
 use dotenvy::dotenv;
-use std::env;
+use rocket::serde::{json::Json, Serialize};
+use std::{env};
 
 #[macro_use]
 extern crate rocket;
@@ -28,14 +28,17 @@ struct Status {
 fn index() -> Json<Status> {
     Json(Status {
         status: "OK".to_string(),
-        version: env!("CARGO_PKG_VERSION").to_string()
+        version: env!("CARGO_PKG_VERSION").to_string(),
     })
 }
 
 #[launch]
 fn rocket() -> _ {
-    let conn = establish_connection();
     rocket::build()
-    .mount("/", routes![index])
-    .mount("/api/auth/user", routes![api::auth::user::testuser])
+        .mount("/", routes![index])
+        .mount("/api/auth/user", routes![api::auth::user::create_user])
+        .mount("/api/auth/user", routes![api::auth::user::get_user])
+        .mount("/api/auth/user/provider", routes![api::auth::user::get_user_by_account])
+        .mount("/api/auth/user", routes![api::auth::user::update_user])
+        .mount("/api/auth/user", routes![api::auth::user::delete_user])
 }
