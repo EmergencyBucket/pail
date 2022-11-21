@@ -1,9 +1,8 @@
 use diesel::{prelude::*};
 use rocket::{serde::{
-    json::{Json, self},
+    json::{Json},
     Deserialize,
 }};
-use rocket::serde::json::json;
 use rocket::response::{status::Created};
 use rand::{Rng};
 use rocket::response::Debug;
