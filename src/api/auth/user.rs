@@ -15,7 +15,7 @@ type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 #[derive(Deserialize, Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct UserTemplate {
-    pub username: String,
+    pub name: String,
     pub email: String,
 }
 
@@ -47,7 +47,7 @@ pub struct User {
 pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Json<FullUser>>> {
     use crate::schema::users::dsl::*;
 
-    let insert_username: String = user.username.clone();
+    let insert_username: String = user.name.clone();
 
     let insert_email: String = user.email.clone();
 
@@ -56,12 +56,13 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Jso
     db.run(move |conn: &mut MysqlConnection| {
         diesel::insert_into(users)
             .values((id.eq(user_id.to_string()), (username.eq(insert_username)), (email.eq(insert_email))))
+            .on_conflict_do_nothing()
             .execute(conn)
     }).await?;
 
     Ok(Created::new("/").body(Json(FullUser {
         id: user_id.to_string(),
-        username: user.username.clone(),
+        username: user.name.clone(),
         email: user.email.clone()
     })))
 }

@@ -9,6 +9,7 @@ edition = "2021"
 diesel = { version = "2.0.2", features = ["mysql"] }
 dotenvy = "0.15"
 rocket = { git = "https://github.com/SergioBenitez/Rocket", branch = "master", features = ["json"]}
+# Release version of rocket_sync_db_pools uses an old version of diesel that is incompatible with 2.0.2
 rocket_sync_db_pools = { git = "https://github.com/SergioBenitez/Rocket", branch = "master", features = ["diesel_mysql_pool"]}
 serde = { version = "1.0.147", features = ["derive"] }
 regex = "1.7.0"
