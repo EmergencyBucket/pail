@@ -1,20 +1,33 @@
-use diesel::prelude::*;
-use rocket::serde::{
-    json::{serde_json::json, Json, Value},
+use diesel::{prelude::*};
+use rocket::{serde::{
+    json::{Json, self},
     Deserialize,
-};
-use rand::Rng;
+}};
+use rocket::serde::json::json;
+use rocket::response::{status::Created};
+use rand::{Rng};
+use rocket::response::Debug;
+use serde::Serialize;
 
-use crate::establish_connection;
+use crate::database::DB;
 
-#[derive(Deserialize)]
+type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
+
+#[derive(Deserialize, Serialize)]
 #[serde(crate = "rocket::serde")]
-pub struct UserTemplate<'a> {
-    pub username: &'a str,
-    pub email: &'a str,
+pub struct UserTemplate {
+    pub username: String,
+    pub email: String,
 }
 
-#[derive(Queryable)]
+#[derive(Queryable, Serialize, Debug)]
+pub struct FullUser {
+    id: String,
+    username: String,
+    email: String,
+}
+
+#[derive(Queryable, Serialize, Debug)]
 pub struct User {
     id: String,
     username: Option<String>,
@@ -32,23 +45,22 @@ pub struct User {
 /// }
 /// This will create a new user with a random u32 id
 #[post("/", data = "<user>")]
-pub fn create_user(user: Json<UserTemplate<'_>>) -> Value {
+pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Json<FullUser>>> {
     use crate::schema::users::dsl::*;
 
-    let mut rng = rand::thread_rng();
+    let search_email: String = user.email.clone();
 
-    let conn = &mut establish_connection();
+    let user_id: u32 = rand::thread_rng().gen::<u32>();
 
-    let user_id = rng.gen::<u32>();
+    db.run(move |conn: &mut MysqlConnection| {
+        diesel::insert_into(users)
+            .values((id.eq(user_id.to_string()), (email.eq(search_email))))
+            .execute(conn)
+    }).await?;
 
-    diesel::insert_into(users)
-        .values((id.eq(user_id.to_string()), email.eq(user.email)))
-        .execute(conn)
-        .expect("Error");
-
-    json!({
-        "id": user_id.to_string(),
-        "username": user.username,
-        "email": user.email,
-    })
+    Ok(Created::new("/").body(Json(FullUser {
+        id: user_id.to_string(),
+        username: user.username.clone(),
+        email: user.email.clone()
+    })))
 }
