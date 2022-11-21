@@ -47,13 +47,15 @@ pub struct User {
 pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Json<FullUser>>> {
     use crate::schema::users::dsl::*;
 
-    let search_email: String = user.email.clone();
+    let insert_username: String = user.username.clone();
+
+    let insert_email: String = user.email.clone();
 
     let user_id: u32 = rand::thread_rng().gen::<u32>();
 
     db.run(move |conn: &mut MysqlConnection| {
         diesel::insert_into(users)
-            .values((id.eq(user_id.to_string()), (email.eq(search_email))))
+            .values((id.eq(user_id.to_string()), (username.eq(insert_username)), (email.eq(insert_email))))
             .execute(conn)
     }).await?;
 
