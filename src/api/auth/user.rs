@@ -4,7 +4,6 @@ use rocket::{serde::{
     Deserialize,
 }};
 use rocket::response::{status::Created};
-use rand::{Rng};
 use rocket::response::Debug;
 use serde::Serialize;
 
@@ -15,13 +14,14 @@ type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 #[derive(Deserialize, Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct UserTemplate {
+    pub id: u32,
     pub name: String,
     pub email: String,
 }
 
 #[derive(Queryable, Serialize, Debug)]
 pub struct FullUser {
-    id: String,
+    id: u32,
     username: String,
     email: String,
 }
@@ -42,7 +42,7 @@ pub struct User {
 ///     "username": "Mrxbox98",
 ///     "email": "mrxbox98@mrxbox98.me"
 /// }
-/// This will create a new user with a random u32 id
+/// This will create a new user with a random u32 id if the user does not exist
 #[post("/", data = "<user>")]
 pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Json<FullUser>>> {
     use crate::schema::users::dsl::*;
@@ -51,17 +51,16 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Jso
 
     let insert_email: String = user.email.clone();
 
-    let user_id: u32 = rand::thread_rng().gen::<u32>();
+    let insert_id: u32 = user.id.clone();
 
     db.run(move |conn: &mut MysqlConnection| {
         diesel::insert_into(users)
-            .values((id.eq(user_id.to_string()), (username.eq(insert_username)), (email.eq(insert_email))))
-            .on_conflict_do_nothing()
+            .values((id.eq(insert_id), (username.eq(insert_username)), (email.eq(insert_email))))
             .execute(conn)
     }).await?;
 
     Ok(Created::new("/").body(Json(FullUser {
-        id: user_id.to_string(),
+        id: user.id.clone(),
         username: user.name.clone(),
         email: user.email.clone()
     })))
