@@ -1,11 +1,12 @@
 pub mod api;
-pub mod schema;
 pub mod database;
+pub mod schema;
 
-use rocket::{serde::{json::Json, Serialize}};
-use std::{env};
+use rocket::serde::{json::Json, Serialize};
+use std::env;
 
-#[macro_use] extern crate rocket;
+#[macro_use]
+extern crate rocket;
 
 #[derive(Serialize)]
 #[serde(crate = "rocket::serde")]

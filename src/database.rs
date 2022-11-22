@@ -1,4 +1,4 @@
-use rocket_sync_db_pools::{diesel, database};
+use rocket_sync_db_pools::{database, diesel};
 
 #[database("db")]
 pub struct DB(diesel::MysqlConnection);

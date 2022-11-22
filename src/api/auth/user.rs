@@ -1,13 +1,10 @@
-use diesel::{prelude::*};
-use rocket::{serde::{
-    json::{Json},
-    Deserialize,
-}};
-use rocket::response::{status::Created};
+use diesel::prelude::*;
+use rocket::response::status::Created;
 use rocket::response::Debug;
+use rocket::serde::{json::Json, Deserialize};
 use serde::Serialize;
 
-use crate::database::DB;
+use crate::{database::DB, schema::teams::id};
 
 type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 
@@ -35,7 +32,7 @@ pub struct User {
 
 /// Creates a new user with the username and email
 /// # Example
-/// 
+///
 /// HTTP POST Request to ``/api/user`` with body:
 /// ```json
 /// {
@@ -53,15 +50,34 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Jso
 
     let insert_id: u32 = user.id.clone();
 
+    let ids: Vec<u32> = db
+        .run(move |conn| users.select(id).filter(id.eq(insert_id)).load(conn))
+        .await?;
+
+    // If the user is already in the database do not try to insert it
+    if !ids.is_empty() {
+        // Return ok because client side won't be checking if the user is already in the database
+        return Ok(Created::new("/").body(Json(FullUser {
+            id: user.id.clone(),
+            username: user.name.clone(),
+            email: user.email.clone(),
+        })));
+    }
+
     db.run(move |conn: &mut MysqlConnection| {
         diesel::insert_into(users)
-            .values((id.eq(insert_id), (username.eq(insert_username)), (email.eq(insert_email))))
+            .values((
+                id.eq(insert_id),
+                (username.eq(insert_username)),
+                (email.eq(insert_email)),
+            ))
             .execute(conn)
-    }).await?;
+    })
+    .await?;
 
     Ok(Created::new("/").body(Json(FullUser {
         id: user.id.clone(),
         username: user.name.clone(),
-        email: user.email.clone()
+        email: user.email.clone(),
     })))
 }
