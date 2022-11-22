@@ -4,21 +4,21 @@ use rocket::response::Debug;
 use rocket::serde::{json::Json, Deserialize};
 use serde::Serialize;
 
-use crate::{database::DB};
+use crate::database::DB;
 
 type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 
 #[derive(Deserialize, Serialize)]
 #[serde(crate = "rocket::serde")]
 pub struct UserTemplate {
-    pub id: u32,
+    pub id: i32,
     pub name: String,
     pub email: String,
 }
 
 #[derive(Queryable, Serialize, Debug)]
 pub struct FullUser {
-    id: u32,
+    id: i32,
     username: String,
     email: String,
 }
@@ -39,7 +39,7 @@ pub struct User {
 ///     "username": "Mrxbox98",
 ///     "email": "mrxbox98@mrxbox98.me"
 /// }
-/// This will create a new user with a random u32 id if the user does not exist
+/// This will create a new user with the github id
 #[post("/", data = "<user>")]
 pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Json<FullUser>>> {
     use crate::schema::users::dsl::*;
@@ -48,9 +48,9 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Jso
 
     let insert_email: String = user.email.clone();
 
-    let insert_id: u32 = user.id.clone();
+    let insert_id: i32 = user.id.clone();
 
-    let ids: Vec<u32> = db
+    let ids: Vec<i32> = db
         .run(move |conn| users.select(id).filter(id.eq(insert_id)).load(conn))
         .await?;
 
@@ -64,7 +64,7 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Jso
         })));
     }
 
-    db.run(move |conn: &mut MysqlConnection| {
+    db.run(move |conn: &mut PgConnection| {
         diesel::insert_into(users)
             .values((
                 id.eq(insert_id),

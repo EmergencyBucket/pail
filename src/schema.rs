@@ -2,17 +2,17 @@
 
 diesel::table! {
     teams (id) {
-        id -> Integer,
-        teamname -> Nullable<Tinytext>,
-        leader_id -> Unsigned<Integer>,
+        id -> Int4,
+        teamname -> Nullable<Text>,
+        leader_id -> Int4,
     }
 }
 
 diesel::table! {
     users (id) {
-        id -> Unsigned<Integer>,
-        username -> Nullable<Tinytext>,
-        email -> Nullable<Tinytext>,
+        id -> Int4,
+        username -> Nullable<Text>,
+        email -> Nullable<Text>,
     }
 }
 
