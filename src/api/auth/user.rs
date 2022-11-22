@@ -4,7 +4,7 @@ use rocket::response::Debug;
 use rocket::serde::{json::Json, Deserialize};
 use serde::Serialize;
 
-use crate::{database::DB, schema::teams::id};
+use crate::{database::DB};
 
 type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 
