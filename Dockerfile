@@ -40,4 +40,4 @@ RUN cargo build --release
 
 EXPOSE 8000
 
-CMD /pail/target/release/pail
+CMD ./target/release/pail
