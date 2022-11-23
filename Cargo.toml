@@ -16,3 +16,4 @@ rocket_sync_db_pools = { git = "https://github.com/SergioBenitez/Rocket", branch
 serde = { version = "1.0.147", features = ["derive"] }
 regex = "1.7.0"
 rand = "0.8.5"
+dotenv = "0.15.0"

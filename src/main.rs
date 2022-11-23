@@ -2,6 +2,7 @@ pub mod api;
 pub mod database;
 pub mod schema;
 
+use dotenv::dotenv;
 use rocket::serde::{json::Json, Serialize};
 use std::env;
 
@@ -25,6 +26,8 @@ fn index() -> Json<Status> {
 
 #[launch]
 fn rocket() -> _ {
+    dotenv().ok();
+
     rocket::build()
         .attach(database::DB::fairing())
         .mount("/", routes![index])
