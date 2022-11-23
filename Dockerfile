@@ -1,3 +1,5 @@
+ARG DATABASE_URL
+
 FROM rust:1.65
 
 WORKDIR /pail
@@ -21,8 +23,6 @@ RUN apt-get update \
 FROM rust:1.65
 
 COPY . .
-
-ARG DATABASE_URL
 
 RUN touch .env
 
