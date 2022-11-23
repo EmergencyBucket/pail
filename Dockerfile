@@ -17,6 +17,10 @@ RUN sed -i 's|dummy.rs|src/main.rs|' Cargo.toml
 
 COPY . .
 
+RUN cp Rocket.toml.example Rocket.toml
+
+RUN sed -i '$ a "${DATABASE_URL}"' Rocket.toml
+
 RUN cargo build --release
 
 EXPOSE 8000
