@@ -17,12 +17,6 @@ RUN sed -i 's|dummy.rs|src/main.rs|' Cargo.toml
 
 COPY . .
 
-RUN touch .env
-
-RUN touch Rocket.toml
-
-RUN echo -e "[global.databases.db]\nurl = '${DATABASE_URL}'" >> Rocket.toml
-
 RUN cargo build --release
 
 EXPOSE 8000
