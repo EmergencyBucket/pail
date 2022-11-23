@@ -19,7 +19,7 @@ COPY . .
 
 RUN cp Rocket.toml.example Rocket.toml
 
-RUN sed 's/DATABASE_URL/${DATABASE_URL}/g' Rocket.toml
+RUN sed -i 's/DATABASE_URL/${DATABASE_URL}/g' Rocket.toml
 
 RUN cargo build --release
 
