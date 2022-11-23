@@ -26,7 +26,7 @@ ARG DATABASE_URL
 
 RUN touch Rocket.toml
 
-RUN sed -i "$ a [global.databases.db]\nurl = '${DATABASE_URL}'" Rocket.toml
+RUN sed -i "$ a [global.databases.db] \n url = '${DATABASE_URL}'" Rocket.toml
 
 RUN touch .env
 
