@@ -26,7 +26,9 @@ ARG DATABASE_URL
 
 RUN touch .env
 
-RUN sed -i "$ a DATABASE_URL=${DATABASE_URL}\nROCKET_DATABASES='{db={url=\"${DATABASE_URL}\"}}'" .env
+RUN sed -i "$ a DATABASE_URL=${DATABASE_URL}" .env
+
+ENV ROCKET_DATABASES="ROCKET_DATABASES='{db={url='${DATABASE_URL}'}}'"
 
 RUN cargo install diesel_cli
 
