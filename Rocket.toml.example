@@ -1,2 +1,2 @@
 [global.databases.db]
-url = 
+url = 'DATABASE_URL'
