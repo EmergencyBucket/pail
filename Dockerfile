@@ -28,8 +28,6 @@ RUN touch .env
 
 RUN sed -i "$ a DATABASE_URL=${DATABASE_URL}" .env
 
-ENV ROCKET_DATABASES="ROCKET_DATABASES='{db={url='${DATABASE_URL}'}}'"
-
 RUN cargo install diesel_cli
 
 RUN diesel migration run
@@ -38,4 +36,4 @@ RUN cargo build --release
 
 EXPOSE 8000
 
-CMD ./target/release/pail
+CMD ROCKET_DATABASES="ROCKET_DATABASES='{db={url='${DATABASE_URL}'}}'" ./target/release/pail
