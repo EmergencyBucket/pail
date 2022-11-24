@@ -19,4 +19,4 @@ RUN echo "DATABASE_URL=$DATABASE_URL" >>.env
 
 RUN echo "ROCKET_DATABASES='{db={url='$DATABASE_URL'}}'" >>.env
 
-CMD ./target/release/pail
+CMD ["cargo", "run"]
