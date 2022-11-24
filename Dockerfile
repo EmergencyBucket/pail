@@ -1,6 +1,6 @@
-ARG DATABASE_URL
-
 FROM rust:latest
+
+ARG DATABASE_URL
 
 WORKDIR /src
 
@@ -15,8 +15,8 @@ EXPOSE 8000
 
 RUN touch .env
 
-RUN sed -i -e '$ a DATABASE_URL=${DATABASE_URL}' .env
+RUN echo "DATABASE_URL=$DATABASE_URL" >>.env
 
-RUN sed -i -e '$ a ROCKET_DATABASES="{my_db={url="${DATABASE_URL}"}}"' .env
+RUN echo "ROCKET_DATABASES='{db={url='$DATABASE_URL'}}'" >>.env
 
 CMD ./target/release/pail
