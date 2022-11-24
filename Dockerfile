@@ -2,8 +2,6 @@ FROM rust:latest
 
 ARG DATABASE_URL
 
-ARG PORT
-
 WORKDIR /usr/src/pail
 
 COPY Cargo.lock .
@@ -21,7 +19,7 @@ COPY . .
 
 RUN cargo build --release
 
-EXPOSE 8000
+EXPOSE 80
 
 RUN touch .env
 
@@ -29,7 +27,7 @@ RUN echo "DATABASE_URL=$DATABASE_URL" >>.env
 
 RUN echo "ROCKET_DATABASES='{db={url='$DATABASE_URL'}}'" >>.env
 
-RUN echo "ROCKET_PORT=$PORT" >>.env
+RUN echo "ROCKET_PORT=80" >>.env
 
 RUN echo "ROCKET_ADDRESS=0.0.0.0" >>.env
 
