@@ -2,10 +2,18 @@ FROM rust:latest
 
 ARG DATABASE_URL
 
-WORKDIR /src
+WORKDIR /usr/src/pail
 
-COPY ./Cargo.lock ./Cargo.lock
-COPY ./Cargo.toml ./Cargo.toml
+COPY Cargo.lock .
+COPY Cargo.toml .
+COPY docker_utils/dummy.rs .
+
+# Change temporarely the path of the code
+RUN sed -i 's|src/main.rs|dummy.rs|' Cargo.toml
+# Build only deps
+RUN cargo build --release
+# Now return the file back to normal
+RUN sed -i 's|dummy.rs|src/main.rs|' Cargo.toml
 
 COPY . .
 
@@ -19,4 +27,4 @@ RUN echo "DATABASE_URL=$DATABASE_URL" >>.env
 
 RUN echo "ROCKET_DATABASES='{db={url='$DATABASE_URL'}}'" >>.env
 
-CMD ["cargo", "run"]
+CMD ./target/release/pail
