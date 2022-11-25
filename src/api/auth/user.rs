@@ -1,3 +1,4 @@
+use crate::schema::users;
 use diesel::prelude::*;
 use diesel::result::Error;
 use rocket::http::Status;
@@ -25,7 +26,7 @@ pub struct FullUser {
 
 #[derive(Queryable, Serialize, Debug)]
 pub struct User {
-    id: String,
+    id: i32,
     username: Option<String>,
     email: Option<String>,
 }
@@ -92,6 +93,33 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> (Status, Value) {
             "id": user.id.clone(),
             "username": user.name.clone(),
             "email": user.email.clone(),
+        }),
+    );
+}
+
+#[get("/<user_id>")]
+pub async fn get_user(db: DB, user_id: i32) -> (Status, Value) {
+    let tableuser: Result<User, Error> = db
+        .run(move |conn: &mut PgConnection| users::table.filter(users::id.eq(user_id)).first(conn))
+        .await;
+
+    if tableuser.is_err() {
+        return (
+            Status::NotFound,
+            json!({
+                "error": "User not found"
+            }),
+        );
+    }
+
+    let user: User = tableuser.ok().expect("Error");
+
+    return (
+        Status::Ok,
+        json!({
+            "id": user.id,
+            "username": user.username.expect(""),
+            "email": user.email.expect(""),
         }),
     );
 }

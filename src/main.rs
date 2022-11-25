@@ -40,5 +40,8 @@ fn rocket() -> _ {
     rocket::build()
         .attach(database::DB::fairing())
         .mount("/", routes![index, error])
-        .mount("/api/auth/user", routes![api::auth::user::create_user])
+        .mount(
+            "/api/auth/user",
+            routes![api::auth::user::create_user, api::auth::user::get_user],
+        )
 }
