@@ -1,12 +1,12 @@
 use diesel::prelude::*;
-use rocket::response::status::Created;
-use rocket::response::Debug;
+use diesel::result::Error;
+use rocket::http::Status;
+use rocket::serde::json::serde_json::json;
+use rocket::serde::json::Value;
 use rocket::serde::{json::Json, Deserialize};
 use serde::Serialize;
 
 use crate::database::DB;
-
-type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
 
 #[derive(Deserialize, Serialize)]
 #[serde(crate = "rocket::serde")]
@@ -41,7 +41,7 @@ pub struct User {
 /// }
 /// This will create a new user with the github id
 #[post("/", data = "<user>")]
-pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Json<FullUser>>> {
+pub async fn create_user(db: DB, user: Json<UserTemplate>) -> (Status, Value) {
     use crate::schema::users::dsl::*;
 
     let insert_username: String = user.name.clone();
@@ -50,34 +50,48 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> Result<Created<Jso
 
     let insert_id: i32 = user.id.clone();
 
-    let ids: Vec<i32> = db
+    let ids: Result<Vec<i32>, Error> = db
         .run(move |conn| users.select(id).filter(id.eq(insert_id)).load(conn))
-        .await?;
+        .await;
 
     // If the user is already in the database do not try to insert it
-    if !ids.is_empty() {
+    if !ids.ok().expect("").is_empty() {
         // Return ok because client side won't be checking if the user is already in the database
-        return Ok(Created::new("/").body(Json(FullUser {
-            id: user.id.clone(),
-            username: user.name.clone(),
-            email: user.email.clone(),
-        })));
+        return (
+            Status::Conflict,
+            json!({
+                "error": "User already in database"
+            }),
+        );
     }
 
-    db.run(move |conn: &mut PgConnection| {
-        diesel::insert_into(users)
-            .values((
-                id.eq(insert_id),
-                (username.eq(insert_username)),
-                (email.eq(insert_email)),
-            ))
-            .execute(conn)
-    })
-    .await?;
+    let insert: Result<_, Error> = db
+        .run(move |conn: &mut PgConnection| {
+            diesel::insert_into(users)
+                .values((
+                    id.eq(insert_id),
+                    (username.eq(insert_username)),
+                    (email.eq(insert_email)),
+                ))
+                .execute(conn)
+        })
+        .await;
 
-    Ok(Created::new("/").body(Json(FullUser {
-        id: user.id.clone(),
-        username: user.name.clone(),
-        email: user.email.clone(),
-    })))
+    if insert.is_err() {
+        return (
+            Status::InternalServerError,
+            json!({
+                "error": "Server error while inserting into database."
+            }),
+        );
+    }
+
+    return (
+        Status::Created,
+        json!({
+            "id": user.id.clone(),
+            "username": user.name.clone(),
+            "email": user.email.clone(),
+        }),
+    );
 }

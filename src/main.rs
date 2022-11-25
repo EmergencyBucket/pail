@@ -3,25 +3,34 @@ pub mod database;
 pub mod schema;
 
 use dotenv::dotenv;
-use rocket::serde::{json::Json, Serialize};
+use rocket::{
+    http::Status,
+    serde::json::{serde_json::json, Value},
+};
 use std::env;
 
 #[macro_use]
 extern crate rocket;
 
-#[derive(Serialize)]
-#[serde(crate = "rocket::serde")]
-struct Status {
-    pub status: String,
-    pub version: String,
+#[get("/")]
+fn index() -> (Status, Value) {
+    (
+        Status::BadRequest,
+        json!({
+            "status": "OK".to_string(),
+            "version": env!("CARGO_PKG_VERSION").to_string(),
+        }),
+    )
 }
 
-#[get("/")]
-fn index() -> Json<Status> {
-    Json(Status {
-        status: "OK".to_string(),
-        version: env!("CARGO_PKG_VERSION").to_string(),
-    })
+#[get("/error")]
+fn error() -> (Status, Value) {
+    (
+        Status::BadRequest,
+        json!({
+            "status": "error"
+        }),
+    )
 }
 
 #[launch]
@@ -30,6 +39,6 @@ fn rocket() -> _ {
 
     rocket::build()
         .attach(database::DB::fairing())
-        .mount("/", routes![index])
+        .mount("/", routes![index, error])
         .mount("/api/auth/user", routes![api::auth::user::create_user])
 }
