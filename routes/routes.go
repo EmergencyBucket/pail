@@ -1,7 +1,7 @@
 package routes
 
 import "github.com/gin-gonic/gin"
-import "github.com/EmergencyBucket/pail/auth"
+import "github.com/EmergencyBucket/pail/routes/api/auth"
 
 func setupRoutes() {
 	router := gin.Default()
