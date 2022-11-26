@@ -11,7 +11,7 @@ diesel::table! {
 diesel::table! {
     teams (id) {
         id -> Int4,
-        teamname -> Nullable<Text>,
+        teamname -> Text,
         leader_id -> Int4,
     }
 }
@@ -19,11 +19,15 @@ diesel::table! {
 diesel::table! {
     users (id) {
         id -> Int4,
-        username -> Nullable<Text>,
-        email -> Nullable<Text>,
+        username -> Text,
+        email -> Text,
     }
 }
 
 diesel::joinable!(invites -> teams (team_id));
 
-diesel::allow_tables_to_appear_in_same_query!(invites, teams, users,);
+diesel::allow_tables_to_appear_in_same_query!(
+    invites,
+    teams,
+    users,
+);
