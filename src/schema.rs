@@ -22,6 +22,7 @@ diesel::table! {
         id -> Int4,
         username -> Text,
         email -> Text,
+        admin -> Bool,
     }
 }
 

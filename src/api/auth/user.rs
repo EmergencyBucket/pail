@@ -15,6 +15,7 @@ pub struct User {
     id: i32,
     username: String,
     email: String,
+    admin: bool,
 }
 
 /// Creates a new user with the username and email
@@ -59,6 +60,7 @@ pub async fn create_user(db: DB, user: Json<User>) -> (Status, Value) {
                     id.eq(insert_id),
                     (username.eq(insert_username)),
                     (email.eq(insert_email)),
+                    (admin.eq(false)),
                 ))
                 .execute(conn)
         })
@@ -109,12 +111,5 @@ pub async fn get_user(db: DB, user_id: i32) -> (Status, Value) {
 
     let user: User = tableuser.ok().expect("Error");
 
-    return (
-        Status::Ok,
-        json!({
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-        }),
-    );
+    return (Status::Ok, json!(user));
 }
