@@ -83,6 +83,15 @@ pub async fn create_user(db: DB, user: Json<User>) -> (Status, Value) {
     );
 }
 
+/// Gets a user based off of their id
+/// # Example
+/// ``HTTP REQUEST TO https://api.ctf.ebucket.dev/api/auth/users/1``
+/// ```json
+/// {
+///     "id": 1,
+///     "username": "Mrxbox98",
+///     "email": "mrxbox98@mrxbox98.me"
+/// }
 #[get("/<user_id>")]
 pub async fn get_user(db: DB, user_id: i32) -> (Status, Value) {
     let tableuser: Result<User, Error> = db
