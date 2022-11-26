@@ -9,19 +9,12 @@ use serde::Serialize;
 
 use crate::database::DB;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Queryable, Deserialize, Serialize)]
 #[serde(crate = "rocket::serde")]
-pub struct UserTemplate {
-    pub id: i32,
-    pub name: String,
-    pub email: String,
-}
-
-#[derive(Queryable, Serialize, Debug)]
 pub struct User {
     id: i32,
-    username: Option<String>,
-    email: Option<String>,
+    username: String,
+    email: String,
 }
 
 /// Creates a new user with the username and email
@@ -35,10 +28,10 @@ pub struct User {
 /// }
 /// This will create a new user with the github id
 #[post("/", data = "<user>")]
-pub async fn create_user(db: DB, user: Json<UserTemplate>) -> (Status, Value) {
+pub async fn create_user(db: DB, user: Json<User>) -> (Status, Value) {
     use crate::schema::users::dsl::*;
 
-    let insert_username: String = user.name.clone();
+    let insert_username: String = user.username.clone();
 
     let insert_email: String = user.email.clone();
 
@@ -84,7 +77,7 @@ pub async fn create_user(db: DB, user: Json<UserTemplate>) -> (Status, Value) {
         Status::Created,
         json!({
             "id": user.id.clone(),
-            "username": user.name.clone(),
+            "username": user.username.clone(),
             "email": user.email.clone(),
         }),
     );
@@ -111,8 +104,8 @@ pub async fn get_user(db: DB, user_id: i32) -> (Status, Value) {
         Status::Ok,
         json!({
             "id": user.id,
-            "username": user.username.expect(""),
-            "email": user.email.expect(""),
+            "username": user.username,
+            "email": user.email,
         }),
     );
 }
