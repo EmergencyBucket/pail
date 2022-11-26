@@ -13,6 +13,7 @@ diesel::table! {
         id -> Int4,
         teamname -> Text,
         leader_id -> Int4,
+        members -> Array<Nullable<Int4>>,
     }
 }
 
