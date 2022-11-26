@@ -18,13 +18,6 @@ pub struct UserTemplate {
 }
 
 #[derive(Queryable, Serialize, Debug)]
-pub struct FullUser {
-    id: i32,
-    username: String,
-    email: String,
-}
-
-#[derive(Queryable, Serialize, Debug)]
 pub struct User {
     id: i32,
     username: Option<String>,
