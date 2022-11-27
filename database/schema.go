@@ -19,9 +19,9 @@ type User struct {
 type Team struct {
 	gorm.Model
 	Teamname string        `gorm:"not null"`
-	LeaderId uint          `gorm:"not null"`
+	LeaderId uint          `gorm:"not null"` // User ID of the leader of the team
 	Leader   User          `gorm:"not null"`
-	Members  pq.Int64Array `gorm:"not null;type:integer[]"`
+	Members  pq.Int64Array `gorm:"not null;type:integer[]"` // Stores User ID's of members 
 }
 
 var DB *gorm.DB
