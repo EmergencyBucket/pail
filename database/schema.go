@@ -11,6 +11,7 @@ import (
 
 type User struct {
 	gorm.Model
+	Id       uint   `gorm:"primaryKey"`
 	Username string `gorm:"not null"`
 	Email    string `gorm:"not null"`
 	Admin    bool   `gorm:"not null"`
@@ -21,7 +22,7 @@ type Team struct {
 	Teamname string        `gorm:"not null"`
 	LeaderId uint          `gorm:"not null"` // User ID of the leader of the team
 	Leader   User          `gorm:"not null"`
-	Members  pq.Int64Array `gorm:"not null;type:integer[]"` // Stores User ID's of members 
+	Members  pq.Int64Array `gorm:"not null;type:integer[]"` // Stores User ID's of members
 }
 
 var DB *gorm.DB
