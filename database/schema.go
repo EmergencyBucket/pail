@@ -11,7 +11,7 @@ import (
 
 type User struct {
 	gorm.Model
-	Id       uint   `gorm:"primaryKey"`
+	Id       uint   `gorm:"primaryKey"` // github Id
 	Username string `gorm:"not null"`
 	Email    string `gorm:"not null"`
 	Admin    bool   `gorm:"not null"`
