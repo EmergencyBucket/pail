@@ -6,6 +6,7 @@ import (
 
 	"github.com/EmergencyBucket/pail/database"
 	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 )
 
 type CreateTeamRequest struct {
@@ -33,6 +34,26 @@ func GetTeam(context *gin.Context) {
 		"id":       team.ID,
 		"teamname": team.Teamname,
 		"leaderId": team.Leader.Id,
-		"members":  team.Members,
+		"members":  team.Members, // I wiill be surprised if this works
+	})
+}
+
+func CreateTeam(context *gin.Context) {
+	var team CreateTeamRequest
+	if err := context.ShouldBindJSON(&team); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	database.DB.Create(&database.Team{
+		Teamname: team.Teamname,
+		LeaderId: team.UserId,
+		Members: pq.Int32Array([]int32{int32(team.UserId)}),
+	})
+
+	context.JSON(http.StatusCreated, gin.H{
+		"status": "created",
 	})
 }
