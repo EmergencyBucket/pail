@@ -47,6 +47,13 @@ func CreateTeam(context *gin.Context) {
 		return
 	}
 
+	if database.DB.First(&team, "leader_id = ?", team.UserId) != nil {
+		context.JSON(http.StatusBadRequest, gin.H{
+			"error": "Leave your current team first",
+		})
+		return
+	}
+
 	database.DB.Create(&database.Team{
 		Teamname: team.Teamname,
 		LeaderId: team.UserId,
@@ -55,5 +62,28 @@ func CreateTeam(context *gin.Context) {
 
 	context.JSON(http.StatusCreated, gin.H{
 		"status": "created",
+	})
+}
+
+func GetTeamByUser(context *gin.Context) {
+	var team database.Team
+
+	strId, _ := context.Params.Get("id")
+
+	id, _ := strconv.Atoi(strId)
+
+	database.DB.First(&team, "leader_id = ?", id)
+
+	if &team == nil {
+		context.JSON(http.StatusNotFound, gin.H{
+			"error": "User is not part of a team",
+		})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{
+		"teamname": team.Teamname,
+		"leader_id": team.LeaderId,
+		"members": team.Members,
 	})
 }
