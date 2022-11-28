@@ -34,7 +34,7 @@ func GetTeam(context *gin.Context) {
 		"id":       team.ID,
 		"teamname": team.Teamname,
 		"leaderId": team.Leader.Id,
-		"members":  team.Members, // I wiill be surprised if this works
+		"members":  team.Members, // I will be surprised if this works
 	})
 }
 
