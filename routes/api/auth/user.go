@@ -45,14 +45,19 @@ func CreateUser(context *gin.Context) {
 		return
 	}
 
-	database.DB.Create(&database.User{
-		Email: user.Email,
+	var database_user database.User
+
+	database.DB.FirstOrCreate(&database_user, &database.User{
+		Email:    user.Email,
 		Username: user.Username,
-		Admin: false,
-		Id: user.Id,
+		Admin:    false,
+		Id:       user.Id,
 	})
 
 	context.JSON(http.StatusCreated, gin.H{
-		"status": "created",
+		"id":       database_user.ID,
+		"username": database_user.Username,
+		"email":    database_user.Email,
+		"admin":    database_user.Admin,
 	})
 }
