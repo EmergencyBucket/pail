@@ -13,7 +13,7 @@ type CreateInviteRequest struct {
 	Username string `json:"username"`
 }
 
-func createInvite(context *gin.Context) {
+func CreateInvite(context *gin.Context) {
 	var invite CreateInviteRequest
 	if err := context.ShouldBindJSON(&invite); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
