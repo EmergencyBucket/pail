@@ -13,6 +13,38 @@ type CreateInviteRequest struct {
 	Username string `json:"username"`
 }
 
+func createInvite(context *gin.Context) {
+	var invite CreateInviteRequest
+	if err := context.ShouldBindJSON(&invite); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user database.User
+
+	database.DB.Where("username = ?", invite.Username).First(&user)
+
+	if &user == nil {
+		context.JSON(http.StatusNotFound, gin.H{
+			"error": "User not found",
+		})
+		return
+	}
+
+	var database_invite database.Invite
+
+	database.DB.FirstOrCreate(&database_invite, &database.Invite{
+		TeamId: invite.TeamId,
+		UserId: user.Id,
+	})
+
+	context.JSON(http.StatusCreated, gin.H{
+		"id": database_invite.ID,
+		"team_id": database_invite.TeamId,
+		"username": database_invite.User.Username,
+	})
+}
+
 func GetInvites(context *gin.Context) {
 	var invites []database.Invite
 
