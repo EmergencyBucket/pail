@@ -25,6 +25,14 @@ type Team struct {
 	Members  pq.Int32Array `gorm:"not null;type:integer[]"` // Stores User ID's of members
 }
 
+type Invite struct {
+	gorm.Model
+	TeamId uint `gorm:"not null"`
+	Team   Team `gorm:"foreignKey:TeamId"`
+	UserId uint `gorm:"not null"`
+	User   User `gorm:"foreignKey:UserId"`
+}
+
 var DB *gorm.DB
 
 func Connect() {
@@ -38,5 +46,5 @@ func Connect() {
 }
 
 func Migrate() {
-	DB.AutoMigrate(&User{}, &Team{})
+	DB.AutoMigrate(&User{}, &Team{}, &Invite{})
 }
