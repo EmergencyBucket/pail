@@ -1,4 +1,4 @@
-package auth
+package ctf
 
 import (
 	"net/http"
