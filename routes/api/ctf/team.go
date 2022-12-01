@@ -39,15 +39,17 @@ func GetTeam(context *gin.Context) {
 }
 
 func CreateTeam(context *gin.Context) {
-	var team CreateTeamRequest
-	if err := context.ShouldBindJSON(&team); err != nil {
+	var request CreateTeamRequest
+	if err := context.ShouldBindJSON(&request); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
 
-	if database.DB.First(&team, "leader_id = ?", team.UserId) != nil {
+	var team database.Team
+
+	if database.DB.First(&team, "leader_id = ?", request.UserId) != nil {
 		context.JSON(http.StatusBadRequest, gin.H{
 			"error": "Leave your current team first",
 		})
@@ -55,9 +57,9 @@ func CreateTeam(context *gin.Context) {
 	}
 
 	database.DB.Create(&database.Team{
-		Teamname: team.Teamname,
-		LeaderId: team.UserId,
-		Members: pq.Int32Array([]int32{int32(team.UserId)}),
+		Teamname: request.Teamname,
+		LeaderId: request.UserId,
+		Members: pq.Int32Array([]int32{int32(request.UserId)}),
 	})
 
 	context.JSON(http.StatusCreated, gin.H{
