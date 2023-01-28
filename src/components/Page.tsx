@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from './Navbar';
 
 interface Props {
     children?: React.ReactNode;
@@ -6,11 +6,11 @@ interface Props {
 
 const Page = ({ children }: Props) => {
     return (
-        <div className='w-screen h-screen bg-gray-900 p-8'>
+        <div className="w-screen h-screen bg-gray-900 p-8">
             <Navbar />
             {children}
         </div>
-    )
-}
+    );
+};
 
-export default Page
+export default Page;

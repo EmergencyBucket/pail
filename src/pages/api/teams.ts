@@ -1,23 +1,23 @@
-import { PrismaClient, Session } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./auth/[...nextauth]";
+import { PrismaClient, Session } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-const ajv = new Ajv()
+const ajv = new Ajv();
 interface CreateTeamRequest {
     name: string;
 }
 
 const CreateTeamRequestSchema: JSONSchemaType<CreateTeamRequest> = {
-    type: "object",
+    type: 'object',
     properties: {
-        name: {type: "string", maxLength: 50}
+        name: { type: 'string', maxLength: 50 },
     },
-    required: ["name"]
-}
+    required: ['name'],
+};
 
 const createTeamRequestValidator = ajv.compile(CreateTeamRequestSchema);
 
@@ -30,40 +30,43 @@ export default async function handler(
             const teams = await prisma.team.findMany();
 
             teams.forEach((team) => {
-                team.secret = ''
-            })
+                team.secret = '';
+            });
 
             return res.status(200).json(teams);
         }
         case 'POST': {
+            const session: Session | null = await unstable_getServerSession(
+                req,
+                res,
+                authOptions
+            );
 
-            const session: Session | null = await unstable_getServerSession(req, res, authOptions)
-
-            if(createTeamRequestValidator(JSON.parse(req.body))) {
+            if (createTeamRequestValidator(JSON.parse(req.body))) {
                 const { name } = JSON.parse(req.body);
 
                 const user = await prisma.user.findFirst({
                     where: {
-                        id: session?.userId
-                    }
+                        id: session?.userId,
+                    },
                 });
 
-                if(user?.teamId) {
+                if (user?.teamId) {
                     return res.status(403).json({
-                        "Error": "Leave your current team first."
-                    })
+                        Error: 'Leave your current team first.',
+                    });
                 }
 
                 const currTeam = await prisma.team.findFirst({
                     where: {
-                        name: name
-                    }
+                        name: name,
+                    },
                 });
 
-                if(currTeam) {
+                if (currTeam) {
                     return res.status(403).json({
-                        "Error": "This team name is already taken."
-                    })
+                        Error: 'This team name is already taken.',
+                    });
                 }
 
                 const team = await prisma.team.create({
@@ -71,20 +74,18 @@ export default async function handler(
                         name: name,
                         members: {
                             connect: {
-                                id: user?.id
-                            }
-                        }
-                    }
-                })
+                                id: user?.id,
+                            },
+                        },
+                    },
+                });
 
                 return res.status(201).json(team);
-            }
-            else {
+            } else {
                 return res.status(400).json({
-                    "Error": "Team name can have a maximum length of 50 characters."
-                })
+                    Error: 'Team name can have a maximum length of 50 characters.',
+                });
             }
         }
     }
 }
-

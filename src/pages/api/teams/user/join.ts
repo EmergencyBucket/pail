@@ -1,72 +1,79 @@
-import { PrismaClient, Session } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]";
+import { PrismaClient, Session } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from '../../auth/[...nextauth]';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-const ajv = new Ajv()
+const ajv = new Ajv();
 
 interface JoinTeamRequest {
     secret: string;
 }
 
 const JoinTeamRequestSchema: JSONSchemaType<JoinTeamRequest> = {
-    type: "object",
+    type: 'object',
     properties: {
         secret: {
-            type: "string"
-        }
+            type: 'string',
+        },
     },
-    required: ['secret']
-}
+    required: ['secret'],
+};
 
-const joinTeamRequestValidator = ajv.compile(JoinTeamRequestSchema)
+const joinTeamRequestValidator = ajv.compile(JoinTeamRequestSchema);
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse
+) {
     switch (req.method) {
         case 'POST': {
-            const session: Session | null = await unstable_getServerSession(req, res, authOptions)
+            const session: Session | null = await unstable_getServerSession(
+                req,
+                res,
+                authOptions
+            );
 
-            if(!session) {
+            if (!session) {
                 return res.status(400).json({
-                    "Error": "You must be logged in to preform this action."
-                })
+                    Error: 'You must be logged in to preform this action.',
+                });
             }
 
-            const data = JSON.parse(req.body)
+            const data = JSON.parse(req.body);
 
-            if(!joinTeamRequestValidator(data)) {
+            if (!joinTeamRequestValidator(data)) {
                 return res.status(401).json({
-                    "Error": "Bad request."
-                })
+                    Error: 'Bad request.',
+                });
             }
 
             const team = await prisma.team.findFirst({
                 where: {
-                    secret: data.secret
-                }
-            })
+                    secret: data.secret,
+                },
+            });
 
-            if(!team) {
+            if (!team) {
                 return res.status(400).json({
-                    "Error": "Bad secret."
-                })
+                    Error: 'Bad secret.',
+                });
             }
 
             await prisma.team.update({
                 where: {
-                    secret: data.secret
+                    secret: data.secret,
                 },
                 data: {
                     members: {
                         connect: {
-                            id: session.userId
-                        }
-                    }
-                }
-            })
+                            id: session.userId,
+                        },
+                    },
+                },
+            });
 
             return res.status(200).json(team);
         }

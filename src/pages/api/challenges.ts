@@ -1,12 +1,12 @@
-import { PrismaClient, Session } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { NextApiRequest, NextApiResponse } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./auth/[...nextauth]";
+import { PrismaClient, Session } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { unstable_getServerSession } from 'next-auth';
+import { authOptions } from './auth/[...nextauth]';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
-const ajv = new Ajv()
+const ajv = new Ajv();
 interface CreateChallengeRequest {
     name: string;
     description: string;
@@ -15,15 +15,15 @@ interface CreateChallengeRequest {
 }
 
 const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
-    type: "object",
+    type: 'object',
     properties: {
-        name: {type: "string", maxLength: 50},
-        description: {type: "string"},
-        files: {type: "array", items: {type: "string"}},
-        flag: {type: "string"}
+        name: { type: 'string', maxLength: 50 },
+        description: { type: 'string' },
+        files: { type: 'array', items: { type: 'string' } },
+        flag: { type: 'string' },
     },
-    required: ["name", "description", "files", "flag"]
-}
+    required: ['name', 'description', 'files', 'flag'],
+};
 
 const createTeamRequestValidator = ajv.compile(CreateTeamRequestSchema);
 
@@ -36,52 +36,54 @@ export default async function handler(
             const challenges = await prisma.challenge.findMany();
 
             challenges.forEach((challenge) => {
-                challenge.flag = ''
-            })
+                challenge.flag = '';
+            });
 
             return res.status(200).json(challenges);
         }
         case 'POST': {
-            const session: Session | null = await unstable_getServerSession(req, res, authOptions)
+            const session: Session | null = await unstable_getServerSession(
+                req,
+                res,
+                authOptions
+            );
 
-            if(!session) {
+            if (!session) {
                 return res.status(401).json({
-                    "Error": "You must be logged in to preform this action."
-                })
+                    Error: 'You must be logged in to preform this action.',
+                });
             }
 
             let user = await prisma.user.findFirst({
                 where: {
-                    id: session.userId
-                }
-            })
+                    id: session.userId,
+                },
+            });
 
-            if(!user || !user.admin) {
+            if (!user || !user.admin) {
                 return res.status(401).json({
-                    "Error": "You do not have permission to preform this action."
-                })
+                    Error: 'You do not have permission to preform this action.',
+                });
             }
 
             const content = JSON.parse(req.body);
 
-            if(!createTeamRequestValidator(content)) {
+            if (!createTeamRequestValidator(content)) {
                 return res.status(400).json({
-                    "Error": "Bad request"
-                })
+                    Error: 'Bad request',
+                });
             }
-
-
 
             const challenge = await prisma.challenge.create({
                 data: {
                     name: content.name,
                     description: content.description,
                     files: content.files,
-                    flag: content.flag
-                }
-            })
+                    flag: content.flag,
+                },
+            });
 
-            return res.status(201).json(challenge)
+            return res.status(201).json(challenge);
         }
     }
 }
