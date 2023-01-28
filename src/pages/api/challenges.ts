@@ -34,6 +34,11 @@ export default async function handler(
     switch (req.method) {
         case 'GET': {
             const challenges = await prisma.challenge.findMany();
+
+            challenges.forEach((challenge) => {
+                challenge.flag = ''
+            })
+
             return res.status(200).json(challenges);
         }
         case 'POST': {

@@ -1,15 +1,48 @@
 import { Challenge } from "@prisma/client";
+import { FormEvent, useState } from "react";
 import Button from "./Button";
+import Modal from "./Modal";
+import ReactMarkdown from 'react-markdown';
 
 interface Props {
     challenge: Challenge;
 }
 
-const Challenge = ({challenge}: Props) => {
+const Challenge = ({ challenge }: Props) => {
+
+    const [open, setOpen] = useState(false)
+
+    async function submit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        let req = await fetch(`/api/challenges/solve/${challenge.id}`, {
+            method: 'POST',
+            body: JSON.stringify({
+                //@ts-ignore
+                flag: event.target.flag.value
+            })
+        })
+
+        let res = await req.json();
+    }
+
     return (
-        <Button>
-            {challenge.name}
-        </Button>
+        <>
+            <Modal visible={open} onClose={() => setOpen(false)}>
+                {challenge.name}
+                <ReactMarkdown>
+                    {challenge.description}
+                </ReactMarkdown>
+                <form onSubmit={submit}>
+                    <input type={'text'} placeholder="Flag" name="flag" className='bg-slate-700 border-2 border-slate-500 my-2' />
+                    <br />
+                    <input type={'submit'} />
+                </form>
+            </Modal>
+            <Button onClick={() => setOpen(true)}>
+                {challenge.name}
+            </Button>
+        </>
     )
 }
 
