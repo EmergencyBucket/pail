@@ -48,6 +48,7 @@ model User {
   sessions      Session[]
   team          Team?     @relation(fields: [teamId], references: [id])
   teamId        String?
+  admin         Boolean   @default(false)
 }
 
 model VerificationToken {

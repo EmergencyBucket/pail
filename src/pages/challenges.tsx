@@ -26,7 +26,7 @@ export default function Home() {
             <Page>
                 {
                     challenges?.map((challenge) => (
-                        <ChallengeContainer challenge={challenge} />
+                        <ChallengeContainer challenge={challenge} key={Math.random()} />
                     ))
                 }
             </Page>
