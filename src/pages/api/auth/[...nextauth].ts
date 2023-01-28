@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "lib/prismadb"
 
 export const authOptions: NextAuthOptions = {
+    secret: process.env.AUTH_SECRET,
     adapter: PrismaAdapter(prisma),
     providers: [
         GitHubProvider({
@@ -21,8 +22,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: {
         strategy: 'jwt',
-    },
-    secret: process.env.AUTH_SECRET
+    }
 }
 
 export default NextAuth(authOptions)
