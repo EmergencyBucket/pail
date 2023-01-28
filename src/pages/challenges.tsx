@@ -1,4 +1,5 @@
 import ChallengeContainer from "@/components/ChallengeContainer";
+import CreateChallenge from "@/components/CreateChallenge";
 import Page from "@/components/Page";
 import { Challenge } from "@prisma/client";
 import { useEffect, useState } from "react";
@@ -29,6 +30,7 @@ export default function Home() {
                         <ChallengeContainer challenge={challenge} key={Math.random()} />
                     ))
                 }
+                <CreateChallenge />
             </Page>
         </>
     )

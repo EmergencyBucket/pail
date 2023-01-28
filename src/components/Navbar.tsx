@@ -6,7 +6,15 @@ const Navbar = () => {
     const { data: session } = useSession()
 
     return (
-        <>
+        <div className="flex mx-4">
+            <Button link="/">
+                {
+                    <>
+                        Home
+                    </>
+                }
+            </Button>
+
             <Button link="/challenges">
                 {
                     <>
@@ -28,7 +36,7 @@ const Navbar = () => {
                     session ? 'Sign out' : 'Sign in'
                 }
             </Button>
-        </>
+        </div>
     )
 }
 

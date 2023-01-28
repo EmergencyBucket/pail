@@ -1,4 +1,5 @@
 import Link from "next/link";
+import React from "react";
 
 interface Props {
     onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void;
@@ -6,7 +7,7 @@ interface Props {
     link?: string;
 }
 
-const Button  = ({onClick, children, link}: Props) => {
+const Button = ({onClick, children, link}: Props) => {
 
     return (
         <>
