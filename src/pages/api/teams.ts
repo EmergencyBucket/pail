@@ -27,7 +27,12 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET': {
-            const teams = prisma.team.findMany();
+            const teams = await prisma.team.findMany();
+
+            teams.forEach((team) => {
+                team.secret = ''
+            })
+
             return res.status(200).json(teams);
         }
         case 'POST': {

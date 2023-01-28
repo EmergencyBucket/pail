@@ -32,15 +32,15 @@ const CreateChallenge = () => {
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <form onSubmit={submit}>
-                    <input type={'text'} placeholder='Challenge name' name='name' className='bg-slate-700 border-2 border-slate-500 my-2' />
+                    <input type={'text'} placeholder='Challenge name' name='name' className={'bg-slate-700 border-2 border-slate-500 my-2'} />
                     <br />
-                    <input type={'text'} placeholder='Challenge description' name='description' className='bg-slate-700 border-2 border-slate-500 my-2' />
+                    <input type={'text'} placeholder='Challenge description' name='description' className={'bg-slate-700 border-2 border-slate-500 my-2'} />
                     <br />
-                    <input type={'text'} placeholder='Challenge files' name='files' className='bg-slate-700 border-2 border-slate-500 my-2' />
+                    <input type={'text'} placeholder='Challenge files' name='files' className={'bg-slate-700 border-2 border-slate-500 my-2'} />
                     <br />
-                    <input type={'text'} placeholder='Challenge flag' name='flag' className='bg-slate-700 border-2 border-slate-500 my-2' />
+                    <input type={'text'} placeholder='Challenge flag' name='flag' className={'bg-slate-700 border-2 border-slate-500 my-2'} />
                     <br />
-                    <input className="text-white" type={'submit'} />
+                    <input type={'submit'} className={'bg-slate-800 cursor-pointer text-white my-2 p border-2 w-full border-slate-700 hover:border-slate-500'} />
                 </form>
             </Modal>
             <Button onClick={() => setOpen(true)}>

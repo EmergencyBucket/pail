@@ -7,7 +7,7 @@ export default function Home() {
 
     const { data: session } = useSession()
 
-    const [ team, setTeam ] = useState<Team>();
+    const [team, setTeam] = useState<Team>();
 
     async function getTeam() {
         const session = await getSession();
@@ -16,13 +16,25 @@ export default function Home() {
             method: 'GET',
         })
 
-        if(req.status==404) {
+        if (req.status == 404) {
             return;
         }
 
         let res = await req.json();
 
         setTeam(res as Team);
+    }
+
+    async function leave() {
+        let req = await fetch(`/api/teams/user/leave`, {
+            method: 'POST',
+        })
+
+        let res = await req.json();
+
+        console.log(res)
+
+        setTeam(undefined)
     }
 
     async function submit(event: FormEvent<HTMLFormElement>) {
@@ -38,6 +50,8 @@ export default function Home() {
 
         let res = await req.json();
 
+        setTeam(res as Team)
+
         console.log(res)
     }
 
@@ -48,18 +62,23 @@ export default function Home() {
     return (
         <>
             <Page>
-                <div>
-                    <p className="text-white">Username: {session?.user?.name}</p>
-                    <p className="text-white">ID: {session?.user?.id}</p>
+                <div className="mt-8">
+                    <p className="text-white">Username: <kbd>{session?.user?.name}</kbd></p>
+                    <p className="text-white">ID: <kbd>{session?.user?.id}</kbd></p>
                 </div>
 
                 {team ?
-                    <p className="text-white">{team.name}</p>
-                :
+                    <>
+                        <p className="text-white">Team name: <kbd>{team.name}</kbd></p>
+                        <button onClick={leave} className={'bg-slate-800 cursor-pointer text-white p-2 border-2 border-slate-700 hover:border-slate-500'}>Leave team</button>
+                    </>
+                    :
                     <div>
+                        <p className="text-white">Create your own team</p>
                         <form onSubmit={submit}>
-                            <input type={'text'} placeholder='Team name' name='name' className='bg-slate-700 border-2 border-slate-500' />
-                            <input className="text-white" type={'submit'} />
+                            <input type={'text'} placeholder='Team name' name='name' className={'pl-2 bg-slate-700 border-2 text-white border-slate-500 my-2'} />
+                            <br />
+                            <input className={'bg-slate-800 cursor-pointer text-white p-2 border-2 border-slate-700 hover:border-slate-500'} type={'submit'} />
                         </form>
                     </div>
                 }

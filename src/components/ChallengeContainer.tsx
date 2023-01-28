@@ -34,9 +34,9 @@ const Challenge = ({ challenge }: Props) => {
                     {challenge.description}
                 </ReactMarkdown>
                 <form onSubmit={submit}>
-                    <input type={'text'} placeholder="Flag" name="flag" className='bg-slate-700 border-2 border-slate-500 my-2' />
+                    <input type={'text'} placeholder="Flag" name="flag" className={'pl-2 bg-slate-700 border-2 border-slate-500 my-2'} />
                     <br />
-                    <input type={'submit'} />
+                    <input type={'submit'} className={'bg-slate-800 cursor-pointer text-white p border-2 w-full border-slate-700 hover:border-slate-500'} />
                 </form>
             </Modal>
             <Button onClick={() => setOpen(true)}>

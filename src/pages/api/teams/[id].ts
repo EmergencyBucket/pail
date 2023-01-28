@@ -8,26 +8,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         case 'GET': {
             const { id } = req.query;
 
-            let user = await prisma.user.findFirst({
+            let team = await prisma.team.findFirst({
                 where: {
                     id: id as string
                 }
             })
 
-            if (!user?.teamId) {
-                return res.status(404).json({
-                    "Error": "This user has not joined a team."
-                })
-            }
-
-            let team = await prisma.team.findFirst({
-                where: {
-                    id: user?.teamId as string
-                }
-            })
-
             if(team) {
-                team.secret = ''
+                team.secret=''
             }
 
             return res.status(200).json(team);
