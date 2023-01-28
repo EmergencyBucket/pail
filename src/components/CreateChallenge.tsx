@@ -26,7 +26,7 @@ const CreateChallenge = () => {
     }
 
     return (
-        <Modal visible={true}>
+        <Modal visible={false}>
             <form onSubmit={submit}>
                 <input type={'text'} placeholder='Challenge name' name='name' className='bg-slate-700 border-2 border-slate-500 my-2' />
                 <br />

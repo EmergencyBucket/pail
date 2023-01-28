@@ -6,7 +6,7 @@ const Navbar = () => {
     const { data: session } = useSession()
 
     return (
-        <div className="flex mx-4">
+        <div className="flex gap-4">
             <Button link="/">
                 {
                     <>
