@@ -1,2 +1,0 @@
-ALTER TABLE teams ALTER COLUMN id DROP DEFAULT;
-DROP SEQUENCE teams_id_seq AS int START 1 OWNED BY teams.id;
