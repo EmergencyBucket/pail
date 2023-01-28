@@ -1,1 +1,0 @@
-ALTER TABLE teams ADD COLUMN members int[] NOT NULL;
