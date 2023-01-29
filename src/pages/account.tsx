@@ -70,7 +70,7 @@ export default function Home() {
 
     return (
         <>
-            <Page>
+            <Page title="Account">
                 <div className="mt-8">
                     <p className="text-white">
                         Username: <kbd>{session?.user?.name}</kbd>

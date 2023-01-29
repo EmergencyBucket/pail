@@ -23,7 +23,7 @@ export default function Home() {
 
     return (
         <>
-            <Page>
+            <Page title="Challenges">
                 <div className="grid grid-cols-4 gap-4 mt-8">
                     {challenges?.map((challenge) => (
                         <ChallengeContainer

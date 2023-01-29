@@ -21,7 +21,7 @@ export default function Home() {
 
     return (
         <>
-            <Page>
+            <Page title="Rankings">
                 {ranking?.map((team) => (
                     <p key={Math.random()} className="text-white text-lg">
                         {team.name + ' - ' + team.points}
