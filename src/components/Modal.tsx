@@ -10,7 +10,26 @@ interface Props {
 const Modal = ({ visible, children, onClose }: Props) => {
     const [render, setRender] = useState(visible);
 
-    useEffect(() => setRender(visible), [visible]);
+    useEffect(() => {
+        setRender(visible);
+    }, [visible]);
+
+    useEffect(() => {
+        if (!render && onClose) {
+            onClose();
+        }
+    }, [render]);
+
+    useEffect(() => {
+        const handler = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setRender(false);
+        };
+
+        window.addEventListener('keydown', handler);
+        return () => {
+            window.removeEventListener('keydown', handler);
+        };
+    }, []);
 
     return (
         <>
@@ -24,14 +43,7 @@ const Modal = ({ visible, children, onClose }: Props) => {
                         }}
                     >
                         <div className="absolute right-0 top-0 p-4">
-                            <Button
-                                onClick={() => {
-                                    setRender(false);
-                                    if (onClose) {
-                                        onClose();
-                                    }
-                                }}
-                            >
+                            <Button onClick={() => setRender(false)}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
