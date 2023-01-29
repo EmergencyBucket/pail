@@ -26,22 +26,22 @@ const CreateChallenge = () => {
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
+                <p className="text-white text-4xl">Create a challenge</p>
                 <form onSubmit={submit}>
                     <input
                         type={'text'}
                         placeholder="Challenge name"
                         name="name"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2'
+                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
                         }
                     />
                     <br />
-                    <input
-                        type={'text'}
+                    <textarea
                         placeholder="Challenge description"
                         name="description"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2'
+                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
                         }
                     />
                     <br />
@@ -50,7 +50,7 @@ const CreateChallenge = () => {
                         placeholder="Challenge files"
                         name="files"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2'
+                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
                         }
                     />
                     <br />
@@ -59,7 +59,7 @@ const CreateChallenge = () => {
                         placeholder="Challenge flag"
                         name="flag"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2'
+                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
                         }
                     />
                     <br />
