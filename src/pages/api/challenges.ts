@@ -17,10 +17,10 @@ interface CreateChallengeRequest {
 const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
     type: 'object',
     properties: {
-        name: { type: 'string', maxLength: 50 },
-        description: { type: 'string' },
+        name: { type: 'string', minLength: 1, maxLength: 50 },
+        description: { type: 'string', minLength: 1 },
         files: { type: 'array', items: { type: 'string' } },
-        flag: { type: 'string' },
+        flag: { type: 'string', minLength: 4 },
     },
     required: ['name', 'description', 'files', 'flag'],
 };
