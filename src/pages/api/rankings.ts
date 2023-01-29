@@ -63,16 +63,13 @@ export default async function handler(
             );
 
             teams.forEach((team) => {
-                team.secret=''
+                team.secret = '';
                 team.solves.forEach((challenge) => {
-                    challenge.flag=''
-                })
-            })
+                    challenge.flag = '';
+                });
+            });
 
-            teams = tidy(
-                teams,
-                arrange(desc('points'))
-            )
+            teams = tidy(teams, arrange(desc('points')));
 
             return res.status(200).json(teams);
         }
