@@ -1,5 +1,5 @@
 ![Pail Logo](https://ebucket.dev/pail.png)
-## Pail is CTFs NextJS backend + frontend.
+## Pail is Emergency Bucket CTF's NextJS backend + frontend.
 ### Features:
  - Challenge creation
  - Github integration
