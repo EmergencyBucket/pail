@@ -9,6 +9,8 @@ const Navbar = () => {
             <Button link="/">{<>Home</>}</Button>
 
             <Button link="/challenges">{<>Challenges</>}</Button>
+            
+            <Button link="/rankings">{<>Rankings</>}</Button>
 
             <Button link="/account">{<>{session?.user?.name}</>}</Button>
 
