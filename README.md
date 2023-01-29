@@ -19,6 +19,10 @@
  - [Tidy.js](https://pbeshai.github.io/tidy/)
 
 ## Installation
+### Railway one-click (Recommended)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/DrJIzA?referralCode=GswMXR)
+
+### Manual
 Running and installing Pail requires a Postgres instance and VM or Vercel for the frontend. If you are unable to use Postgres instance, it may be possible to use SQLite by changing the provider in the Prisma schema but this has not been tested. To install normally:
 
 1. Clone the repo: ``git clone https://github.com/EmergencyBucket/pail``
