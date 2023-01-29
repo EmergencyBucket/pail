@@ -8,7 +8,7 @@ const CreateChallenge = () => {
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        let req = await fetch(`/api/challenges`, {
+        await fetch(`/api/challenges`, {
             method: 'POST',
             body: JSON.stringify({
                 //@ts-ignore
@@ -21,10 +21,6 @@ const CreateChallenge = () => {
                 flag: event.target.flag.value,
             }),
         });
-
-        let res = await req.json();
-
-        console.log(res);
     }
 
     return (

@@ -23,13 +23,9 @@ export default function Home() {
     }
 
     async function leave() {
-        let req = await fetch(`/api/teams/user/leave`, {
+        await fetch(`/api/teams/user/leave`, {
             method: 'POST',
         });
-
-        let res = await req.json();
-
-        console.log(res);
 
         setTeam(undefined);
     }
@@ -48,8 +44,6 @@ export default function Home() {
         let res = await req.json();
 
         setTeam(res as Team);
-
-        console.log(res);
     }
 
     async function submitJoin(event: FormEvent<HTMLFormElement>) {
@@ -65,9 +59,9 @@ export default function Home() {
 
         let res = await req.json();
 
-        setTeam(res as Team);
-
-        console.log(res);
+        if (res.name) {
+            setTeam(res as Team);
+        }
     }
 
     useEffect(() => {

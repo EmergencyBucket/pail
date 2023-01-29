@@ -12,10 +12,6 @@ const Modal = ({ visible, children, onClose }: Props) => {
 
     useEffect(() => setRender(visible), [visible]);
 
-    useEffect(() => {
-        console.log(render);
-    }, [render]);
-
     return (
         <>
             {render ? (
