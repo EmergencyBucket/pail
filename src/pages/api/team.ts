@@ -19,7 +19,7 @@ export default async function handler(
             });
 
             if (!user?.teamId) {
-                return res.status(200).json({
+                return res.status(404).json({
                     Error: 'You are not apart of a team.',
                 });
             }

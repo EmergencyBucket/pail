@@ -59,9 +59,7 @@ export default function Home() {
 
         let res = await req.json();
 
-        if (res.name) {
-            setTeam(res as Team);
-        }
+        setTeam(res as Team);
     }
 
     useEffect(() => {
