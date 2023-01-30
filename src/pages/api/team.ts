@@ -12,6 +12,12 @@ export default async function handler(
         case 'GET': {
             const session = await getSession();
 
+            if (!session) {
+                return res.status(401).json({
+                    Error: 'You must be logged in to preform this action.',
+                });
+            }
+
             const user = await prisma.user.findFirst({
                 where: {
                     id: session?.user?.id,

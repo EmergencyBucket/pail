@@ -1,4 +1,4 @@
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import Button from './Button';
 
 const Navbar = () => {
@@ -12,9 +12,11 @@ const Navbar = () => {
 
             <Button link="/rankings">{<>Rankings</>}</Button>
 
-            <Button link="/account">{<>{session?.user?.name}</>}</Button>
+            {session && (
+                <Button link="/account">{<>{session?.user?.name}</>}</Button>
+            )}
 
-            <Button onClick={() => signIn()}>
+            <Button onClick={() => (session ? signOut() : signIn('github'))}>
                 {session ? 'Sign out' : 'Sign in'}
             </Button>
         </div>
