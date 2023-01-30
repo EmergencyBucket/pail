@@ -66,6 +66,7 @@ model Challenge {
   files       String[]
   flag        String
   solved      Team[]
+  category    Category @default(MISC)
 }
 
 model Team {
@@ -74,4 +75,12 @@ model Team {
   secret  String      @unique @default(cuid())
   members User[]
   solves  Challenge[]
+}
+
+enum Category {
+  WEB
+  CRYPTO
+  REV
+  PWN
+  MISC
 }
