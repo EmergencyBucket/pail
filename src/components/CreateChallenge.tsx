@@ -19,6 +19,8 @@ const CreateChallenge = () => {
                 files: event.target.files.value.split(','),
                 //@ts-ignore
                 flag: event.target.flag.value,
+                //@ts-ignore
+                category: event.target.category.value,
             }),
         });
     }
@@ -44,6 +46,19 @@ const CreateChallenge = () => {
                             'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
                         }
                     />
+                    <br />
+                    <select
+                        name="category"
+                        className={
+                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                        }
+                    >
+                        <option value={'WEB'}>Web</option>
+                        <option value={'CRYPTO'}>Crypto</option>
+                        <option value={'REV'}>Rev</option>
+                        <option value={'PWN'}>Pwn</option>
+                        <option value={'MISC'}>Misc</option>
+                    </select>
                     <br />
                     <input
                         type={'text'}

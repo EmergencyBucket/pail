@@ -1,4 +1,4 @@
-import { PrismaClient, Session } from '@prisma/client';
+import { Category, PrismaClient, Session } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
@@ -12,6 +12,7 @@ interface CreateChallengeRequest {
     description: string;
     files: string[];
     flag: string;
+    category: string;
 }
 
 const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
@@ -21,6 +22,10 @@ const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
         description: { type: 'string', minLength: 1 },
         files: { type: 'array', items: { type: 'string' } },
         flag: { type: 'string', minLength: 4 },
+        category: {
+            type: 'string',
+            enum: ['WEB', 'CRYPTO', 'REV', 'PWN', 'MISC'],
+        },
     },
     required: ['name', 'description', 'files', 'flag'],
 };
@@ -80,6 +85,7 @@ export default async function handler(
                     description: content.description,
                     files: content.files,
                     flag: content.flag,
+                    category: content.category as Category,
                 },
             });
 
