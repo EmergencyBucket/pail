@@ -27,6 +27,7 @@ const Challenge = ({ challenge }: Props) => {
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl">{challenge.name}</p>
+                <p className="text-white text-2xl">{challenge.category}</p>
                 <ReactMarkdown>{challenge.description}</ReactMarkdown>
                 <div>
                     {challenge.files.map((file) => (
