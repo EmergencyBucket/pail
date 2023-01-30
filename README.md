@@ -1,5 +1,12 @@
 ![Pail Logo](https://ebucket.dev/pail.png)
 ## Pail is Emergency Bucket CTF's NextJS backend + frontend.
+
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EmergencyBucket/pail/build.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/EmergencyBucket/pail)
+![Discord](https://img.shields.io/discord/1002249360580563166)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/EmergencyBucket/pail)
+![GitHub](https://img.shields.io/github/license/EmergencyBucket/pail)
+
 ### Features:
  - Challenge creation
  - Github integration
