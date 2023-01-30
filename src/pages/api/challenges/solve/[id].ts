@@ -1,7 +1,7 @@
 import { PrismaClient, Session } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { unstable_getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]';
 
 const prisma = new PrismaClient();
@@ -29,7 +29,7 @@ export default async function handler(
         case 'POST': {
             const { id } = req.query;
 
-            const session: Session | null = await unstable_getServerSession(
+            const session: Session | null = await getServerSession(
                 req,
                 res,
                 authOptions
