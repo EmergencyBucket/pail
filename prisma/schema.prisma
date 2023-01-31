@@ -67,6 +67,7 @@ model Challenge {
   flag        String
   solved      Team[]
   category    Category @default(MISC)
+  firstBlood  DateTime?
 }
 
 model Team {
