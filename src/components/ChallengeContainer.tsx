@@ -54,13 +54,18 @@ const Challenge = ({ challenge }: Props) => {
                         </a>
                     ))}
                 </div>
+                <div>
+                    {challenge.firstBlood
+                        ? 'Solved at: ' + challenge.firstBlood
+                        : 'Unsolved'}
+                </div>
                 <form onSubmit={submit}>
                     <input
                         type={'text'}
                         placeholder="Flag"
                         name="flag"
                         className={
-                            'pl-2 bg-slate-700 border-2 border-slate-500 my-2'
+                            'pl-2 bg-slate-700 border-2 border-slate-500 my-2 w-full'
                         }
                     />
                     <br />
