@@ -36,6 +36,9 @@ export default async function handler(
             }
 
             let team = await prisma.team.update({
+                include: {
+                    members: true,
+                },
                 where: {
                     id: user.teamId as string,
                 },
@@ -47,6 +50,14 @@ export default async function handler(
                     },
                 },
             });
+
+            if (team.members.length === 0) {
+                await prisma.team.delete({
+                    where: {
+                        id: team.id,
+                    },
+                });
+            }
 
             return res.status(200).json(team);
         }
