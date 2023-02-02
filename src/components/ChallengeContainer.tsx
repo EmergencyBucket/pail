@@ -23,11 +23,13 @@ const Challenge = ({ challenge }: Props) => {
         });
     }
 
-    async function deleteChallenge(event: React.MouseEvent<Element, MouseEvent>) {
+    async function deleteChallenge(
+        event: React.MouseEvent<Element, MouseEvent>
+    ) {
         event.preventDefault();
 
         await fetch(`/api/challenges/${challenge.id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
         });
     }
 
@@ -84,7 +86,10 @@ const Challenge = ({ challenge }: Props) => {
                         }
                     />
                 </form>
-                <button onClick={deleteChallenge} className='bg-slate-800 cursor-pointer text-red-500 mt-2 border-2 w-full border-slate-700 hover:border-slate-500'>
+                <button
+                    onClick={deleteChallenge}
+                    className="bg-slate-800 cursor-pointer text-red-500 mt-2 border-2 w-full border-slate-700 hover:border-slate-500"
+                >
                     Delete
                 </button>
             </Modal>

@@ -19,13 +19,13 @@ export default async function handler(
                 },
             });
 
-            if(!challenge) {
+            if (!challenge) {
                 return res.status(404).json({
-                    Error: "Challenge not found."
-                })
+                    Error: 'Challenge not found.',
+                });
             }
 
-            challenge.flag ='';
+            challenge.flag = '';
 
             return res.status(200).json(challenge);
         }
@@ -46,11 +46,11 @@ export default async function handler(
 
             let user = await prisma.user.findFirst({
                 where: {
-                    id: session.userId
-                }
-            })
+                    id: session.userId,
+                },
+            });
 
-            if(!user || !user.admin) {
+            if (!user || !user.admin) {
                 return res.status(401).json({
                     Error: 'You do not have permission to preform this action.',
                 });
@@ -58,13 +58,13 @@ export default async function handler(
 
             await prisma.challenge.delete({
                 where: {
-                    id: id as string
-                }
-            })
+                    id: id as string,
+                },
+            });
 
             return res.status(200).json({
-                Message: "Challenge deleted."
-            })
+                Message: 'Challenge deleted.',
+            });
         }
     }
 }
