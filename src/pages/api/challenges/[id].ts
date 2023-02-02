@@ -48,7 +48,7 @@ export default async function handler(
                 });
             }
 
-            await prisma.team.delete({
+            await prisma.challenge.delete({
                 where: {
                     id: id as string
                 }
