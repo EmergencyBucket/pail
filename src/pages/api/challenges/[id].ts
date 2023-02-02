@@ -19,6 +19,14 @@ export default async function handler(
                 },
             });
 
+            if(!challenge) {
+                return res.status(404).json({
+                    Error: "Challenge not found."
+                })
+            }
+
+            challenge.flag ='';
+
             return res.status(200).json(challenge);
         }
         case 'DELETE': {
