@@ -1,8 +1,7 @@
-import { Category, PrismaClient, Session } from '@prisma/client';
+import { Category, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './auth/[...nextauth]';
+import { getSession } from 'next-auth/react';
 
 const prisma = new PrismaClient();
 
@@ -47,11 +46,9 @@ export default async function handler(
             return res.status(200).json(challenges);
         }
         case 'POST': {
-            const session: Session | null = await getServerSession(
-                req,
-                res,
-                authOptions
-            );
+            const session = await getSession({
+                req: req,
+            });
 
             if (!session) {
                 return res.status(401).json({
@@ -61,7 +58,7 @@ export default async function handler(
 
             let user = await prisma.user.findFirst({
                 where: {
-                    id: session.userId,
+                    id: session.user?.id,
                 },
             });
 

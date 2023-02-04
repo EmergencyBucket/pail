@@ -1,8 +1,8 @@
-import { PrismaClient, Session } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
+import isString from 'is-string';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../../auth/[...nextauth]';
+import { getSession } from 'next-auth/react';
 
 const prisma = new PrismaClient();
 
@@ -29,21 +29,23 @@ export default async function handler(
         case 'POST': {
             const { id } = req.query;
 
-            const session: Session | null = await getServerSession(
-                req,
-                res,
-                authOptions
-            );
+            const session = await getSession({ req });
 
             if (!session) {
-                return res.status(400).json({
+                return res.status(401).json({
                     Error: 'You need to be logged in to preform this action.',
+                });
+            }
+
+            if (!isString(id) || !isString(session.user?.id)) {
+                return res.status(400).json({
+                    Error: 'Bad request.',
                 });
             }
 
             const user = await prisma.user.findFirst({
                 where: {
-                    id: session.userId,
+                    id: session.user?.id,
                 },
             });
 

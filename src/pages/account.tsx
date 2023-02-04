@@ -11,6 +11,7 @@ export default function Home() {
     async function getTeam() {
         let req = await fetch(`/api/team`, {
             method: 'GET',
+            credentials: 'include',
         });
 
         if (req.status == 404) {
