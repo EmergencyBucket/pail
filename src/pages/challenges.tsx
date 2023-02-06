@@ -1,11 +1,16 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
 import CreateChallenge from '@/components/CreateChallenge';
 import Page from '@/components/Page';
-import { Challenge } from '@prisma/client';
+import { Challenge, User } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
     const [challenges, setChallenges] = useState<Challenge[]>();
+
+    const { data: session } = useSession();
+
+    const [user, setUser] = useState<User>();
 
     async function getChallenges() {
         let req = await fetch(`/api/challenges`, {
@@ -17,8 +22,17 @@ export default function Home() {
         setChallenges(res);
     }
 
+    async function getUser() {
+        let req = await fetch(`api/users/${session?.user?.id}`);
+
+        let res = await req.json();
+
+        setUser(res);
+    }
+
     useEffect(() => {
         getChallenges();
+        getUser();
     }, []);
 
     return (
@@ -31,7 +45,7 @@ export default function Home() {
                             key={Math.random()}
                         />
                     ))}
-                    <CreateChallenge />
+                    {user?.admin ? <CreateChallenge /> : <></>}
                 </div>
             </Page>
         </>
