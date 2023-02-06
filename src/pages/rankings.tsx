@@ -1,6 +1,25 @@
 import Page from '@/components/Page';
 import { Team } from '@prisma/client';
 import { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+);
 
 export default function Home() {
     const [ranking, setRanking] = useState<
@@ -8,6 +27,34 @@ export default function Home() {
             points: number;
         })[]
     >();
+
+    const data = {
+
+        labels: ['test'],
+        datasets: [
+            {
+                label: 'testlabel',
+                data: [1],
+            }
+        ]
+    }
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Chart.js Bar Chart'
+                }
+            }
+        },
+    };
 
     async function getRankings() {
         let req = await fetch(`/api/rankings`);
@@ -27,6 +74,7 @@ export default function Home() {
                         {team.name + ' - ' + team.points}
                     </p>
                 ))}
+                <Bar data={data}></Bar>
             </Page>
         </>
     );
