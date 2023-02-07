@@ -1,23 +1,26 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import Button from './Button';
+import Glitch from './Glitch';
 
 const Navbar = () => {
     const { data: session } = useSession();
 
     return (
         <div className="flex gap-4 w-full place-items-center">
-            <Button link="/">{<>Home</>}</Button>
+            <Button link="/">{<Glitch text="Home" />}</Button>
 
-            <Button link="/challenges">{<>Challenges</>}</Button>
+            <Button link="/challenges">{<Glitch text="Challenges" />}</Button>
 
-            <Button link="/rankings">{<>Rankings</>}</Button>
+            <Button link="/rankings">{<Glitch text="Rankings" />}</Button>
 
             {session && (
-                <Button link="/account">{<>{session?.user?.name}</>}</Button>
+                <Button link="/account">
+                    {<Glitch text={session.user?.name as string} />}
+                </Button>
             )}
 
             <Button onClick={() => (session ? signOut() : signIn('github'))}>
-                {session ? 'Sign out' : 'Sign in'}
+                <Glitch text={session ? 'Sign out' : 'Sign in'} />
             </Button>
         </div>
     );

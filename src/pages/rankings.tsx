@@ -29,31 +29,13 @@ export default function Home() {
     >();
 
     const data = {
-
         labels: ['test'],
         datasets: [
             {
                 label: 'testlabel',
                 data: [1],
-            }
-        ]
-    }
-
-    const config = {
-        type: 'bar',
-        data: data,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Chart.js Bar Chart'
-                }
-            }
-        },
+            },
+        ],
     };
 
     async function getRankings() {

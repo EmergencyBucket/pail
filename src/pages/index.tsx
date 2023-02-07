@@ -1,4 +1,6 @@
 import Page from '@/components/Page';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect } from 'react';
 import bucket from '../../public/bucket.json';
 
@@ -48,6 +50,42 @@ export default function Home() {
                 <h1 className="text-6xl font-bold mx-auto text-center text-white">
                     BucketCTF<i>[2023]</i>
                 </h1>
+
+                <div className="grid mt-12 gap-2">
+                    <code className="text-white text-4xl text-center mx-auto">
+                        Prizes
+                    </code>
+                    <code className="text-white text-xl text-center mx-auto">
+                        $50 PayPal / Amazon Gift Card
+                    </code>
+                    <code className="text-white text-xl text-center mx-auto">
+                        $30 PayPal / Amazon Gift Card
+                    </code>
+                    <code className="text-white text-xl text-center mx-auto">
+                        $20 PayPal / Amazon Gift Card
+                    </code>
+                    <br />
+                    <code className="text-white text-3xl text-center mx-auto">
+                        Sponsors
+                    </code>
+                    <Link
+                        target={'_blank'}
+                        className="mx-auto"
+                        href={'https://fyrehost.net'}
+                    >
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
+                            <div>
+                                <Image
+                                    src="/fyrehost.png"
+                                    alt="FyreHost Development"
+                                    width={200}
+                                    height={750}
+                                    className="rounded-2xl"
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                </div>
             </Page>
         </>
     );
