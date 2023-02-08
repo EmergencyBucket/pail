@@ -5,12 +5,19 @@ import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 const prisma = new PrismaClient();
 
 function getColor() {
+    return `rgba(${255 * Math.random()}, ${255 * Math.random()}, ${
+        255 * Math.random()
+    }, 0.25)`;
 
-    return `rgba(${255 * Math.random()}, ${255 * Math.random()}, ${255 * Math.random()}, 0.25)`
-
-    return "rgba(" + 255 * Math.random() + ',' +
-        (255 * Math.random()) + ',' +
-        (255 * Math.random()) + '%, 0.5)'
+    return (
+        'rgba(' +
+        255 * Math.random() +
+        ',' +
+        255 * Math.random() +
+        ',' +
+        255 * Math.random() +
+        '%, 0.5)'
+    );
 }
 
 export default async function handler(
@@ -77,8 +84,6 @@ export default async function handler(
                 data: number[];
                 backgroundColor: string;
             }> = [];
-
-            
 
             teams.forEach((team) => {
                 rankings.push({

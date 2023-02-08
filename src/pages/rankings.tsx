@@ -30,12 +30,9 @@ export default function Home() {
         }[]
     >();
 
-
-
     const data: ChartData<'bar', number[], string> = {
         labels: ['points'],
         datasets: ranking ?? [],
-
     };
 
     const options = {
@@ -45,19 +42,19 @@ export default function Home() {
         scales: {
             y: {
                 grid: {
-                    color: '#FFFFFF'
+                    color: '#FFFFFF',
                 },
                 title: {
                     display: true,
-                    text: "Points",
-                    color: "white",
+                    text: 'Points',
+                    color: 'white',
                     font: {
                         size: 24,
-                    }
-                }
-            }
-        }
-    }
+                    },
+                },
+            },
+        },
+    };
 
     async function getRankings() {
         let req = await fetch(`/api/rankings`);
@@ -76,18 +73,24 @@ export default function Home() {
                     <div className="w-1/2">
                         {ranking &&
                             ranking.map((team) => (
-                                <div className='bg-slate-700 m-1 rounded-lg text-center'>
-                                    <code
-                                        key={Math.random()}
-                                        className="text-white text-lg"
-                                    >
+                                <div
+                                    key={Math.random()}
+                                    className="bg-slate-700 m-1 rounded-lg text-center"
+                                >
+                                    <code className="text-white text-lg">
                                         {team.label + ' - ' + team.data[0]}
                                     </code>
                                 </div>
                             ))}
                     </div>
                     <div className="w-1/2">
-                        <Bar className='mx-auto' height={100} width={200} options={options} data={data}></Bar>
+                        <Bar
+                            className="mx-auto"
+                            height={100}
+                            width={200}
+                            options={options}
+                            data={data}
+                        ></Bar>
                     </div>
                 </div>
             </Page>
