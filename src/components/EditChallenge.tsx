@@ -7,7 +7,7 @@ interface Props {
     challenge: Challenge;
 }
 
-const CreateChallenge = ({challenge}: Props) => {
+const CreateChallenge = ({ challenge }: Props) => {
     const [open, setOpen] = useState(false);
 
     async function submit(event: FormEvent<HTMLFormElement>) {

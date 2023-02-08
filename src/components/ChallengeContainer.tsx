@@ -3,24 +3,38 @@ import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
 import ReactMarkdown from 'react-markdown';
+import Image from 'next/image';
 
 interface Props {
     challenge: Challenge;
 }
 
 const Challenge = ({ challenge }: Props) => {
+    enum Status {
+        Unsubmitted,
+        Loading,
+        Correct,
+        Incorrect,
+    }
+
     const [open, setOpen] = useState(false);
+
+    const [status, setStatus] = useState(Status.Unsubmitted);
 
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        await fetch(`/api/challenges/solve/${challenge.id}`, {
+        setStatus(Status.Loading);
+
+        let req = await fetch(`/api/challenges/solve/${challenge.id}`, {
             method: 'POST',
             body: JSON.stringify({
                 //@ts-ignore
                 flag: event.target.flag.value,
             }),
         });
+
+        setStatus(req.status == 200 ? Status.Correct : Status.Incorrect);
     }
 
     async function deleteChallenge(
@@ -31,6 +45,47 @@ const Challenge = ({ challenge }: Props) => {
         await fetch(`/api/challenges/${challenge.id}`, {
             method: 'DELETE',
         });
+    }
+
+    function renderStatus() {
+        switch (status) {
+            case Status.Unsubmitted: {
+                return <></>;
+            }
+            case Status.Loading: {
+                return (
+                    <Image
+                        src="loading.svg"
+                        alt="Loading"
+                        className="mx-auto"
+                        height={20}
+                        width={20}
+                    />
+                );
+            }
+            case Status.Correct: {
+                return (
+                    <Image
+                        src="correct.svg"
+                        alt="Correct"
+                        className="mx-auto"
+                        height={20}
+                        width={20}
+                    />
+                );
+            }
+            case Status.Incorrect: {
+                return (
+                    <Image
+                        src="incorrect.svg"
+                        alt="Incorrect"
+                        className="mx-auto"
+                        height={20}
+                        width={20}
+                    />
+                );
+            }
+        }
     }
 
     return (
@@ -44,7 +99,9 @@ const Challenge = ({ challenge }: Props) => {
                         <a
                             href={file}
                             key={Math.random()}
+                            target="_blank"
                             className="flex text-blue-600 text-sm p-2 bg-slate-700 gap my-2"
+                            rel="noreferrer"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -70,14 +127,20 @@ const Challenge = ({ challenge }: Props) => {
                         : 'Unsolved'}
                 </div>
                 <form onSubmit={submit}>
-                    <input
-                        type={'text'}
-                        placeholder="Flag"
-                        name="flag"
-                        className={
-                            'pl-2 bg-slate-700 border-2 border-slate-500 my-2 w-full'
-                        }
-                    />
+                    <div className="flex">
+                        <input
+                            type={'text'}
+                            placeholder="Flag"
+                            name="flag"
+                            className={
+                                'pl-2 bg-slate-700 focus:border-slate-400 focus:outline-none border-2 border-slate-500 my-2 w-full'
+                            }
+                        />
+                        <div className="bg-slate-700 border-2 border-slate-500 my-2 w-8 flex place-items-center">
+                            {renderStatus()}
+                        </div>
+                    </div>
+
                     <br />
                     <input
                         type={'submit'}

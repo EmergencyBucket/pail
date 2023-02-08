@@ -17,6 +17,8 @@
     "@types/node": "^18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
     "ajv": "^8.12.0",
     "autoprefixer": "^10.4.13",
     "chart.js": "^4.2.0",
