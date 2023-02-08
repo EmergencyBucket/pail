@@ -31,7 +31,7 @@ export default function Home() {
     >();
 
     const data: ChartData<'bar', number[], string> = {
-        labels: ['points'],
+        labels: [''],
         datasets: ranking ?? [],
     };
 
@@ -86,8 +86,7 @@ export default function Home() {
                     <div className="w-1/2">
                         <Bar
                             className="mx-auto"
-                            height={100}
-                            width={200}
+                            height={400}
                             options={options}
                             data={data}
                         ></Bar>
