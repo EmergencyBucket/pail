@@ -1,5 +1,4 @@
 import Page from '@/components/Page';
-import { Team } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -10,6 +9,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    ChartData,
 } from 'chart.js';
 
 ChartJS.register(
@@ -23,20 +23,41 @@ ChartJS.register(
 
 export default function Home() {
     const [ranking, setRanking] = useState<
-        (Team & {
-            points: number;
-        })[]
+        {
+            label: string;
+            id: string;
+            data: number[];
+        }[]
     >();
 
-    const data = {
-        labels: ['test'],
-        datasets: [
-            {
-                label: 'testlabel',
-                data: [1],
-            },
-        ],
+
+
+    const data: ChartData<'bar', number[], string> = {
+        labels: ['points'],
+        datasets: ranking ?? [],
+
     };
+
+    const options = {
+        responsive: true,
+        color: '#FFFFFF',
+        borderColor: '#FFFFFF',
+        scales: {
+            y: {
+                grid: {
+                    color: '#FFFFFF'
+                },
+                title: {
+                    display: true,
+                    text: "Points",
+                    color: "white",
+                    font: {
+                        size: 24,
+                    }
+                }
+            }
+        }
+    }
 
     async function getRankings() {
         let req = await fetch(`/api/rankings`);
@@ -51,12 +72,24 @@ export default function Home() {
     return (
         <>
             <Page title="Rankings">
-                {ranking?.map((team) => (
-                    <p key={Math.random()} className="text-white text-lg">
-                        {team.name + ' - ' + team.points}
-                    </p>
-                ))}
-                <Bar data={data}></Bar>
+                <div className="flex w-full">
+                    <div className="w-1/2">
+                        {ranking &&
+                            ranking.map((team) => (
+                                <div className='bg-slate-700 m-1 rounded-lg text-center'>
+                                    <code
+                                        key={Math.random()}
+                                        className="text-white text-lg"
+                                    >
+                                        {team.label + ' - ' + team.data[0]}
+                                    </code>
+                                </div>
+                            ))}
+                    </div>
+                    <div className="w-1/2">
+                        <Bar className='mx-auto' height={100} width={200} options={options} data={data}></Bar>
+                    </div>
+                </div>
             </Page>
         </>
     );

@@ -4,6 +4,15 @@ import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 
 const prisma = new PrismaClient();
 
+function getColor() {
+
+    return `rgba(${255 * Math.random()}, ${255 * Math.random()}, ${255 * Math.random()}, 0.25)`
+
+    return "rgba(" + 255 * Math.random() + ',' +
+        (255 * Math.random()) + ',' +
+        (255 * Math.random()) + '%, 0.5)'
+}
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -62,16 +71,27 @@ export default async function handler(
                 })
             );
 
+            let rankings: Array<{
+                label: string;
+                id: string;
+                data: number[];
+                backgroundColor: string;
+            }> = [];
+
+            
+
             teams.forEach((team) => {
-                team.secret = '';
-                team.solves.forEach((challenge) => {
-                    challenge.flag = '';
+                rankings.push({
+                    label: team.name,
+                    id: team.id,
+                    data: [team.points ?? 0],
+                    backgroundColor: getColor(),
                 });
             });
 
-            teams = tidy(teams, arrange(desc('points')));
+            rankings = tidy(rankings, arrange(desc('data')));
 
-            return res.status(200).json(teams);
+            return res.status(200).json(rankings);
         }
     }
 }
