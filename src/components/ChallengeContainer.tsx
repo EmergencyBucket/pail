@@ -5,18 +5,18 @@ import Modal from './Modal';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 
+enum Status {
+    Unsubmitted,
+    Loading,
+    Correct,
+    Incorrect,
+}
+
 interface Props {
     challenge: Challenge;
 }
 
 const Challenge = ({ challenge }: Props) => {
-    enum Status {
-        Unsubmitted,
-        Loading,
-        Correct,
-        Incorrect,
-    }
-
     const [open, setOpen] = useState(false);
 
     const [status, setStatus] = useState(Status.Unsubmitted);
