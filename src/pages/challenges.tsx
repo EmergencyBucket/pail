@@ -10,7 +10,7 @@ const challenges: Fetcher<Challenge[]> = (url: string) =>
     fetch(url).then((r) => r.json());
 
 export default function Home() {
-    const { data, error } = useSWR(`/api/challenges`, challenges);
+    const { data } = useSWR(`/api/challenges`, challenges);
 
     const { data: session } = useSession();
 
