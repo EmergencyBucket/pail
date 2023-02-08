@@ -63,23 +63,23 @@ export default async function handler(
             );
 
             let rankings: Array<{
-                pos?: number,
-                team: string,
-                score: number,
+                pos?: number;
+                team: string;
+                score: number;
             }> = [];
 
             teams.forEach((team) => {
                 rankings.push({
                     team: team.name,
-                    score: team.points ?? 0
-                })
+                    score: team.points ?? 0,
+                });
             });
 
             rankings = tidy(rankings, arrange(desc('score')));
 
             for (let index = 0; index < rankings.length; index++) {
                 const ranking = rankings[index];
-                ranking.pos = index+1;
+                ranking.pos = index + 1;
             }
 
             return res.status(200).json(rankings);
