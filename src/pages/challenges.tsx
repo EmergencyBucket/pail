@@ -1,9 +1,6 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
-import CreateChallenge from '@/components/CreateChallenge';
 import Page from '@/components/Page';
-import { Challenge, User } from '@prisma/client';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { Challenge } from '@prisma/client';
 import useSWR, { Fetcher } from 'swr';
 
 const getChallenges: Fetcher<Challenge[]> = (url: string) =>

@@ -82,40 +82,19 @@ export default async function handler(
             }
 
             if (challenge.flag === data.flag) {
-                let chall = await prisma.challenge.update({
-                    where: {
-                        id: id as string,
-                    },
+                await prisma.solve.create({
                     data: {
-                        solved: {
-                            connect: {
-                                id: team?.id,
-                            },
-                        },
-                    },
-                });
-
-                if (!chall.firstBlood) {
-                    await prisma.challenge.update({
-                        where: {
-                            id: id as string,
-                        },
-                        data: {
-                            firstBlood: new Date(),
-                        },
-                    });
-                }
-
-                await prisma.team.update({
-                    where: {
-                        id: team?.id as string,
-                    },
-                    data: {
-                        solves: {
+                        challenge: {
                             connect: {
                                 id: challenge.id,
                             },
                         },
+                        team: {
+                            connect: {
+                                id: team?.id,
+                            },
+                        },
+                        time: new Date(),
                     },
                 });
 
