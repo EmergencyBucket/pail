@@ -5,9 +5,10 @@ import Modal from './Modal';
 
 interface Props {
     challenge: Challenge;
+    className?: string;
 }
 
-const CreateChallenge = ({ challenge }: Props) => {
+const EditChallenge = ({ challenge, className }: Props) => {
     const [open, setOpen] = useState(false);
 
     async function submit(event: FormEvent<HTMLFormElement>) {
@@ -33,7 +34,7 @@ const CreateChallenge = ({ challenge }: Props) => {
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
-                <p className="text-white text-4xl">Create a challenge</p>
+                <p className="text-white text-4xl">Edit challenge</p>
                 <form onSubmit={submit}>
                     <input
                         type={'text'}
@@ -95,24 +96,11 @@ const CreateChallenge = ({ challenge }: Props) => {
                     />
                 </form>
             </Modal>
-            <Button onClick={() => setOpen(true)}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 mx-auto"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                </svg>
+            <Button className={className} onClick={() => setOpen(true)}>
+                {challenge.name}
             </Button>
         </>
     );
 };
 
-export default CreateChallenge;
+export default EditChallenge;

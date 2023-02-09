@@ -83,6 +83,7 @@ export default async function handler(
                     files: content.files,
                     flag: content.flag,
                     category: content.category as Category,
+                    solved: undefined,
                 },
             });
 

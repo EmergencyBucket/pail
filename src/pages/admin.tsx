@@ -1,4 +1,4 @@
-import ChallengeContainer from '@/components/ChallengeContainer';
+import EditChallenge from '@/components/EditChallenge';
 import Page from '@/components/Page';
 import { Challenge } from '@prisma/client';
 import { useEffect, useState } from 'react';
@@ -23,10 +23,11 @@ export default function Home() {
     return (
         <>
             <Page title="Admin">
-                <div className="flex flex-wrap">
-                    <div className="w-1/2">
+                <div className="mt-4 flex flex-wrap">
+                    <div className="w-1/2 grid gap-4">
                         {challenges?.map((challenge) => (
-                            <ChallengeContainer
+                            <EditChallenge
+                                className="w-full"
                                 challenge={challenge}
                                 key={Math.random()}
                             />

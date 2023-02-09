@@ -6,9 +6,10 @@ interface Props {
     onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void;
     children?: React.ReactNode;
     link?: string;
+    className?: string;
 }
 
-const Button = ({ onClick, children, link }: Props) => {
+const Button = ({ onClick, children, link, className }: Props) => {
     return (
         <>
             {link ? (
@@ -21,7 +22,7 @@ const Button = ({ onClick, children, link }: Props) => {
             ) : (
                 <button
                     onClick={onClick}
-                    className="bg-slate-800 text-white p-2 border-4 border-slate-700 hover:border-slate-500"
+                    className={`bg-slate-800 text-white p-2 border-4 border-slate-700 hover:border-slate-500 ${className}`}
                 >
                     {children}
                 </button>
