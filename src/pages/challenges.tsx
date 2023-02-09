@@ -6,39 +6,22 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import useSWR, { Fetcher } from 'swr';
 
-const challenges: Fetcher<Challenge[]> = (url: string) =>
+const getChallenges: Fetcher<Challenge[]> = (url: string) =>
     fetch(url).then((r) => r.json());
 
 export default function Home() {
-    const { data } = useSWR(`/api/challenges`, challenges);
-
-    const { data: session } = useSession();
-
-    const [user, setUser] = useState<User>();
-
-    async function getUser() {
-        let req = await fetch(`api/users/${session?.user?.id}`);
-
-        let res = await req.json();
-
-        setUser(res);
-    }
-
-    useEffect(() => {
-        getUser();
-    }, []);
+    const challenges = useSWR(`/api/challenges`, getChallenges).data;
 
     return (
         <>
             <Page title="Challenges">
                 <div className="grid grid-cols-4 gap-4 mt-8">
-                    {data?.map((challenge) => (
+                    {challenges?.map((challenge) => (
                         <ChallengeContainer
                             challenge={challenge}
                             key={Math.random()}
                         />
                     ))}
-                    {user?.admin ? <CreateChallenge /> : <></>}
                 </div>
             </Page>
         </>

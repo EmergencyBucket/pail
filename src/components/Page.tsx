@@ -18,7 +18,8 @@ const Page = ({ title, children }: Props) => {
         canvas.height = window.innerHeight;
 
         // Setting up the letters
-        let letters: string | string[] = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
+        let letters: string | string[] =
+            'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
         letters = letters.split('');
 
         // Setting up the columns
@@ -40,7 +41,10 @@ const Page = ({ title, children }: Props) => {
                 ctx.fillStyle = '#0f0';
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
                 drops[i]++;
-                if (drops[i] * fontSize > canvas.height && Math.random() > .999) {
+                if (
+                    drops[i] * fontSize > canvas.height &&
+                    Math.random() > 0.999
+                ) {
                     drops[i] = 0;
                 }
             }
@@ -52,7 +56,7 @@ const Page = ({ title, children }: Props) => {
 
     useEffect(() => {
         //play();
-    }, [])
+    }, []);
 
     return (
         <>
@@ -61,7 +65,8 @@ const Page = ({ title, children }: Props) => {
 
                 <link rel="icon" type="image/x-icon" href="/bucket.png"></link>
             </Head>
-            { //<canvas id='background' className='absolute top-0 left-0 w-screen h-screen -z-10' />
+            {
+                //<canvas id='background' className='absolute top-0 left-0 w-screen h-screen -z-10' />
             }
             <div className="w-screen h-screen bg-gray-900 p-8">
                 <Navbar />

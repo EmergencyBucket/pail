@@ -25,6 +25,9 @@ export default function Home() {
             <Page title="Admin">
                 <div className="mt-4 flex flex-wrap">
                     <div className="w-1/2 grid gap-4">
+                        <code className='text-white text-2xl text-center'>
+                            Challenges
+                        </code>
                         {challenges?.map((challenge) => (
                             <EditChallenge
                                 className="w-full"

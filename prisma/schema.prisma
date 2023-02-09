@@ -60,22 +60,31 @@ model VerificationToken {
 }
 
 model Challenge {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String
   files       String[]
   flag        String
-  solved      Team[]
-  category    Category @default(MISC)
+  solved      Solve[]
+  category    Category  @default(MISC)
   firstBlood  DateTime?
 }
 
 model Team {
-  id      String      @id @default(cuid())
-  name    String      @unique
-  secret  String      @unique @default(cuid())
+  id      String  @id @default(cuid())
+  name    String  @unique
+  secret  String  @unique @default(cuid())
   members User[]
-  solves  Challenge[]
+  solves  Solve[]
+}
+
+model Solve {
+  id          String    @id @default(cuid())
+  challenge   Challenge @relation(fields: [challengeId], references: [id])
+  challengeId String
+  team        Team      @relation(fields: [teamId], references: [id])
+  teamId      String
+  time        DateTime
 }
 
 enum Category {
