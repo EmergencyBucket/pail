@@ -1,4 +1,4 @@
-import { Challenge, PrismaClient, Team } from '@prisma/client';
+import { Challenge, PrismaClient, Solve, Team } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 
@@ -11,7 +11,7 @@ export default async function handler(
     switch (req.method) {
         case 'GET': {
             let teams: (Team & {
-                solves: Challenge[];
+                solves: Solve[];
                 points?: number;
             })[] = await prisma.team.findMany({
                 include: {
@@ -20,7 +20,7 @@ export default async function handler(
             });
 
             let challenges: (Challenge & {
-                solved: Team[];
+                solved: Solve[];
                 points?: number;
             })[] = await prisma.challenge.findMany({
                 include: {
@@ -33,7 +33,7 @@ export default async function handler(
                 mutate({
                     points: (
                         challenge: Challenge & {
-                            solved: Team[];
+                            solved: Solve[];
                         }
                     ) =>
                         challenge.solved.length > 150
@@ -47,14 +47,14 @@ export default async function handler(
                 mutate({
                     points: (
                         team: Team & {
-                            solves: Challenge[];
+                            solves: Solve[];
                             points?: number;
                         }
                     ) => {
                         let points = 0;
-                        team.solves.forEach((chall) => {
+                        team.solves.forEach((solve) => {
                             points += challenges.find(
-                                (challenge) => challenge.id == chall.id
+                                (challenge) => challenge.id == solve.challengeId
                             )?.points as number;
                         });
                         return points;
@@ -63,14 +63,16 @@ export default async function handler(
             );
 
             let rankings: Array<{
-                pos?: number;
-                team: string;
+                label: string;
+                id: string;
                 score: number;
+                pos?: number;
             }> = [];
 
             teams.forEach((team) => {
                 rankings.push({
-                    team: team.name,
+                    label: team.name,
+                    id: team.id,
                     score: team.points ?? 0,
                 });
             });
