@@ -87,6 +87,12 @@ model Solve {
   time        DateTime
 }
 
+model Setting {
+  id    String @id @default(cuid())
+  key   String
+  value String
+}
+
 enum Category {
   WEB
   CRYPTO
