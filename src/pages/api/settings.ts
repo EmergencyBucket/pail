@@ -38,11 +38,11 @@ export default async function handler(
 
             let user = await prisma.user.findFirst({
                 where: {
-                    id: session.user?.id
-                }
-            })
+                    id: session.user?.id,
+                },
+            });
 
-            if(!user || !user.admin) {
+            if (!user || !user.admin) {
                 return res.status(401).json({
                     Error: 'You must be an admin to preform this action.',
                 });
@@ -70,7 +70,7 @@ export default async function handler(
                     },
                 });
 
-                if(!user || !user.admin) {
+                if (!user || !user.admin) {
                     return res.status(401).json({
                         Error: 'You must be an admin to preform this action.',
                     });
@@ -78,19 +78,19 @@ export default async function handler(
 
                 let curr = await prisma.setting.findFirst({
                     where: {
-                        key: key
-                    }
-                })
+                        key: key,
+                    },
+                });
 
-                if(curr) {
+                if (curr) {
                     await prisma.setting.update({
                         where: {
-                            key: key
+                            key: key,
                         },
                         data: {
-                            value: value
-                        }
-                    })
+                            value: value,
+                        },
+                    });
 
                     return res.status(201).json(curr);
                 }
@@ -98,9 +98,9 @@ export default async function handler(
                 let setting = await prisma.setting.create({
                     data: {
                         key: key,
-                        value: value
-                    }
-                })
+                        value: value,
+                    },
+                });
 
                 return res.status(201).json(setting);
             } else {

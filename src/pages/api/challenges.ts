@@ -1,4 +1,4 @@
-import { Category, PrismaClient } from '@prisma/client';
+import { Category, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
@@ -12,6 +12,7 @@ interface CreateChallengeRequest {
     files: string[];
     flag: string;
     category: string;
+    difficulty: string;
 }
 
 const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
@@ -24,6 +25,10 @@ const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
         category: {
             type: 'string',
             enum: ['WEB', 'CRYPTO', 'REV', 'PWN', 'MISC'],
+        },
+        difficulty: {
+            type: 'string',
+            enum: ['EASY', 'MEDIUM', 'HARD'],
         },
     },
     required: ['name', 'description', 'files', 'flag'],
@@ -83,6 +88,7 @@ export default async function handler(
                     files: content.files,
                     flag: content.flag,
                     category: content.category as Category,
+                    difficulty: content.difficulty as Difficulty,
                     solved: undefined,
                 },
             });

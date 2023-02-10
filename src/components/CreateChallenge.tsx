@@ -21,6 +21,8 @@ const CreateChallenge = () => {
                 flag: event.target.flag.value,
                 //@ts-ignore
                 category: event.target.category.value,
+                //@ts-ignore
+                difficulty: event.target.difficulty.value,
             }),
         });
     }
@@ -58,6 +60,17 @@ const CreateChallenge = () => {
                         <option value={'REV'}>Rev</option>
                         <option value={'PWN'}>Pwn</option>
                         <option value={'MISC'}>Misc</option>
+                    </select>
+                    <br />
+                    <select
+                        name="difficulty"
+                        className={
+                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                        }
+                    >
+                        <option value={'EASY'}>Easy</option>
+                        <option value={'MEDIUM'}>Medium</option>
+                        <option value={'HARD'}>Hard</option>
                     </select>
                     <br />
                     <input
