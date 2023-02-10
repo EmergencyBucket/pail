@@ -13,7 +13,7 @@ interface CreateTeamRequest {
 const CreateTeamRequestSchema: JSONSchemaType<CreateTeamRequest> = {
     type: 'object',
     properties: {
-        name: { type: 'string', maxLength: 50 },
+        name: { type: 'string', minLength: 4, maxLength: 50 },
     },
     required: ['name'],
 };
@@ -36,6 +36,12 @@ export default async function handler(
         }
         case 'POST': {
             const session = await getSession({ req });
+
+            if (!session) {
+                return res.status(401).json({
+                    Error: 'You must be logged in to preform this action.',
+                });
+            }
 
             if (createTeamRequestValidator(JSON.parse(req.body))) {
                 const { name } = JSON.parse(req.body);

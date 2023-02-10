@@ -88,8 +88,7 @@ model Solve {
 }
 
 model Setting {
-  id    String @id @default(cuid())
-  key   String
+  key   String @id @unique
   value String
 }
 
