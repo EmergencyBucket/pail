@@ -60,13 +60,14 @@ model VerificationToken {
 }
 
 model Challenge {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   name        String
   description String
   files       String[]
   flag        String
   solved      Solve[]
-  category    Category  @default(MISC)
+  category    Category   @default(MISC)
+  difficulty  Difficulty @default(EASY)
   firstBlood  DateTime?
 }
 
@@ -98,4 +99,10 @@ enum Category {
   REV
   PWN
   MISC
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
 }
