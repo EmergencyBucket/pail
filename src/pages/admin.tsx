@@ -1,3 +1,4 @@
+import CreateChallenge from '@/components/CreateChallenge';
 import EditChallenge from '@/components/EditChallenge';
 import Page from '@/components/Page';
 import { Challenge } from '@prisma/client';
@@ -35,6 +36,7 @@ export default function Home() {
                                 key={Math.random()}
                             />
                         ))}
+                        <CreateChallenge className="w-full" />
                     </div>
                     <div className="w-1/2"></div>
                     <div className="w-1/2"></div>

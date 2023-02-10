@@ -2,7 +2,11 @@ import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
 
-const CreateChallenge = () => {
+interface Props {
+    className?: string;
+}
+
+const CreateChallenge = ({className}: Props) => {
     const [open, setOpen] = useState(false);
 
     async function submit(event: FormEvent<HTMLFormElement>) {
@@ -99,7 +103,7 @@ const CreateChallenge = () => {
                     />
                 </form>
             </Modal>
-            <Button onClick={() => setOpen(true)}>
+            <Button className={className} onClick={() => setOpen(true)}>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
