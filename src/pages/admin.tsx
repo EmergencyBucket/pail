@@ -38,7 +38,14 @@ export default function Home() {
                         ))}
                         <CreateChallenge className="w-full" />
                     </div>
-                    <div className="w-1/2"></div>
+                    <div className="w-1/2 grid gap-4">
+                        <code className="text-white text-2xl text-center">
+                            Settings
+                        </code>
+                        <form target='/api/settings'>
+                            
+                        </form>
+                    </div>
                     <div className="w-1/2"></div>
                     <div className="w-1/2"></div>
                 </div>
