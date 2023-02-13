@@ -35,7 +35,7 @@ const CreateChallenge = ({ className }: Props) => {
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl">Create a challenge</p>
-                <form action='POST' target='/api/challenges'>
+                <form onSubmit={submit}>
                     <input
                         type={'text'}
                         placeholder="Challenge name"
