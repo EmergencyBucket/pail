@@ -3,7 +3,6 @@ import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
 import ReactMarkdown from 'react-markdown';
-import Image from 'next/image';
 import { Status, Statuses } from '@/components/Status';
 
 interface Props {

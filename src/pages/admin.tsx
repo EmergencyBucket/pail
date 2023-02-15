@@ -77,14 +77,21 @@ export default function Home() {
                                 //@ts-ignore
                                 let start = new Date(e.target.value.value);
 
-                                saveSetting('CTF_START_TIME', start.getTime()+'');
+                                saveSetting(
+                                    'CTF_START_TIME',
+                                    start.getTime() + ''
+                                );
                             }}
                             className="bg-slate-800 text-white p-2 border-4 border-slate-700 flex"
                         >
                             <code className="text-white text-lg mx-auto text-center">
                                 CTF_START_TIME
                             </code>
-                            <input type={'datetime-local'} name='value' className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto" />
+                            <input
+                                type={'datetime-local'}
+                                name="value"
+                                className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto"
+                            />
                             <button
                                 id={'CTF_START_TIME'}
                                 type={'submit'}
@@ -101,14 +108,18 @@ export default function Home() {
                                 //@ts-ignore
                                 let end = new Date(e.target.value.value);
 
-                                saveSetting('CTF_END_TIME', end.getTime()+'');
+                                saveSetting('CTF_END_TIME', end.getTime() + '');
                             }}
                             className="bg-slate-800 text-white p-2 border-4 border-slate-700 flex"
                         >
                             <code className="text-white text-lg mx-auto text-center">
                                 CTF_END_TIME
                             </code>
-                            <input type={'datetime-local'} name='value' className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto" />
+                            <input
+                                type={'datetime-local'}
+                                name="value"
+                                className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto"
+                            />
                             <button
                                 id={'CTF_END_TIME'}
                                 type={'submit'}

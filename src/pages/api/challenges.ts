@@ -44,14 +44,14 @@ export default async function handler(
         case 'GET': {
             const start = await prisma.setting.findFirst({
                 where: {
-                    key: 'CTF_START_TIME'
-                }
-            })
+                    key: 'CTF_START_TIME',
+                },
+            });
 
-            if(start && new Date().getTime() < parseInt(start.value)) {
+            if (start && new Date().getTime() < parseInt(start.value)) {
                 return res.status(401).json({
-                    Error: 'This ctf has not started yet!'
-                })
+                    Error: 'This ctf has not started yet!',
+                });
             }
 
             const challenges = await prisma.challenge.findMany();
