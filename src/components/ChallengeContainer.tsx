@@ -4,13 +4,7 @@ import Button from './Button';
 import Modal from './Modal';
 import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
-
-enum Status {
-    Unsubmitted,
-    Loading,
-    Correct,
-    Incorrect,
-}
+import { Status, Statuses } from '@/components/Status';
 
 interface Props {
     challenge: Challenge;
@@ -19,12 +13,12 @@ interface Props {
 const Challenge = ({ challenge }: Props) => {
     const [open, setOpen] = useState(false);
 
-    const [status, setStatus] = useState(Status.Unsubmitted);
+    const [status, setStatus] = useState(Statuses.Unsubmitted);
 
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        setStatus(Status.Loading);
+        setStatus(Statuses.Loading);
 
         let req = await fetch(`/api/challenges/solve/${challenge.id}`, {
             method: 'POST',
@@ -34,7 +28,7 @@ const Challenge = ({ challenge }: Props) => {
             }),
         });
 
-        setStatus(req.status == 200 ? Status.Correct : Status.Incorrect);
+        setStatus(req.status == 200 ? Statuses.Correct : Statuses.Incorrect);
     }
 
     async function deleteChallenge(
@@ -45,47 +39,6 @@ const Challenge = ({ challenge }: Props) => {
         await fetch(`/api/challenges/${challenge.id}`, {
             method: 'DELETE',
         });
-    }
-
-    function renderStatus() {
-        switch (status) {
-            case Status.Unsubmitted: {
-                return <></>;
-            }
-            case Status.Loading: {
-                return (
-                    <Image
-                        src="loading.svg"
-                        alt="Loading"
-                        className="mx-auto"
-                        height={20}
-                        width={20}
-                    />
-                );
-            }
-            case Status.Correct: {
-                return (
-                    <Image
-                        src="correct.svg"
-                        alt="Correct"
-                        className="mx-auto"
-                        height={20}
-                        width={20}
-                    />
-                );
-            }
-            case Status.Incorrect: {
-                return (
-                    <Image
-                        src="incorrect.svg"
-                        alt="Incorrect"
-                        className="mx-auto"
-                        height={20}
-                        width={20}
-                    />
-                );
-            }
-        }
     }
 
     return (
@@ -144,7 +97,7 @@ const Challenge = ({ challenge }: Props) => {
                             }
                         />
                         <div className="bg-slate-700 border-2 border-slate-500 my-2 w-8 flex place-items-center">
-                            {renderStatus()}
+                            {<Status status={status} />}
                         </div>
                     </div>
 
