@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -13,7 +14,7 @@ export default async function handler(
             const session = await getSession({ req });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -24,7 +25,7 @@ export default async function handler(
                 },
             });
 
-            return res.status(200).json(user);
+            return res.status(StatusCodes.OK).json(user);
         }
     }
 }

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -31,7 +32,7 @@ export default async function handler(
             const session = await getSession({ req });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -43,20 +44,20 @@ export default async function handler(
             });
 
             if (!user || !user.admin) {
-                return res.status(401).json({
+                return res.status(StatusCodes.FORBIDDEN).json({
                     Error: 'You must be an admin to preform this action.',
                 });
             }
 
             let settings = await prisma.setting.findMany();
 
-            return res.status(200).json(settings);
+            return res.status(StatusCodes.OK).json(settings);
         }
         case 'POST': {
             const session = await getSession({ req });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -71,7 +72,7 @@ export default async function handler(
                 });
 
                 if (!user || !user.admin) {
-                    return res.status(401).json({
+                    return res.status(StatusCodes.FORBIDDEN).json({
                         Error: 'You must be an admin to preform this action.',
                     });
                 }
@@ -92,7 +93,7 @@ export default async function handler(
                         },
                     });
 
-                    return res.status(200).json(curr);
+                    return res.status(StatusCodes.OK).json(curr);
                 }
 
                 let setting = await prisma.setting.create({
@@ -102,9 +103,9 @@ export default async function handler(
                     },
                 });
 
-                return res.status(201).json(setting);
+                return res.status(StatusCodes.CREATED).json(setting);
             } else {
-                return res.status(400).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Bad request.',
                 });
             }

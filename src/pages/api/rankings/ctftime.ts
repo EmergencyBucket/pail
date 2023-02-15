@@ -1,6 +1,7 @@
 import { Challenge, PrismaClient, Solve, Team } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
+import { StatusCodes } from 'http-status-codes';
 
 const prisma = new PrismaClient();
 
@@ -84,7 +85,7 @@ export default async function handler(
                 ranking.pos = index + 1;
             }
 
-            return res.status(200).json(rankings);
+            return res.status(StatusCodes.OK).json(rankings);
         }
     }
 }

@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -13,7 +14,7 @@ export default async function handler(
             const { id } = req.query;
 
             if (!isString(id)) {
-                return res.status(400).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Bad request.',
                 });
             }
@@ -28,7 +29,7 @@ export default async function handler(
                 team.secret = '';
             }
 
-            return res.status(200).json(team);
+            return res.status(StatusCodes.OK).json(team);
         }
     }
 }

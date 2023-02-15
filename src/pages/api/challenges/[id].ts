@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
@@ -14,7 +15,7 @@ export default async function handler(
             const { id } = req.query;
 
             if (!isString(id)) {
-                return res.status(400).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Bad request.',
                 });
             }
@@ -26,14 +27,14 @@ export default async function handler(
             });
 
             if (!challenge) {
-                return res.status(404).json({
+                return res.status(StatusCodes.NOT_FOUND).json({
                     Error: 'Challenge not found.',
                 });
             }
 
             challenge.flag = '';
 
-            return res.status(200).json(challenge);
+            return res.status(StatusCodes.OK).json(challenge);
         }
         case 'DELETE': {
             const { id } = req.query;
@@ -43,7 +44,7 @@ export default async function handler(
             });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -55,7 +56,7 @@ export default async function handler(
             });
 
             if (!user || !user.admin) {
-                return res.status(401).json({
+                return res.status(StatusCodes.FORBIDDEN).json({
                     Error: 'You do not have permission to preform this action.',
                 });
             }
@@ -66,7 +67,7 @@ export default async function handler(
                 },
             });
 
-            return res.status(200).json({
+            return res.status(StatusCodes.OK).json({
                 Message: 'Challenge deleted.',
             });
         }

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
@@ -32,13 +33,13 @@ export default async function handler(
             const session = await getSession({ req });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You need to be logged in to preform this action.',
                 });
             }
 
             if (!isString(id) || !isString(session.user?.id)) {
-                return res.status(400).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Bad request.',
                 });
             }
@@ -50,7 +51,7 @@ export default async function handler(
             });
 
             if (!user || !user.teamId) {
-                return res.status(400).json({
+                return res.status(StatusCodes.FORBIDDEN).json({
                     Error: 'You must be on a team to preform this action.',
                 });
             }
@@ -68,7 +69,7 @@ export default async function handler(
             });
 
             if (!challenge) {
-                return res.status(401).json({
+                return res.status(StatusCodes.NOT_FOUND).json({
                     Error: 'Challenge not found.',
                 });
             }
@@ -76,7 +77,7 @@ export default async function handler(
             const data = JSON.parse(req.body);
 
             if (!solveChallengeRequestValidator(data)) {
-                return res.status(401).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Bad request.',
                 });
             }
@@ -98,12 +99,12 @@ export default async function handler(
                     },
                 });
 
-                return res.status(200).json({
+                return res.status(StatusCodes.OK).json({
                     Message: 'Correct flag.',
                 });
             }
 
-            return res.status(400).json({
+            return res.status(StatusCodes.BAD_REQUEST).json({
                 Error: 'Wrong flag.',
             });
         }

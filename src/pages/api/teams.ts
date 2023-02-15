@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -32,13 +33,13 @@ export default async function handler(
                 team.secret = '';
             });
 
-            return res.status(200).json(teams);
+            return res.status(StatusCodes.OK).json(teams);
         }
         case 'POST': {
             const session = await getSession({ req });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -53,7 +54,7 @@ export default async function handler(
                 });
 
                 if (user?.teamId) {
-                    return res.status(403).json({
+                    return res.status(StatusCodes.BAD_REQUEST).json({
                         Error: 'Leave your current team first.',
                     });
                 }
@@ -65,7 +66,7 @@ export default async function handler(
                 });
 
                 if (currTeam) {
-                    return res.status(403).json({
+                    return res.status(StatusCodes.BAD_REQUEST).json({
                         Error: 'This team name is already taken.',
                     });
                 }
@@ -81,9 +82,9 @@ export default async function handler(
                     },
                 });
 
-                return res.status(201).json(team);
+                return res.status(StatusCodes.CREATED).json(team);
             } else {
-                return res.status(400).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Team name can have a maximum length of 50 characters.',
                 });
             }

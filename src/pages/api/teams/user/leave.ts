@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -13,7 +14,7 @@ export default async function handler(
             const session = await getSession();
 
             if (!session) {
-                return res.status(400).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -25,7 +26,7 @@ export default async function handler(
             });
 
             if (!user?.teamId) {
-                return res.status(403).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'You must be on a team to leave your team.',
                 });
             }
@@ -54,7 +55,7 @@ export default async function handler(
                 });
             }
 
-            return res.status(200).json(team);
+            return res.status(StatusCodes.OK).json(team);
         }
     }
 }

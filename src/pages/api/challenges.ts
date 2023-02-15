@@ -1,5 +1,6 @@
 import { Category, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -49,7 +50,7 @@ export default async function handler(
             });
 
             if (start && new Date().getTime() < parseInt(start.value)) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'This ctf has not started yet!',
                 });
             }
@@ -60,7 +61,7 @@ export default async function handler(
                 challenge.flag = '';
             });
 
-            return res.status(200).json(challenges);
+            return res.status(StatusCodes.OK).json(challenges);
         }
         case 'POST': {
             const session = await getSession({
@@ -68,7 +69,7 @@ export default async function handler(
             });
 
             if (!session) {
-                return res.status(401).json({
+                return res.status(StatusCodes.UNAUTHORIZED).json({
                     Error: 'You must be logged in to preform this action.',
                 });
             }
@@ -80,7 +81,7 @@ export default async function handler(
             });
 
             if (!user || !user.admin) {
-                return res.status(401).json({
+                return res.status(StatusCodes.FORBIDDEN).json({
                     Error: 'You do not have permission to preform this action.',
                 });
             }
@@ -88,7 +89,7 @@ export default async function handler(
             const content = JSON.parse(req.body);
 
             if (!createTeamRequestValidator(content)) {
-                return res.status(400).json({
+                return res.status(StatusCodes.BAD_REQUEST).json({
                     Error: 'Bad request',
                 });
             }
@@ -105,7 +106,7 @@ export default async function handler(
                 },
             });
 
-            return res.status(201).json(challenge);
+            return res.status(StatusCodes.CREATED).json(challenge);
         }
     }
 }
