@@ -3,7 +3,7 @@
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EmergencyBucket/pail/build.yml)
 ![GitHub top language](https://img.shields.io/github/languages/top/EmergencyBucket/pail)
-![Discord](https://img.shields.io/discord/1002249360580563166)
+[![Discord](https://img.shields.io/discord/1074457992763801624)](https://discord.gg/5rCRRZ7Pmg)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/EmergencyBucket/pail)
 ![GitHub](https://img.shields.io/github/license/EmergencyBucket/pail)
 
