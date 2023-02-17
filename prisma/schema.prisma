@@ -93,6 +93,15 @@ model Setting {
   value String
 }
 
+model Host {
+  id     String  @id @default(cuid())
+  port   Int?
+  remote String
+  ca     String?
+  cert   String?
+  key    String?
+}
+
 enum Category {
   WEB
   CRYPTO
