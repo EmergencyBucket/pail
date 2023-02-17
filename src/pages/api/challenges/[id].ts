@@ -1,8 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
+import Middleware from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
 
 const prisma = new PrismaClient();
 
@@ -12,6 +12,8 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET': {
+            if (await Middleware.CTFStart(req, res, prisma)) return;
+
             const { id } = req.query;
 
             if (!isString(id)) {
@@ -39,27 +41,7 @@ export default async function handler(
         case 'DELETE': {
             const { id } = req.query;
 
-            const session = await getSession({
-                req: req,
-            });
-
-            if (!session) {
-                return res.status(StatusCodes.UNAUTHORIZED).json({
-                    Error: 'You must be logged in to preform this action.',
-                });
-            }
-
-            let user = await prisma.user.findFirst({
-                where: {
-                    id: session.user?.id,
-                },
-            });
-
-            if (!user || !user.admin) {
-                return res.status(StatusCodes.FORBIDDEN).json({
-                    Error: 'You do not have permission to preform this action.',
-                });
-            }
+            if (await Middleware.admin(req, res, prisma)) return;
 
             await prisma.challenge.delete({
                 where: {

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
+import Middleware from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -54,28 +55,10 @@ export default async function handler(
             return res.status(StatusCodes.OK).json(settings);
         }
         case 'POST': {
-            const session = await getSession({ req });
-
-            if (!session) {
-                return res.status(StatusCodes.UNAUTHORIZED).json({
-                    Error: 'You must be logged in to preform this action.',
-                });
-            }
+            if (await Middleware.admin(req, res, prisma)) return;
 
             if (settingRequestValidator(JSON.parse(req.body))) {
                 const { key, value } = JSON.parse(req.body);
-
-                const user = await prisma.user.findFirst({
-                    where: {
-                        id: session?.user?.id,
-                    },
-                });
-
-                if (!user || !user.admin) {
-                    return res.status(StatusCodes.FORBIDDEN).json({
-                        Error: 'You must be an admin to preform this action.',
-                    });
-                }
 
                 let curr = await prisma.setting.findFirst({
                     where: {

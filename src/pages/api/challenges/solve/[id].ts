@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
+import Middleware from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -28,6 +29,10 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'POST': {
+            if (await Middleware.CTFStart(req, res, prisma)) return;
+            if (await Middleware.CTFEnd(req, res, prisma)) return;
+            if (await Middleware.teamMember(req, res, prisma)) return;
+
             const { id } = req.query;
 
             const session = await getSession({ req });
@@ -50,15 +55,9 @@ export default async function handler(
                 },
             });
 
-            if (!user || !user.teamId) {
-                return res.status(StatusCodes.FORBIDDEN).json({
-                    Error: 'You must be on a team to preform this action.',
-                });
-            }
-
             const team = await prisma.team.findFirst({
                 where: {
-                    id: user.teamId as string,
+                    id: user?.teamId as string,
                 },
             });
 

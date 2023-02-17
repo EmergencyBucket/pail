@@ -1,6 +1,7 @@
 import { Category, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
+import Middleware from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -43,17 +44,7 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET': {
-            const start = await prisma.setting.findFirst({
-                where: {
-                    key: 'CTF_START_TIME',
-                },
-            });
-
-            if (start && new Date().getTime() < parseInt(start.value)) {
-                return res.status(StatusCodes.UNAUTHORIZED).json({
-                    Error: 'This ctf has not started yet!',
-                });
-            }
+            if (await Middleware.CTFStart(req, res, prisma)) return;
 
             const challenges = await prisma.challenge.findMany();
 
@@ -64,9 +55,7 @@ export default async function handler(
             return res.status(StatusCodes.OK).json(challenges);
         }
         case 'POST': {
-            const session = await getSession({
-                req: req,
-            });
+            const session = await getSession({ req });
 
             if (!session) {
                 return res.status(StatusCodes.UNAUTHORIZED).json({

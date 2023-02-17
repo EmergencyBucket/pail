@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
+import Middleware from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -11,7 +12,9 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'POST': {
-            const session = await getSession();
+            if (await Middleware.teamMember(req, res, prisma)) return;
+
+            const session = await getSession({ req });
 
             if (!session) {
                 return res.status(StatusCodes.UNAUTHORIZED).json({
@@ -25,23 +28,17 @@ export default async function handler(
                 },
             });
 
-            if (!user?.teamId) {
-                return res.status(StatusCodes.BAD_REQUEST).json({
-                    Error: 'You must be on a team to leave your team.',
-                });
-            }
-
             let team = await prisma.team.update({
                 include: {
                     members: true,
                 },
                 where: {
-                    id: user.teamId,
+                    id: user!.teamId as string,
                 },
                 data: {
                     members: {
                         disconnect: {
-                            id: user.id,
+                            id: user!.id,
                         },
                     },
                 },

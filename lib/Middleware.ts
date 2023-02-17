@@ -90,7 +90,7 @@ async function CTFEnd(
 }
 
 /**
- *
+ * Checks if a user is an admin
  * @param req The request
  * @param res The response
  * @param db Prisma database
@@ -128,6 +128,13 @@ async function admin(
     return true;
 }
 
+/**
+ * Checks if a user is on a team
+ * @param req The request
+ * @param res The response
+ * @param db Prisma database
+ * @returns True if the user does not pass and false otherwise
+ */
 async function teamMember(
     req: NextApiRequest,
     res: NextApiResponse,
@@ -157,4 +164,4 @@ async function teamMember(
     return true;
 }
 
-export default { CTFStart, admin, teamMember };
+export { CTFStart, CTFEnd, admin, teamMember };
