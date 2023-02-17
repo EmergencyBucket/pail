@@ -56,13 +56,13 @@ export default function Home() {
                         Prizes
                     </code>
                     <code className="text-white text-xl text-center mx-auto">
-                        $50 PayPal / Amazon Gift Card
+                        $200
                     </code>
                     <code className="text-white text-xl text-center mx-auto">
-                        $30 PayPal / Amazon Gift Card
+                        $120
                     </code>
                     <code className="text-white text-xl text-center mx-auto">
-                        $20 PayPal / Amazon Gift Card
+                        $80
                     </code>
                     <br />
                     <code className="text-white text-3xl text-center mx-auto">
