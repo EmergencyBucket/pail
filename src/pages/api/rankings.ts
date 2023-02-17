@@ -2,7 +2,7 @@ import { Challenge, PrismaClient, Solve, Team } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { StatusCodes } from 'http-status-codes';
-import Middleware from 'lib/Middleware';
+import { CTFStart } from 'lib/Middleware';
 
 const prisma = new PrismaClient();
 
@@ -18,7 +18,7 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET': {
-            if (await Middleware.CTFStart(req, res, prisma)) return;
+            if (await CTFStart(req, res, prisma)) return;
 
             let teams: (Team & {
                 solves: Solve[];

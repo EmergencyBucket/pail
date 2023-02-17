@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import Middleware from 'lib/Middleware';
+import { admin, CTFStart } from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const prisma = new PrismaClient();
@@ -12,7 +12,7 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET': {
-            if (await Middleware.CTFStart(req, res, prisma)) return;
+            if (await CTFStart(req, res, prisma)) return;
 
             const { id } = req.query;
 
@@ -41,7 +41,7 @@ export default async function handler(
         case 'DELETE': {
             const { id } = req.query;
 
-            if (await Middleware.admin(req, res, prisma)) return;
+            if (await admin(req, res, prisma)) return;
 
             await prisma.challenge.delete({
                 where: {

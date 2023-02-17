@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import Middleware from 'lib/Middleware';
+import { admin } from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -55,7 +55,7 @@ export default async function handler(
             return res.status(StatusCodes.OK).json(settings);
         }
         case 'POST': {
-            if (await Middleware.admin(req, res, prisma)) return;
+            if (await admin(req, res, prisma)) return;
 
             if (settingRequestValidator(JSON.parse(req.body))) {
                 const { key, value } = JSON.parse(req.body);

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
-import Middleware from 'lib/Middleware';
+import { teamMember } from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -12,7 +12,7 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'POST': {
-            if (await Middleware.teamMember(req, res, prisma)) return;
+            if (await teamMember(req, res, prisma)) return;
 
             const session = await getSession({ req });
 

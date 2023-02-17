@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import Middleware from 'lib/Middleware';
+import { CTFStart, CTFEnd, teamMember } from 'lib/Middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -29,9 +29,9 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'POST': {
-            if (await Middleware.CTFStart(req, res, prisma)) return;
-            if (await Middleware.CTFEnd(req, res, prisma)) return;
-            if (await Middleware.teamMember(req, res, prisma)) return;
+            if (await CTFStart(req, res, prisma)) return;
+            if (await CTFEnd(req, res, prisma)) return;
+            if (await teamMember(req, res, prisma)) return;
 
             const { id } = req.query;
 
