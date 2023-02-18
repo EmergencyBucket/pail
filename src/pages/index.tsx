@@ -91,7 +91,7 @@ export default function Home() {
                             className="mx-auto"
                             href={'https://www.asteralabs.com/'}
                         >
-                            <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
+                            <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
                                 <div>
                                     <Image
                                         src="/asteralabs.png"
