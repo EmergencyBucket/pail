@@ -69,6 +69,7 @@ model Challenge {
   category    Category   @default(MISC)
   difficulty  Difficulty @default(EASY)
   firstBlood  DateTime?
+  image       String?
 }
 
 model Team {
