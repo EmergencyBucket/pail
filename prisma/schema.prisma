@@ -89,8 +89,9 @@ model Solve {
 }
 
 model Setting {
-  key   String @id @unique
-  value String
+  key    String  @id @unique
+  value  String
+  public Boolean @default(false)
 }
 
 model Host {
