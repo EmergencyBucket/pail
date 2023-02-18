@@ -68,23 +68,42 @@ export default function Home() {
                     <code className="text-white text-3xl text-center mx-auto">
                         Sponsors
                     </code>
-                    <Link
-                        target={'_blank'}
-                        className="mx-auto"
-                        href={'https://fyrehost.net'}
-                    >
-                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
-                            <div>
-                                <Image
-                                    src="/fyrehost.png"
-                                    alt="FyreHost Development"
-                                    width={200}
-                                    height={750}
-                                    className="rounded-2xl"
-                                />
+                    <div className='grid grid-cols-2 w-1/4 mx-auto'>
+                        <Link
+                            target={'_blank'}
+                            className="mx-auto"
+                            href={'https://fyrehost.net'}
+                        >
+                            <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
+                                <div>
+                                    <Image
+                                        src="/fyrehost.png"
+                                        alt="FyreHost Development"
+                                        width={200}
+                                        height={750}
+                                        className="rounded-2xl"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    </Link>
+                        </Link>
+                        <Link
+                            target={'_blank'}
+                            className="mx-auto"
+                            href={'https://www.asteralabs.com/'}
+                        >
+                            <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
+                                <div>
+                                    <Image
+                                        src="/asteralabs.png"
+                                        alt="Astera Labs"
+                                        width={200}
+                                        height={750}
+                                        className="rounded-2xl bg-white"
+                                    />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                 </div>
             </Page>
         </>
