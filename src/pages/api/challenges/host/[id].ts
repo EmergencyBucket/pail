@@ -81,9 +81,22 @@ export default async function handler(
             });
 
             // TODO: Add port freeing
-            setTimeout(() => {
+            setTimeout(async () => {
                 container.kill();
                 container.remove();
+
+                let newPorts = host!.usedPorts.filter((x) => {
+                    x != port;
+                });
+
+                await prisma.host.update({
+                    where: {
+                        id: host!.id,
+                    },
+                    data: {
+                        usedPorts: newPorts,
+                    },
+                });
             }, 1000 * 300);
 
             return res.status(StatusCodes.OK).json({
