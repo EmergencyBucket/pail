@@ -34,7 +34,10 @@ const Modal = ({ visible, children, onClose }: Props) => {
     return (
         <>
             {render ? (
-                <div className="fixed z-50 overflow-auto flex w-full inset-0" style={{backgroundColor: 'rgba(0, 0, 0, 0.7)'}}>
+                <div
+                    className="fixed z-50 overflow-auto flex w-full inset-0"
+                    style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
+                >
                     <div
                         className="bg-slate-800 m-auto p-8 text-white relative w-1/4 h-1/2 flex"
                         style={{
@@ -60,7 +63,7 @@ const Modal = ({ visible, children, onClose }: Props) => {
                                 </svg>
                             </Button>
                         </div>
-                        <div className="pt-8 mx-auto">{children}</div>
+                        <div className="pt-8 w-full">{children}</div>
                     </div>
                 </div>
             ) : (
