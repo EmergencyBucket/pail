@@ -51,7 +51,52 @@ export default function Home() {
                     BucketCTF<i>[2023]</i>
                 </h1>
 
-                <div className="grid mt-12 gap-2">
+                <div className="grid mt-6 gap-2">
+                    <code className="text-white text-center text-lg mb-2">
+                        Welcome to Emergency Bucket&apos;s inaugural Capture The
+                        Flag competition. Bucket CTF will be and online,
+                        jeopardy-style CTF, and we&apos;ll have a plethora of
+                        info security challenges. Our challenge categories
+                        include web exploitation (web), cryptography (crypto),
+                        reverse engineering (rev), binary exploitation (pwn),
+                        and miscellaneous other categories (misc).
+                    </code>
+                    <div className="grid grid-cols-2 w-1/4 mx-auto">
+                        <Link
+                            target={'_blank'}
+                            className="mx-auto"
+                            href={'https://ctftime.org/event/1892'}
+                        >
+                            <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-pink-700 to-white p-0.5">
+                                <div>
+                                    <Image
+                                        src="/ctftime.svg"
+                                        alt="CTF Time"
+                                        width={200}
+                                        height={750}
+                                        className="rounded-2xl"
+                                    />
+                                </div>
+                            </div>
+                        </Link>
+                        <Link
+                            target={'_blank'}
+                            className="mx-auto"
+                            href={'https://discord.gg/JFbB4ZAPEu'}
+                        >
+                            <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-sky-600 via-emerald-500 to-blue-700 p-0.5">
+                                <div>
+                                    <Image
+                                        src="/discord.svg"
+                                        alt="Our Discord"
+                                        width={200}
+                                        height={750}
+                                        className="rounded-2xl bg-gray-900 p-3"
+                                    />
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                     <code className="text-white text-4xl text-center mx-auto">
                         Prizes
                     </code>
@@ -98,7 +143,7 @@ export default function Home() {
                                         alt="Astera Labs"
                                         width={200}
                                         height={750}
-                                        className="rounded-2xl bg-white"
+                                        className="rounded-2xl bg-white p-2"
                                     />
                                 </div>
                             </div>
