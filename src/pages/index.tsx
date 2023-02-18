@@ -68,7 +68,7 @@ export default function Home() {
                     <code className="text-white text-3xl text-center mx-auto">
                         Sponsors
                     </code>
-                    <div className='grid grid-cols-2 w-1/4 mx-auto'>
+                    <div className="grid grid-cols-2 w-1/4 mx-auto">
                         <Link
                             target={'_blank'}
                             className="mx-auto"
