@@ -3,11 +3,21 @@ import EditChallenge from '@/components/EditChallenge';
 import Page from '@/components/Page';
 import { Status, Statuses } from '@/components/Status';
 import { Challenge } from '@prisma/client';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
+
+interface SettingForm {
+    key: string;
+    defaultValue: string;
+    datatype: string;
+    onSubmit: (e: FormEvent<HTMLFormElement>) => void;
+    transformData?: (input: string) => string;
+}
 
 export default function Home() {
     const [challenges, setChallenges] = useState<Challenge[]>();
+
+    const [settings, setSettings] = useState<SettingForm[]>([]);
 
     async function getChallenges() {
         let req = await fetch(`/api/challenges`, {
@@ -17,6 +27,55 @@ export default function Home() {
         let res = await req.json();
 
         setChallenges(res);
+    }
+
+    async function getSettings() {
+        setSettings([
+            {
+                key: 'CTF_START_TIME',
+                datatype: 'datetime-local',
+                defaultValue: (
+                    await (await fetch(`/api/settings/CTF_START_TIME`)).json()
+                ).value,
+                onSubmit: (e) => {
+                    e.preventDefault();
+                    //@ts-ignore
+                    let start = new Date(e.target.value.value);
+
+                    saveSetting('CTF_START_TIME', start.getTime() + '');
+                },
+                transformData: (input) => {
+                    return new Date(parseInt(input))
+                        .toISOString()
+                        .substring(
+                            0,
+                            new Date(parseInt(input)).toISOString().length - 1
+                        );
+                },
+            },
+            {
+                key: 'CTF_END_TIME',
+                datatype: 'datetime-local',
+                defaultValue: (
+                    await (await fetch(`/api/settings/CTF_END_TIME`)).json()
+                ).value,
+                onSubmit: (e) => {
+                    e.preventDefault();
+                    //@ts-ignore
+                    let end = new Date(e.target.value.value);
+
+                    saveSetting('CTF_END_TIME', end.getTime() + '');
+                },
+                transformData: (input) => {
+                    return new Date(parseInt(input))
+                        .toISOString()
+                        .substring(
+                            0,
+                            new Date(parseInt(input)).toISOString().length - 1
+                        );
+                },
+            },
+        ]);
     }
 
     async function saveSetting(key: string, value: string) {
@@ -48,6 +107,7 @@ export default function Home() {
 
     useEffect(() => {
         getChallenges();
+        getSettings();
     }, []);
 
     return (
@@ -71,65 +131,38 @@ export default function Home() {
                         <code className="text-white text-2xl text-center">
                             Settings
                         </code>
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                //@ts-ignore
-                                let start = new Date(e.target.value.value);
-
-                                saveSetting(
-                                    'CTF_START_TIME',
-                                    start.getTime() + ''
-                                );
-                            }}
-                            className="bg-slate-800 text-white p-2 border-4 border-slate-700 flex"
-                        >
-                            <code className="text-white text-lg mx-auto text-center">
-                                CTF_START_TIME
-                            </code>
-                            <input
-                                type={'datetime-local'}
-                                name="value"
-                                className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto"
-                            />
-                            <button
-                                id={'CTF_START_TIME'}
-                                type={'submit'}
-                                className={
-                                    'bg-slate-800 cursor-pointer text-white mx-auto border-2 border-slate-700 hover:border-slate-500 px-6'
-                                }
+                        {settings.map((setting) => (
+                            <form
+                                onSubmit={setting.onSubmit}
+                                key={setting.key}
+                                className="bg-slate-800 text-white p-2 border-4 border-slate-700 flex"
                             >
-                                Save
-                            </button>
-                        </form>
-                        <form
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                //@ts-ignore
-                                let end = new Date(e.target.value.value);
-
-                                saveSetting('CTF_END_TIME', end.getTime() + '');
-                            }}
-                            className="bg-slate-800 text-white p-2 border-4 border-slate-700 flex"
-                        >
-                            <code className="text-white text-lg mx-auto text-center">
-                                CTF_END_TIME
-                            </code>
-                            <input
-                                type={'datetime-local'}
-                                name="value"
-                                className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto"
-                            />
-                            <button
-                                id={'CTF_END_TIME'}
-                                type={'submit'}
-                                className={
-                                    'bg-slate-800 cursor-pointer text-white mx-auto border-2 border-slate-700 hover:border-slate-500 px-6'
-                                }
-                            >
-                                Save
-                            </button>
-                        </form>
+                                <code className="text-white text-lg mx-auto text-center">
+                                    {setting.key}
+                                </code>
+                                <input
+                                    type={setting.datatype}
+                                    defaultValue={
+                                        setting.transformData
+                                            ? setting.transformData(
+                                                  setting.defaultValue
+                                              )
+                                            : setting.defaultValue
+                                    }
+                                    name="value"
+                                    className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto px-2"
+                                />
+                                <button
+                                    id={setting.key}
+                                    type={'submit'}
+                                    className={
+                                        'bg-slate-800 cursor-pointer text-white mx-auto border-2 border-slate-700 hover:border-slate-500 px-6'
+                                    }
+                                >
+                                    Save
+                                </button>
+                            </form>
+                        ))}
                     </div>
                     <div className="w-1/2"></div>
                     <div className="w-1/2"></div>
