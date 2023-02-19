@@ -11,6 +11,7 @@ const ajv = new Ajv();
 interface SettingRequest {
     key: string;
     value: string;
+    pub: boolean;
 }
 
 const SettingRequestSchema: JSONSchemaType<SettingRequest> = {
@@ -18,8 +19,9 @@ const SettingRequestSchema: JSONSchemaType<SettingRequest> = {
     properties: {
         key: { type: 'string' },
         value: { type: 'string' },
+        pub: { type: 'boolean' },
     },
-    required: ['key', 'value'],
+    required: ['key', 'value', 'pub'],
 };
 
 const settingRequestValidator = ajv.compile(SettingRequestSchema);
@@ -58,7 +60,7 @@ export default async function handler(
             if (await admin(req, res, prisma)) return;
 
             if (settingRequestValidator(JSON.parse(req.body))) {
-                const { key, value } = JSON.parse(req.body);
+                const { key, value, pub } = JSON.parse(req.body);
 
                 let curr = await prisma.setting.findFirst({
                     where: {
@@ -73,6 +75,7 @@ export default async function handler(
                         },
                         data: {
                             value: value,
+                            public: pub,
                         },
                     });
 
@@ -83,6 +86,7 @@ export default async function handler(
                     data: {
                         key: key,
                         value: value,
+                        public: pub,
                     },
                 });
 

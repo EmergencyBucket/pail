@@ -8,7 +8,10 @@ import ReactDOM from 'react-dom';
 
 interface SettingForm {
     key: string;
-    defaultValue: string;
+    defaultValue: {
+        value: string;
+        public: boolean;
+    };
     datatype: string;
     onSubmit: (e: FormEvent<HTMLFormElement>) => void;
     transformData?: (input: string) => string;
@@ -34,15 +37,17 @@ export default function Home() {
             {
                 key: 'CTF_START_TIME',
                 datatype: 'datetime-local',
-                defaultValue: (
-                    await (await fetch(`/api/settings/CTF_START_TIME`)).json()
-                ).value,
+                defaultValue: await (
+                    await fetch(`/api/settings/CTF_START_TIME`)
+                ).json(),
                 onSubmit: (e) => {
                     e.preventDefault();
                     //@ts-ignore
                     let start = new Date(e.target.value.value);
+                    //@ts-ignore
+                    let pub = e.target.public.value === 'on';
 
-                    saveSetting('CTF_START_TIME', start.getTime() + '');
+                    saveSetting('CTF_START_TIME', start.getTime() + '', pub);
                 },
                 transformData: (input) => {
                     return new Date(parseInt(input))
@@ -56,15 +61,17 @@ export default function Home() {
             {
                 key: 'CTF_END_TIME',
                 datatype: 'datetime-local',
-                defaultValue: (
-                    await (await fetch(`/api/settings/CTF_END_TIME`)).json()
-                ).value,
+                defaultValue: await (
+                    await fetch(`/api/settings/CTF_END_TIME`)
+                ).json(),
                 onSubmit: (e) => {
                     e.preventDefault();
                     //@ts-ignore
                     let end = new Date(e.target.value.value);
+                    //@ts-ignore
+                    let pub = e.target.public.value === 'on';
 
-                    saveSetting('CTF_END_TIME', end.getTime() + '');
+                    saveSetting('CTF_END_TIME', end.getTime() + '', pub);
                 },
                 transformData: (input) => {
                     return new Date(parseInt(input))
@@ -78,7 +85,7 @@ export default function Home() {
         ]);
     }
 
-    async function saveSetting(key: string, value: string) {
+    async function saveSetting(key: string, value: string, pub = false) {
         ReactDOM.render(
             <Status status={Statuses.Loading} />,
             document.getElementById(key)
@@ -89,6 +96,7 @@ export default function Home() {
             body: JSON.stringify({
                 key: key,
                 value: value,
+                pub: pub,
             }),
         });
 
@@ -140,14 +148,25 @@ export default function Home() {
                                 <code className="text-white text-lg mx-auto text-center">
                                     {setting.key}
                                 </code>
+                                <label
+                                    htmlFor="public"
+                                    className="mr-2 my-auto"
+                                >
+                                    <code>Public</code>
+                                </label>
+                                <input
+                                    defaultChecked={setting.defaultValue.public}
+                                    type={'checkbox'}
+                                    name="public"
+                                />
                                 <input
                                     type={setting.datatype}
                                     defaultValue={
                                         setting.transformData
                                             ? setting.transformData(
-                                                  setting.defaultValue
+                                                  setting.defaultValue.value
                                               )
-                                            : setting.defaultValue
+                                            : setting.defaultValue.value
                                     }
                                     name="value"
                                     className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto px-2"
