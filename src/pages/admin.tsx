@@ -1,4 +1,5 @@
 import CreateChallenge from '@/components/CreateChallenge';
+import CreateHost from '@/components/CreateHost';
 import EditChallenge from '@/components/EditChallenge';
 import Page from '@/components/Page';
 import { Status, Statuses } from '@/components/Status';
@@ -18,7 +19,7 @@ interface SettingForm {
 }
 
 export default function Home() {
-    const [challenges, setChallenges] = useState<Challenge[]>();
+    const [challenges, setChallenges] = useState<Challenge[]>([]);
 
     const [settings, setSettings] = useState<SettingForm[]>([]);
 
@@ -126,7 +127,7 @@ export default function Home() {
                         <code className="text-white text-2xl text-center">
                             Challenges
                         </code>
-                        {challenges?.map((challenge) => (
+                        {challenges.map((challenge) => (
                             <EditChallenge
                                 className="w-full"
                                 challenge={challenge}
@@ -183,7 +184,12 @@ export default function Home() {
                             </form>
                         ))}
                     </div>
-                    <div className="w-1/2"></div>
+                    <div className="w-1/2 grid gap-4 px-2 h-min">
+                        <code className="text-white text-2xl text-center">
+                            Hosts
+                        </code>
+                        <CreateHost />
+                    </div>
                     <div className="w-1/2"></div>
                 </div>
             </Page>

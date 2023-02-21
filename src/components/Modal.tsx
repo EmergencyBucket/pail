@@ -39,7 +39,7 @@ const Modal = ({ visible, children, onClose }: Props) => {
                     style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
                 >
                     <div
-                        className="bg-slate-800 m-auto p-8 text-white relative w-1/4 h-1/2 flex"
+                        className="bg-slate-800 m-auto p-8 text-white relative w-1/4 flex"
                         style={{
                             maxWidth: '50%',
                             maxHeight: 'calc(100vh - 8rem)',
