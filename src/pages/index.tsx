@@ -101,13 +101,13 @@ export default function Home() {
                         Prizes
                     </code>
                     <code className="text-white text-xl text-center mx-auto">
-                        $200
+                        $350
                     </code>
                     <code className="text-white text-xl text-center mx-auto">
-                        $120
+                        $150
                     </code>
                     <code className="text-white text-xl text-center mx-auto">
-                        $80
+                        $100
                     </code>
                     <br />
                     <code className="text-white text-3xl text-center mx-auto">
