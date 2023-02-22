@@ -16,7 +16,7 @@ const CreateHost = ({ className }: Props) => {
             method: 'POST',
             body: JSON.stringify({
                 //@ts-ignore
-                port: event.target.port.value,
+                port: parseInt(event.target.port.value),
                 //@ts-ignore
                 remote: event.target.remote.value,
                 //@ts-ignore
@@ -39,7 +39,7 @@ const CreateHost = ({ className }: Props) => {
                         placeholder="Port"
                         name="port"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -48,7 +48,7 @@ const CreateHost = ({ className }: Props) => {
                         placeholder="Remote"
                         name="remote"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -56,7 +56,7 @@ const CreateHost = ({ className }: Props) => {
                         placeholder="CA"
                         name="ca"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -64,7 +64,7 @@ const CreateHost = ({ className }: Props) => {
                         placeholder="Cert"
                         name="cert"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -72,7 +72,7 @@ const CreateHost = ({ className }: Props) => {
                         placeholder="Key"
                         name="key"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />

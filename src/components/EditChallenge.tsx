@@ -52,7 +52,7 @@ const EditChallenge = ({ challenge, className }: Props) => {
                         name="name"
                         value={challenge.name}
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -61,7 +61,7 @@ const EditChallenge = ({ challenge, className }: Props) => {
                         name="description"
                         value={challenge.description}
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -69,7 +69,7 @@ const EditChallenge = ({ challenge, className }: Props) => {
                         name="category"
                         value={challenge.category}
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     >
                         <option value={'WEB'}>Web</option>
@@ -85,7 +85,7 @@ const EditChallenge = ({ challenge, className }: Props) => {
                         name="files"
                         value={challenge.files}
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -94,7 +94,7 @@ const EditChallenge = ({ challenge, className }: Props) => {
                         placeholder="Challenge flag"
                         name="flag"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />

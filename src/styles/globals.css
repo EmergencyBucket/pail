@@ -27,3 +27,7 @@
 html {
     scroll-behavior: smooth;
 }
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

@@ -41,7 +41,7 @@ const CreateChallenge = ({ className }: Props) => {
                         placeholder="Challenge name"
                         name="name"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -49,14 +49,14 @@ const CreateChallenge = ({ className }: Props) => {
                         placeholder="Challenge description"
                         name="description"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
                     <select
                         name="category"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     >
                         <option value={'WEB'}>Web</option>
@@ -69,7 +69,7 @@ const CreateChallenge = ({ className }: Props) => {
                     <select
                         name="difficulty"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     >
                         <option value={'EASY'}>Easy</option>
@@ -82,7 +82,7 @@ const CreateChallenge = ({ className }: Props) => {
                         placeholder="Challenge files"
                         name="files"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
@@ -91,7 +91,7 @@ const CreateChallenge = ({ className }: Props) => {
                         placeholder="Challenge flag"
                         name="flag"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 my-2 pl-2 w-full'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
                     <br />
