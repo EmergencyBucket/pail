@@ -12,7 +12,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     switch (req.method) {
-        case 'GET': {
+        case 'POST': {
             if (await CTFStart(req, res, prisma)) return;
             if (await CTFEnd(req, res, prisma)) return;
 
@@ -46,7 +46,7 @@ export default async function handler(
 
             let availablePorts: number[] = [];
 
-            for (let i = 5000; i++; i < 6000) {
+            for (let i = 5000; i < 6000; i++) {
                 if (!host.usedPorts.includes(i)) {
                     availablePorts.push(i);
                 }
@@ -76,11 +76,17 @@ export default async function handler(
             let container = await docker.createContainer({
                 Image: challenge.image,
                 ExposedPorts: {
-                    '80': port,
+                    '80/tcp': {},
+                },
+                HostConfig: {
+                    PortBindings: {
+                        '80/tcp': [{ HostPort: port + '' }],
+                    },
                 },
             });
 
-            // TODO: Add port freeing
+            await container.start();
+
             setTimeout(async () => {
                 container.kill();
                 container.remove();
