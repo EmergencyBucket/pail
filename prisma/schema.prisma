@@ -99,6 +99,7 @@ model Host {
   id        String  @id @default(cuid())
   port      Int?
   remote    String
+  ip        String?
   ca        String?
   cert      String?
   key       String?

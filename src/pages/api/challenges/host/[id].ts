@@ -68,9 +68,14 @@ export default async function handler(
                 },
             });
 
+            console.log(host);
+
             let docker = new Dockerode({
                 host: host.remote,
                 port: host.port ?? 2375,
+                ca: host.ca!,
+                cert: host.cert!,
+                key: host.key!,
             });
 
             let container = await docker.createContainer({
