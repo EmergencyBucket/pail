@@ -11,6 +11,7 @@ const ajv = new Ajv();
 interface CreateHostRequest {
     port?: number;
     remote: string;
+    ip?: string;
     ca?: string;
     cert?: string;
     key?: string;
@@ -21,6 +22,7 @@ const CreateHostSchema: JSONSchemaType<CreateHostRequest> = {
     properties: {
         port: { type: 'integer', nullable: true, minimum: 1, maximum: 65535 },
         remote: { type: 'string' },
+        ip: { type: 'string', nullable: true },
         ca: { type: 'string', nullable: true },
         cert: { type: 'string', nullable: true },
         key: { type: 'string', nullable: true },
@@ -57,6 +59,7 @@ export default async function handler(
                 data: {
                     port: content.port,
                     remote: content.remote,
+                    ip: content.ip,
                     ca: content.ca,
                     cert: content.cert,
                     key: content.key,

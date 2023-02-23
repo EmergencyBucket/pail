@@ -31,3 +31,19 @@ html {
 input[type=number]::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
+input[type='file'] {
+    color: transparent;
+}
+
+::file-selector-button {
+    padding-left: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    border-width: 2px;
+    outline: 0;
+    background-color: #334155;
+    color: white;
+    border-color: #64748b;
+}

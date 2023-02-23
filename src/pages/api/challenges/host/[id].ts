@@ -111,7 +111,7 @@ export default async function handler(
             }, 1000 * 300);
 
             return res.status(StatusCodes.OK).json({
-                url: host.remote + ':' + port,
+                url: host.ip + ':' + port,
             });
         }
     }

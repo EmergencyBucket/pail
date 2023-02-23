@@ -20,6 +20,8 @@ const CreateHost = ({ className }: Props) => {
                 //@ts-ignore
                 remote: event.target.remote.value,
                 //@ts-ignore
+                ip: event.target.remote.ip,
+                //@ts-ignore
                 ca: event.target.ca.value,
                 //@ts-ignore
                 cert: event.target.cert.value,
@@ -42,7 +44,6 @@ const CreateHost = ({ className }: Props) => {
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
-                    <br />
                     <input
                         type={'text'}
                         placeholder="Remote"
@@ -51,31 +52,50 @@ const CreateHost = ({ className }: Props) => {
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                     />
-                    <br />
-                    <textarea
-                        placeholder="CA"
-                        name="ca"
+                    <input
+                        type={'text'}
+                        placeholder="IP"
+                        name="ip"
                         className={
-                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 mt-2 pl-2 w-full outline-none'
                         }
                     />
-                    <br />
-                    <textarea
-                        placeholder="Cert"
-                        name="cert"
-                        className={
-                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
-                        }
-                    />
-                    <br />
-                    <textarea
-                        placeholder="Key"
-                        name="key"
-                        className={
-                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
-                        }
-                    />
-                    <br />
+                    <div className='mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none'>
+                        <label htmlFor='ca' className='m-auto px-2'>
+                            <code>
+                                CA
+                            </code>
+                        </label>
+                        <input
+                            name="ca"
+                            type={'file'}
+                            className={'px-2'}
+                        />
+                    </div>
+                    <div className='mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none'>
+                        <label htmlFor='cert' className='m-auto px-2'>
+                            <code>
+                                Cert
+                            </code>
+                        </label>
+                        <input
+                            name="cert"
+                            type={'file'}
+                            className={'px-2'}
+                        />
+                    </div>
+                    <div className='mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none'>
+                        <label htmlFor='key' className='m-auto px-2'>
+                            <code>
+                                Key
+                            </code>
+                        </label>
+                        <input
+                            name="key"
+                            type={'file'}
+                            className={'px-2'}
+                        />
+                    </div>
                     <input
                         type={'submit'}
                         className={
