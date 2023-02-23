@@ -14,7 +14,7 @@ export default function Home() {
             credentials: 'include',
         });
 
-        if (req.status == 404) {
+        if (req.status == 400) {
             return;
         }
 
