@@ -30,7 +30,7 @@ export default function Home() {
 
         let res = await req.json();
 
-        setChallenges(res);
+        setChallenges(req.status === 200 ? res : []);
     }
 
     async function getSettings() {
