@@ -68,8 +68,6 @@ export default async function handler(
                 },
             });
 
-            console.log(host);
-
             let docker = new Dockerode({
                 host: host.remote,
                 port: host.port ?? 2375,

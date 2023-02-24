@@ -60,41 +60,23 @@ const CreateHost = ({ className }: Props) => {
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 mt-2 pl-2 w-full outline-none'
                         }
                     />
-                    <div className='mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none'>
-                        <label htmlFor='ca' className='m-auto px-2'>
-                            <code>
-                                CA
-                            </code>
+                    <div className="mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                        <label htmlFor="ca" className="m-auto px-2">
+                            <code>CA</code>
                         </label>
-                        <input
-                            name="ca"
-                            type={'file'}
-                            className={'px-2'}
-                        />
+                        <input name="ca" type={'file'} className={'px-2'} />
                     </div>
-                    <div className='mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none'>
-                        <label htmlFor='cert' className='m-auto px-2'>
-                            <code>
-                                Cert
-                            </code>
+                    <div className="mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                        <label htmlFor="cert" className="m-auto px-2">
+                            <code>Cert</code>
                         </label>
-                        <input
-                            name="cert"
-                            type={'file'}
-                            className={'px-2'}
-                        />
+                        <input name="cert" type={'file'} className={'px-2'} />
                     </div>
-                    <div className='mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none'>
-                        <label htmlFor='key' className='m-auto px-2'>
-                            <code>
-                                Key
-                            </code>
+                    <div className="mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                        <label htmlFor="key" className="m-auto px-2">
+                            <code>Key</code>
                         </label>
-                        <input
-                            name="key"
-                            type={'file'}
-                            className={'px-2'}
-                        />
+                        <input name="key" type={'file'} className={'px-2'} />
                     </div>
                     <input
                         type={'submit'}

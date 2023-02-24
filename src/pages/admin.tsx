@@ -51,8 +51,8 @@ export default function Home() {
                     saveSetting('CTF_START_TIME', start.getTime() + '', pub);
                 },
                 transformData: (input) => {
-                    if(!input) {
-                        return "";
+                    if (!input) {
+                        return '';
                     }
 
                     return new Date(parseInt(input))
@@ -79,8 +79,8 @@ export default function Home() {
                     saveSetting('CTF_END_TIME', end.getTime() + '', pub);
                 },
                 transformData: (input) => {
-                    if(!input) {
-                        return "";
+                    if (!input) {
+                        return '';
                     }
 
                     return new Date(parseInt(input))

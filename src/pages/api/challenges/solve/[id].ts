@@ -82,6 +82,19 @@ export default async function handler(
             }
 
             if (challenge.flag === data.flag) {
+                let solve = await prisma.solve.findFirst({
+                    where: {
+                        teamId: team!.id,
+                        challengeId: challenge.id,
+                    },
+                });
+
+                if (solve) {
+                    return res.status(StatusCodes.CONFLICT).json({
+                        Error: 'Your team has already solved this challenge.',
+                    });
+                }
+
                 await prisma.solve.create({
                     data: {
                         challenge: {
