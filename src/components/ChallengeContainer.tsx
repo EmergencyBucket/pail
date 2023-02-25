@@ -1,3 +1,5 @@
+'use client';
+
 import { Challenge } from '@prisma/client';
 import { FormEvent, useState } from 'react';
 import Button from './Button';
@@ -6,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import { Status, Statuses } from '@/components/Status';
 
 interface Props {
-    challenge: Challenge;
+    challenge: Omit<Challenge, "flag">;
 }
 
 const Challenge = ({ challenge }: Props) => {

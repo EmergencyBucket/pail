@@ -33,9 +33,7 @@ export default function Home() {
         }
     }
 
-    useEffect(() => {
-        load();
-    }, []);
+    load();
 
     return (
         <>

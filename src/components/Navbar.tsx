@@ -1,9 +1,9 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
 import Button from './Button';
 import Glitch from './Glitch';
 
-const Navbar = () => {
-    const { data: session } = useSession();
+const Navbar = async () => {
+    const session = await getServerSession();
 
     return (
         <div className="flex gap-4 w-full place-items-center">
@@ -19,7 +19,7 @@ const Navbar = () => {
                 </Button>
             )}
 
-            <Button onClick={() => (session ? signOut() : signIn('github'))}>
+            <Button link="/api/auth/signin">
                 <Glitch text={session ? 'Sign out' : 'Sign in'} />
             </Button>
         </div>
