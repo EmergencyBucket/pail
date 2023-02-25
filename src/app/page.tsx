@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import bucket from '../../public/bucket.json';
 
 export default function Home() {
-    
     async function load() {
         let c = document.getElementById('canvas');
         //  @ts-ignore
@@ -34,11 +33,10 @@ export default function Home() {
             }
         }
     }
-    
 
     useEffect(() => {
         load();
-    }, [])
+    }, []);
 
     return (
         <>
@@ -57,11 +55,11 @@ export default function Home() {
                 <code className="text-white text-center text-lg mb-2">
                     Welcome to Emergency Bucket&apos;s inaugural Capture The
                     Flag competition. Bucket CTF will be and online,
-                    jeopardy-style CTF, and we&apos;ll have a plethora of
-                    info security challenges. Our challenge categories
-                    include web exploitation (web), cryptography (crypto),
-                    reverse engineering (rev), binary exploitation (pwn),
-                    and miscellaneous other categories (misc).
+                    jeopardy-style CTF, and we&apos;ll have a plethora of info
+                    security challenges. Our challenge categories include web
+                    exploitation (web), cryptography (crypto), reverse
+                    engineering (rev), binary exploitation (pwn), and
+                    miscellaneous other categories (misc).
                 </code>
                 <div className="grid grid-cols-2 w-1/4 mx-auto">
                     <Link

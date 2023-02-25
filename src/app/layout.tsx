@@ -1,5 +1,5 @@
-import Navbar from "@/components/Navbar";
-import "../styles/globals.css";
+import Navbar from '@/components/Navbar';
+import '../styles/globals.css';
 
 export default async function RootLayout({
     children,

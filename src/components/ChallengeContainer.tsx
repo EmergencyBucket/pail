@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import { Status, Statuses } from '@/components/Status';
 
 interface Props {
-    challenge: Omit<Challenge, "flag">;
+    challenge: Omit<Challenge, 'flag'>;
 }
 
 const Challenge = ({ challenge }: Props) => {
