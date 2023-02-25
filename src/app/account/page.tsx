@@ -2,26 +2,25 @@ import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 
 export const metadata = {
-    title: 'EBucket | Account'
-}
+    title: 'EBucket | Account',
+};
 
 const prisma = new PrismaClient();
 
 export default async function Home() {
-
     const session = await getServerSession();
 
     const user = await prisma.user.findFirst({
         where: {
-            id: session?.user?.id
-        }
-    })
+            id: session?.user?.id,
+        },
+    });
 
     const team = await prisma.team.findFirst({
         where: {
-            id: user!.teamId as string
-        }
-    })
+            id: user!.teamId as string,
+        },
+    });
 
     return (
         <>

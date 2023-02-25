@@ -2,8 +2,8 @@ import ChallengeContainer from '@/components/ChallengeContainer';
 import { PrismaClient } from '@prisma/client';
 
 export const metadata = {
-    title: 'EBucket | Challenges'
-}
+    title: 'EBucket | Challenges',
+};
 
 const prisma = new PrismaClient();
 

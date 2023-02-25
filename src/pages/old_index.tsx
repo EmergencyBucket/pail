@@ -1,7 +1,6 @@
 import Page from '@/components/Page';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import bucket from '../../public/bucket.json';
 
 export default function Home() {

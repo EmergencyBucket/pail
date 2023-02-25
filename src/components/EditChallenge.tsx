@@ -1,3 +1,5 @@
+'use client';
+
 import { Challenge } from '@prisma/client';
 import { FormEvent, useState } from 'react';
 import Button from './Button';

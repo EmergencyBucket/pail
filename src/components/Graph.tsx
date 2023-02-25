@@ -1,6 +1,6 @@
 'use client';
 
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChartData } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 import {

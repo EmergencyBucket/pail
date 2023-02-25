@@ -4,8 +4,8 @@ import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
 
 export const metadata = {
-    title: 'EBucket | Rankings'
-}
+    title: 'EBucket | Rankings',
+};
 
 const options = {
     responsive: true,
