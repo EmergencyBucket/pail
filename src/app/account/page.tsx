@@ -12,7 +12,7 @@ export default async function Home() {
 
     const user = await prisma.user.findFirst({
         where: {
-            id: session?.user?.id,
+            name: session?.user?.name,
         },
     });
 

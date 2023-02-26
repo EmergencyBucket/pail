@@ -1,7 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession } from 'next-auth';
 import { getSession } from 'next-auth/react';
+import { NextResponse } from 'next/server';
 
 /**
  * Checks if a user can access a route depending on the CTF start time
@@ -11,10 +13,8 @@ import { getSession } from 'next-auth/react';
  * @returns A response if the request does not pass the middleware
  */
 async function CTFStart(
-    req: NextApiRequest,
-    res: NextApiResponse,
     db: PrismaClient
-): Promise<boolean> {
+): Promise<Response | undefined> {
     let start = await db.setting.findFirst({
         where: {
             key: 'CTF_START_TIME',
@@ -22,28 +22,28 @@ async function CTFStart(
     });
 
     if (start && parseInt(start.value) > new Date().getTime()) {
-        let session = await getSession({ req });
+        let session = await getServerSession();
 
         if (session) {
             let user = await db.user.findFirst({
                 where: {
-                    id: session.user?.id,
+                    name: session.user?.name,
                 },
             });
 
             if (user?.admin) {
-                return false;
+                return undefined;
             }
         }
 
-        res.status(StatusCodes.FORBIDDEN).json({
+        return NextResponse.json({
             Error: 'This CTF has not started yet!',
+        }, {
+            status: StatusCodes.FORBIDDEN
         });
-
-        return true;
     }
 
-    return false;
+    return undefined;
 }
 
 /**
@@ -54,10 +54,8 @@ async function CTFStart(
  * @returns True if the user does not pass and false otherwise
  */
 async function CTFEnd(
-    req: NextApiRequest,
-    res: NextApiResponse,
     db: PrismaClient
-): Promise<boolean> {
+): Promise<Response | undefined> {
     let end = await db.setting.findFirst({
         where: {
             key: 'CTF_END_TIME',
@@ -65,28 +63,28 @@ async function CTFEnd(
     });
 
     if (end && parseInt(end.value) < new Date().getTime()) {
-        let session = await getSession({ req });
+        let session = await getServerSession();
 
         if (session) {
             let user = await db.user.findFirst({
                 where: {
-                    id: session.user?.id,
+                    name: session.user?.name,
                 },
             });
 
             if (user?.admin) {
-                return false;
+                return undefined;
             }
         }
 
-        res.status(StatusCodes.FORBIDDEN).json({
+        return NextResponse.json({
             Error: 'This CTF has ended!',
+        }, {
+            status: StatusCodes.FORBIDDEN
         });
-
-        return true;
     }
 
-    return false;
+    return undefined;
 }
 
 /**
@@ -97,35 +95,33 @@ async function CTFEnd(
  * @returns True if the user does not pass and false otherwise
  */
 async function admin(
-    req: NextApiRequest,
-    res: NextApiResponse,
     db: PrismaClient
-): Promise<boolean> {
-    let session = await getSession({ req });
+): Promise<Response | undefined> {
+    let session = await getServerSession();
 
     if (!session) {
-        res.status(StatusCodes.UNAUTHORIZED).json({
+        return NextResponse.json({
             Error: 'You must be an admin to preform this action!',
+        }, {
+            status: StatusCodes.FORBIDDEN
         });
-
-        return true;
     }
 
     let user = await db.user.findFirst({
         where: {
-            id: session.user?.id,
+            name: session.user?.name,
         },
     });
 
     if (user && user.admin) {
-        return false;
+        return undefined;
     }
 
-    res.status(StatusCodes.UNAUTHORIZED).json({
+    return NextResponse.json({
         Error: 'You must be an admin to preform this action!',
+    }, {
+        status: StatusCodes.FORBIDDEN
     });
-
-    return true;
 }
 
 /**
@@ -136,16 +132,14 @@ async function admin(
  * @returns True if the user does not pass and false otherwise
  */
 async function teamMember(
-    req: NextApiRequest,
-    res: NextApiResponse,
     db: PrismaClient
-): Promise<boolean> {
-    let session = await getSession({ req });
+): Promise<Response | undefined> {
+    let session = await getServerSession();
 
     if (session) {
         let user = await db.user.findFirst({
             where: {
-                id: session.user?.id,
+                name: session.user?.name,
             },
             include: {
                 team: true,
@@ -153,15 +147,15 @@ async function teamMember(
         });
 
         if (user?.team) {
-            return false;
+            return undefined;
         }
     }
 
-    res.status(StatusCodes.FORBIDDEN).json({
+    return NextResponse.json({
         Error: 'You must be on a team to preform this action!',
+    }, {
+        status: StatusCodes.FORBIDDEN
     });
-
-    return true;
 }
 
 export { CTFStart, CTFEnd, admin, teamMember };

@@ -1,4 +1,4 @@
-import { Category, Difficulty, PrismaClient } from '@prisma/client';
+import { Category, Challenge, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
 import { CTFStart } from 'lib/Middleware';
@@ -41,16 +41,16 @@ const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
 
 const createTeamRequestValidator = ajv.compile(CreateTeamRequestSchema);
 
-export async function GET(request: Request) {
+export async function GET() {
+    let temp;
+    if(temp = await CTFStart(prisma)) {
+        return temp;
+    }
 
-    let session = await getServerSession();
-
-    return NextResponse.json(session?.user);
-
-    const challenges = await prisma.challenge.findMany();
+    const challenges: Partial<Challenge>[] = await prisma.challenge.findMany();
 
     challenges.forEach((challenge) => {
-        challenge.flag = '';
+        delete challenge.flag;
     });
 
     return NextResponse.json(challenges);
@@ -62,7 +62,6 @@ export default async function handler(
 ) {
     switch (req.method) {
         case 'GET': {
-            
         }
         case 'POST': {
             const session = await getSession({ req });
