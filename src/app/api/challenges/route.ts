@@ -1,10 +1,7 @@
 import { Category, Challenge, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import { CTFStart } from 'lib/Middleware';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { admin, CTFStart } from 'lib/Middleware';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
@@ -20,7 +17,7 @@ interface CreateChallengeRequest {
     difficulty: string;
 }
 
-const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
+const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
     type: 'object',
     properties: {
         name: { type: 'string', minLength: 1, maxLength: 50 },
@@ -39,11 +36,11 @@ const CreateTeamRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
     required: ['name', 'description', 'files', 'flag'],
 };
 
-const createTeamRequestValidator = ajv.compile(CreateTeamRequestSchema);
+const createChallengeRequestValidator = ajv.compile(CreateChallengeRequestSchema);
 
 export async function GET() {
     let temp;
-    if(temp = await CTFStart(prisma)) {
+    if (temp = await CTFStart(prisma)) {
         return temp;
     }
 
@@ -56,55 +53,35 @@ export async function GET() {
     return NextResponse.json(challenges);
 }
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse
-) {
-    switch (req.method) {
-        case 'GET': {
-        }
-        case 'POST': {
-            const session = await getSession({ req });
-
-            if (!session) {
-                return res.status(StatusCodes.UNAUTHORIZED).json({
-                    Error: 'You must be logged in to preform this action.',
-                });
-            }
-
-            let user = await prisma.user.findFirst({
-                where: {
-                    id: session.user?.id,
-                },
-            });
-
-            if (!user || !user.admin) {
-                return res.status(StatusCodes.FORBIDDEN).json({
-                    Error: 'You do not have permission to preform this action.',
-                });
-            }
-
-            const content = JSON.parse(req.body);
-
-            if (!createTeamRequestValidator(content)) {
-                return res.status(StatusCodes.BAD_REQUEST).json({
-                    Error: 'Bad request',
-                });
-            }
-
-            const challenge = await prisma.challenge.create({
-                data: {
-                    name: content.name,
-                    description: content.description,
-                    files: content.files,
-                    flag: content.flag,
-                    category: content.category as Category,
-                    difficulty: content.difficulty as Difficulty,
-                    solved: undefined,
-                },
-            });
-
-            return res.status(StatusCodes.CREATED).json(challenge);
-        }
+export async function POST(req: Request) {
+    let temp;
+    if (temp = await admin(prisma)) {
+        return temp;
     }
+
+    const content = await req.json();
+
+    if (!createChallengeRequestValidator(content)) {
+        return NextResponse.json({
+            Error: 'Bad request',
+        }, {
+            status: StatusCodes.FORBIDDEN
+        });
+    }
+
+    const challenge = await prisma.challenge.create({
+        data: {
+            name: content.name,
+            description: content.description,
+            files: content.files,
+            flag: content.flag,
+            category: content.category as Category,
+            difficulty: content.difficulty as Difficulty,
+            solved: undefined,
+        },
+    });
+
+    return NextResponse.json(challenge, {
+        status: StatusCodes.CREATED
+    });
 }
