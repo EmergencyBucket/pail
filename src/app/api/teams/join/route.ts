@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { StatusCodes } from "http-status-codes";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { PrismaClient } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -28,28 +28,34 @@ export async function POST(req: Request) {
     const session = await getServerSession();
 
     if (!session) {
-        return NextResponse.json({
-            Error: 'You must be logged in to preform this action.',
-        }, {
-            status: StatusCodes.UNAUTHORIZED
-        });
+        return NextResponse.json(
+            {
+                Error: 'You must be logged in to preform this action.',
+            },
+            {
+                status: StatusCodes.UNAUTHORIZED,
+            }
+        );
     }
 
     const data = await req.json();
 
     if (!joinTeamRequestValidator(data)) {
-        return NextResponse.json({
-            Error: 'Bad request.',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request.',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 
     const user = await prisma.user.findFirst({
         where: {
-            id: session.user?.name!
-        }
-    })
+            id: session.user?.name!,
+        },
+    });
 
     const team = await prisma.team.findFirst({
         where: {
@@ -58,11 +64,14 @@ export async function POST(req: Request) {
     });
 
     if (!team) {
-        return NextResponse.json({
-            Error: 'Bad secret.',
-        }, {
-            status: StatusCodes.FORBIDDEN
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad secret.',
+            },
+            {
+                status: StatusCodes.FORBIDDEN,
+            }
+        );
     }
 
     await prisma.team.update({
@@ -72,13 +81,13 @@ export async function POST(req: Request) {
         data: {
             members: {
                 connect: {
-                    id: user!.id
+                    id: user!.id,
                 },
             },
         },
     });
 
     return NextResponse.json(team, {
-        status: StatusCodes.OK
+        status: StatusCodes.OK,
     });
 }

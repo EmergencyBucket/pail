@@ -1,8 +1,8 @@
-import { PrismaClient, Team } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { StatusCodes } from "http-status-codes";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { PrismaClient, Team } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -29,7 +29,7 @@ export async function GET() {
     });
 
     return NextResponse.json(teams, {
-        status: StatusCodes.OK
+        status: StatusCodes.OK,
     });
 }
 
@@ -37,11 +37,14 @@ export async function POST(req: Request) {
     const session = await getServerSession();
 
     if (!session) {
-        return NextResponse.json({
-            Error: 'You must be logged in to preform this action.',
-        }, {
-            status: StatusCodes.UNAUTHORIZED
-        });
+        return NextResponse.json(
+            {
+                Error: 'You must be logged in to preform this action.',
+            },
+            {
+                status: StatusCodes.UNAUTHORIZED,
+            }
+        );
     }
 
     let teamreq = await req.json();
@@ -56,11 +59,14 @@ export async function POST(req: Request) {
         });
 
         if (user?.teamId) {
-            return NextResponse.json({
-                Error: 'Leave your current team first.',
-            }, {
-                status: StatusCodes.BAD_REQUEST
-            });
+            return NextResponse.json(
+                {
+                    Error: 'Leave your current team first.',
+                },
+                {
+                    status: StatusCodes.BAD_REQUEST,
+                }
+            );
         }
 
         const currTeam = await prisma.team.findFirst({
@@ -70,11 +76,14 @@ export async function POST(req: Request) {
         });
 
         if (currTeam) {
-            return NextResponse.json({
-                Error: 'This team name is already taken.',
-            }, {
-                status: StatusCodes.BAD_REQUEST
-            });
+            return NextResponse.json(
+                {
+                    Error: 'This team name is already taken.',
+                },
+                {
+                    status: StatusCodes.BAD_REQUEST,
+                }
+            );
         }
 
         const team = await prisma.team.create({
@@ -89,13 +98,16 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json(team, {
-            status: StatusCodes.CREATED
+            status: StatusCodes.CREATED,
         });
     } else {
-        return NextResponse.json({
-            Error: 'Team name can have a maximum length of 50 characters.',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Team name can have a maximum length of 50 characters.',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 }

@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { StatusCodes } from "http-status-codes";
-import { admin } from "lib/Middleware";
-import { NextResponse } from "next/server";
+import { PrismaClient } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
+import { admin } from 'lib/Middleware';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -34,27 +34,30 @@ const createHostValidator = ajv.compile(CreateHostSchema);
 
 export async function GET() {
     let temp;
-    if (temp = await admin(prisma)) return temp;
+    if ((temp = await admin(prisma))) return temp;
 
     const hosts = await prisma.host.findMany();
 
     return NextResponse.json(hosts, {
-        status: StatusCodes.OK
+        status: StatusCodes.OK,
     });
 }
 
 export async function POST(req: Request) {
     let temp;
-    if (temp = await admin(prisma)) return temp;
+    if ((temp = await admin(prisma))) return temp;
 
     const content = await req.json();
 
     if (!createHostValidator(content)) {
-        return NextResponse.json({
-            Error: 'Bad request',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 
     const host = await prisma.host.create({
@@ -69,6 +72,6 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(host, {
-        status: StatusCodes.CREATED
+        status: StatusCodes.CREATED,
     });
 }

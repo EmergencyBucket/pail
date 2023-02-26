@@ -1,8 +1,8 @@
-import { Solve, Challenge, PrismaClient, Team } from "@prisma/client";
-import { tidy, mutate, arrange, desc } from "@tidyjs/tidy";
-import { StatusCodes } from "http-status-codes";
-import { CTFStart } from "lib/Middleware";
-import { NextResponse } from "next/server";
+import { Solve, Challenge, PrismaClient, Team } from '@prisma/client';
+import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
+import { StatusCodes } from 'http-status-codes';
+import { CTFStart } from 'lib/Middleware';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -87,6 +87,6 @@ export async function GET() {
     }
 
     return NextResponse.json(rankings, {
-        status: StatusCodes.OK
+        status: StatusCodes.OK,
     });
 }

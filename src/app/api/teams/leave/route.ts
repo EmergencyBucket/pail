@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-import { StatusCodes } from "http-status-codes";
-import { getServerSession } from "next-auth";
-import { NextResponse } from "next/server";
+import { PrismaClient } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
+import { getServerSession } from 'next-auth';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -9,11 +9,14 @@ export async function POST() {
     const session = await getServerSession();
 
     if (!session) {
-        return NextResponse.json({
-            Error: 'You must be logged in to preform this action.',
-        }, {
-            status: StatusCodes.UNAUTHORIZED
-        });
+        return NextResponse.json(
+            {
+                Error: 'You must be logged in to preform this action.',
+            },
+            {
+                status: StatusCodes.UNAUTHORIZED,
+            }
+        );
     }
 
     const user = await prisma.user.findFirst({
@@ -47,6 +50,6 @@ export async function POST() {
     }
 
     return NextResponse.json(team, {
-        status: StatusCodes.OK
+        status: StatusCodes.OK,
     });
 }

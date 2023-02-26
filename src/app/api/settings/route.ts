@@ -1,8 +1,8 @@
-import { PrismaClient } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { StatusCodes } from "http-status-codes";
-import { admin } from "lib/Middleware";
-import { NextResponse } from "next/server";
+import { PrismaClient } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
+import { admin } from 'lib/Middleware';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -35,7 +35,7 @@ export async function GET() {
     let settings = await prisma.setting.findMany();
 
     return NextResponse.json(settings, {
-        status: StatusCodes.OK
+        status: StatusCodes.OK,
     });
 }
 
@@ -68,7 +68,7 @@ export async function POST(req: Request) {
             });
 
             return NextResponse.json(curr, {
-                status: StatusCodes.OK
+                status: StatusCodes.OK,
             });
         }
 
@@ -81,13 +81,16 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json(setting, {
-            status: StatusCodes.CREATED
+            status: StatusCodes.CREATED,
         });
     } else {
-        return NextResponse.json({
-            Error: 'Bad request.',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request.',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 }
