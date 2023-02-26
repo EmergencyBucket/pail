@@ -36,11 +36,13 @@ const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
     required: ['name', 'description', 'files', 'flag'],
 };
 
-const createChallengeRequestValidator = ajv.compile(CreateChallengeRequestSchema);
+const createChallengeRequestValidator = ajv.compile(
+    CreateChallengeRequestSchema
+);
 
 export async function GET() {
     let temp;
-    if (temp = await CTFStart(prisma)) {
+    if ((temp = await CTFStart(prisma))) {
         return temp;
     }
 
@@ -55,18 +57,21 @@ export async function GET() {
 
 export async function POST(req: Request) {
     let temp;
-    if (temp = await admin(prisma)) {
+    if ((temp = await admin(prisma))) {
         return temp;
     }
 
     const content = await req.json();
 
     if (!createChallengeRequestValidator(content)) {
-        return NextResponse.json({
-            Error: 'Bad request',
-        }, {
-            status: StatusCodes.FORBIDDEN
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request',
+            },
+            {
+                status: StatusCodes.FORBIDDEN,
+            }
+        );
     }
 
     const challenge = await prisma.challenge.create({
@@ -82,6 +87,6 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json(challenge, {
-        status: StatusCodes.CREATED
+        status: StatusCodes.CREATED,
     });
 }

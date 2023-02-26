@@ -1,8 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
-import { getSession } from 'next-auth/react';
 import { NextResponse } from 'next/server';
 
 /**
@@ -12,9 +10,7 @@ import { NextResponse } from 'next/server';
  * @param db Prisma Database
  * @returns A response if the request does not pass the middleware
  */
-async function CTFStart(
-    db: PrismaClient
-): Promise<Response | undefined> {
+async function CTFStart(db: PrismaClient): Promise<Response | undefined> {
     let start = await db.setting.findFirst({
         where: {
             key: 'CTF_START_TIME',
@@ -36,11 +32,14 @@ async function CTFStart(
             }
         }
 
-        return NextResponse.json({
-            Error: 'This CTF has not started yet!',
-        }, {
-            status: StatusCodes.FORBIDDEN
-        });
+        return NextResponse.json(
+            {
+                Error: 'This CTF has not started yet!',
+            },
+            {
+                status: StatusCodes.FORBIDDEN,
+            }
+        );
     }
 
     return undefined;
@@ -53,9 +52,7 @@ async function CTFStart(
  * @param db Prisma Database
  * @returns True if the user does not pass and false otherwise
  */
-async function CTFEnd(
-    db: PrismaClient
-): Promise<Response | undefined> {
+async function CTFEnd(db: PrismaClient): Promise<Response | undefined> {
     let end = await db.setting.findFirst({
         where: {
             key: 'CTF_END_TIME',
@@ -77,11 +74,14 @@ async function CTFEnd(
             }
         }
 
-        return NextResponse.json({
-            Error: 'This CTF has ended!',
-        }, {
-            status: StatusCodes.FORBIDDEN
-        });
+        return NextResponse.json(
+            {
+                Error: 'This CTF has ended!',
+            },
+            {
+                status: StatusCodes.FORBIDDEN,
+            }
+        );
     }
 
     return undefined;
@@ -94,17 +94,18 @@ async function CTFEnd(
  * @param db Prisma database
  * @returns True if the user does not pass and false otherwise
  */
-async function admin(
-    db: PrismaClient
-): Promise<Response | undefined> {
+async function admin(db: PrismaClient): Promise<Response | undefined> {
     let session = await getServerSession();
 
     if (!session) {
-        return NextResponse.json({
-            Error: 'You must be an admin to preform this action!',
-        }, {
-            status: StatusCodes.FORBIDDEN
-        });
+        return NextResponse.json(
+            {
+                Error: 'You must be an admin to preform this action!',
+            },
+            {
+                status: StatusCodes.FORBIDDEN,
+            }
+        );
     }
 
     let user = await db.user.findFirst({
@@ -117,11 +118,14 @@ async function admin(
         return undefined;
     }
 
-    return NextResponse.json({
-        Error: 'You must be an admin to preform this action!',
-    }, {
-        status: StatusCodes.FORBIDDEN
-    });
+    return NextResponse.json(
+        {
+            Error: 'You must be an admin to preform this action!',
+        },
+        {
+            status: StatusCodes.FORBIDDEN,
+        }
+    );
 }
 
 /**
@@ -131,9 +135,7 @@ async function admin(
  * @param db Prisma database
  * @returns True if the user does not pass and false otherwise
  */
-async function teamMember(
-    db: PrismaClient
-): Promise<Response | undefined> {
+async function teamMember(db: PrismaClient): Promise<Response | undefined> {
     let session = await getServerSession();
 
     if (session) {
@@ -151,11 +153,14 @@ async function teamMember(
         }
     }
 
-    return NextResponse.json({
-        Error: 'You must be on a team to preform this action!',
-    }, {
-        status: StatusCodes.FORBIDDEN
-    });
+    return NextResponse.json(
+        {
+            Error: 'You must be on a team to preform this action!',
+        },
+        {
+            status: StatusCodes.FORBIDDEN,
+        }
+    );
 }
 
 export { CTFStart, CTFEnd, admin, teamMember };

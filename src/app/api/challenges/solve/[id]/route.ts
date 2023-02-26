@@ -1,10 +1,10 @@
-import { PrismaClient } from "@prisma/client";
-import Ajv, { JSONSchemaType } from "ajv";
-import { StatusCodes } from "http-status-codes";
-import isString from "is-string";
-import { CTFEnd, CTFStart, teamMember } from "lib/Middleware";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from '@prisma/client';
+import Ajv, { JSONSchemaType } from 'ajv';
+import { StatusCodes } from 'http-status-codes';
+import isString from 'is-string';
+import { CTFEnd, CTFStart, teamMember } from 'lib/Middleware';
+import { getServerSession } from 'next-auth';
+import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -25,20 +25,26 @@ const solveChallengeRequestValidator = ajv.compile(SolveChallengeRequest);
 
 export async function POST(req: NextRequest) {
     let temp;
-    if (temp = (await CTFStart(prisma) || CTFEnd(prisma) || teamMember(prisma))) {
+    if (
+        (temp =
+            (await CTFStart(prisma)) || CTFEnd(prisma) || teamMember(prisma))
+    ) {
         return temp;
     }
 
-    const id = req.nextUrl.searchParams.get("id");
+    const id = req.nextUrl.searchParams.get('id');
 
     const session = await getServerSession();
 
     if (!isString(id)) {
-        return NextResponse.json({
-            Error: 'Bad request.',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request.',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 
     const user = await prisma.user.findFirst({
@@ -60,21 +66,27 @@ export async function POST(req: NextRequest) {
     });
 
     if (!challenge) {
-        return NextResponse.json({
-            Error: 'Challenge not found.',
-        }, {
-            status: StatusCodes.NOT_FOUND
-        });
+        return NextResponse.json(
+            {
+                Error: 'Challenge not found.',
+            },
+            {
+                status: StatusCodes.NOT_FOUND,
+            }
+        );
     }
 
     const data = await req.json();
 
     if (!solveChallengeRequestValidator(data)) {
-        return NextResponse.json({
-            Error: 'Bad request.',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request.',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 
     if (challenge.flag === data.flag) {
@@ -86,11 +98,14 @@ export async function POST(req: NextRequest) {
         });
 
         if (solve) {
-            return NextResponse.json({
-                Error: 'Your team has already solved this challenge.',
-            }, {
-                status: StatusCodes.CONFLICT
-            });
+            return NextResponse.json(
+                {
+                    Error: 'Your team has already solved this challenge.',
+                },
+                {
+                    status: StatusCodes.CONFLICT,
+                }
+            );
         }
 
         await prisma.solve.create({
@@ -109,16 +124,22 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        return NextResponse.json({
-            Message: 'Correct flag.',
-        }, {
-            status: StatusCodes.OK
-        });
+        return NextResponse.json(
+            {
+                Message: 'Correct flag.',
+            },
+            {
+                status: StatusCodes.OK,
+            }
+        );
     }
 
-    return NextResponse.json({
-        Error: 'Wrong flag.',
-    }, {
-        status: StatusCodes.BAD_REQUEST
-    });
+    return NextResponse.json(
+        {
+            Error: 'Wrong flag.',
+        },
+        {
+            status: StatusCodes.BAD_REQUEST,
+        }
+    );
 }

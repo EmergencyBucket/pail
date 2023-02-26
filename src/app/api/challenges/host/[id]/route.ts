@@ -1,24 +1,28 @@
-import { PrismaClient } from "@prisma/client";
-import Dockerode from "dockerode";
-import { StatusCodes } from "http-status-codes";
-import isString from "is-string";
-import { CTFEnd, CTFStart } from "lib/Middleware";
-import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from '@prisma/client';
+import Dockerode from 'dockerode';
+import { StatusCodes } from 'http-status-codes';
+import isString from 'is-string';
+import { CTFEnd, CTFStart } from 'lib/Middleware';
+import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
     let temp;
-    if (temp = (await CTFStart(prisma) || await CTFEnd(prisma))) return temp;
+    if ((temp = (await CTFStart(prisma)) || (await CTFEnd(prisma))))
+        return temp;
 
-    const id = req.nextUrl.searchParams.get("id");
+    const id = req.nextUrl.searchParams.get('id');
 
     if (!isString(id)) {
-        return NextResponse.json({
-            Error: 'Bad request.',
-        }, {
-            status: StatusCodes.BAD_REQUEST
-        });
+        return NextResponse.json(
+            {
+                Error: 'Bad request.',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
     }
 
     let challenge = await prisma.challenge.findFirst({
@@ -28,21 +32,27 @@ export async function POST(req: NextRequest) {
     });
 
     if (!challenge || !challenge.image) {
-        return NextResponse.json({
-            Error: 'Challenge not found or does not contain an image.',
-        }, {
-            status: StatusCodes.NOT_FOUND
-        });
+        return NextResponse.json(
+            {
+                Error: 'Challenge not found or does not contain an image.',
+            },
+            {
+                status: StatusCodes.NOT_FOUND,
+            }
+        );
     }
 
     let host = await prisma.host.findFirst();
 
     if (!host) {
-        return NextResponse.json({
-            Error: 'No host available.',
-        }, {
-            status: StatusCodes.SERVICE_UNAVAILABLE
-        });
+        return NextResponse.json(
+            {
+                Error: 'No host available.',
+            },
+            {
+                status: StatusCodes.SERVICE_UNAVAILABLE,
+            }
+        );
     }
 
     let availablePorts: number[] = [];
@@ -54,9 +64,7 @@ export async function POST(req: NextRequest) {
     }
 
     let port =
-        availablePorts[
-            Math.floor(Math.random() * availablePorts.length)
-        ];
+        availablePorts[Math.floor(Math.random() * availablePorts.length)];
 
     host.usedPorts.push(port);
 
@@ -109,9 +117,12 @@ export async function POST(req: NextRequest) {
         });
     }, 1000 * 300);
 
-    return NextResponse.json({
-        url: host.ip + ':' + port,
-    }, {
-        status: StatusCodes.OK
-    });
+    return NextResponse.json(
+        {
+            url: host.ip + ':' + port,
+        },
+        {
+            status: StatusCodes.OK,
+        }
+    );
 }
