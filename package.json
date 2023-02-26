@@ -36,7 +36,7 @@
     "http-status-codes": "^2.2.0",
     "is-string": "^1.0.7",
     "next": "13.2.1",
-    "next-auth": "^4.18.10",
+    "next-auth": "0.0.0-pr.6777.c5550344",
     "postcss": "^8.4.21",
     "prettier": "^2.8.3",
     "prisma": "^4.9.0",
