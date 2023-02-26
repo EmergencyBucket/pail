@@ -2,11 +2,15 @@ import { PrismaClient } from "@prisma/client";
 import Dockerode from "dockerode";
 import { StatusCodes } from "http-status-codes";
 import isString from "is-string";
+import { CTFEnd, CTFStart } from "lib/Middleware";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
+    let temp;
+    if (temp = (await CTFStart(prisma) || await CTFEnd(prisma))) return temp;
+
     const id = req.nextUrl.searchParams.get("id");
 
     if (!isString(id)) {
