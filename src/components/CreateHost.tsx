@@ -3,6 +3,7 @@
 import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
+import { Status, Statuses } from './Status';
 
 interface Props {
     className?: string;
@@ -10,6 +11,8 @@ interface Props {
 
 const CreateHost = ({ className }: Props) => {
     const [open, setOpen] = useState(false);
+
+    const [certStatus, setCertStatus] = useState(Statuses.Loading);
 
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -62,19 +65,28 @@ const CreateHost = ({ className }: Props) => {
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 mt-2 pl-2 w-full outline-none'
                         }
                     />
-                    <div className="mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                        <div className='m-auto'>
+                            <Status status={certStatus} />
+                        </div>
                         <label htmlFor="ca" className="m-auto px-2">
                             <code>CA</code>
                         </label>
                         <input name="ca" type={'file'} className={'px-2'} />
                     </div>
-                    <div className="mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                        <div className='m-auto'>
+                            <Status status={certStatus} />
+                        </div>
                         <label htmlFor="cert" className="m-auto px-2">
                             <code>Cert</code>
                         </label>
                         <input name="cert" type={'file'} className={'px-2'} />
                     </div>
-                    <div className="mx-auto grid grid-cols-2 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                        <div className='m-auto'>
+                            <Status status={certStatus} />
+                        </div>
                         <label htmlFor="key" className="m-auto px-2">
                             <code>Key</code>
                         </label>
