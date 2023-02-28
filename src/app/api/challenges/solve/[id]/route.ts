@@ -2,9 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { CTFEnd, CTFStart, teamMember } from 'lib/Middleware';
+import { CTFEnd, CTFStart, Middleware, teamMember } from 'lib/Middleware';
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
@@ -23,16 +23,14 @@ const SolveChallengeRequest: JSONSchemaType<SolveChallengeRequest> = {
 
 const solveChallengeRequestValidator = ajv.compile(SolveChallengeRequest);
 
-export async function POST(req: NextRequest) {
-    let temp;
-    if (
-        (temp =
-            (await CTFStart(prisma)) || CTFEnd(prisma) || teamMember(prisma))
-    ) {
-        return temp;
-    }
+export async function POST(
+    req: Request,
+    { params }: { params: { id?: string } }
+) {
+    let middleware = Middleware([CTFStart(), CTFEnd(), teamMember()]);
+    if (middleware) return middleware;
 
-    const id = req.nextUrl.searchParams.get('id');
+    const { id } = params;
 
     const session = await getServerSession();
 

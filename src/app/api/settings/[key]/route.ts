@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { admin } from 'lib/Middleware';
+import { admin, Middleware } from 'lib/Middleware';
 import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
@@ -43,10 +43,8 @@ export async function GET(req: NextRequest) {
         });
     }
 
-    let temp;
-    if ((temp = await admin(prisma))) {
-        return temp;
-    }
+    let middleware = Middleware([admin()]);
+    if (middleware) return middleware;
 
     return NextResponse.json(setting, {
         status: StatusCodes.OK,

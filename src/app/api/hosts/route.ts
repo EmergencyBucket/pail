@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import { admin } from 'lib/Middleware';
+import { admin, Middleware } from 'lib/Middleware';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
@@ -33,8 +33,8 @@ const CreateHostSchema: JSONSchemaType<CreateHostRequest> = {
 const createHostValidator = ajv.compile(CreateHostSchema);
 
 export async function GET() {
-    let temp;
-    if ((temp = await admin(prisma))) return temp;
+    let middleware = Middleware([admin()]);
+    if (middleware) return middleware;
 
     const hosts = await prisma.host.findMany();
 
@@ -44,8 +44,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    let temp;
-    if ((temp = await admin(prisma))) return temp;
+    let middleware = Middleware([admin()]);
+    if (middleware) return middleware;
 
     const content = await req.json();
 

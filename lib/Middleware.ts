@@ -3,15 +3,18 @@ import { StatusCodes } from 'http-status-codes';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 
+const prisma = new PrismaClient();
+
+async function Middleware(middlewares: Promise<Response | undefined>[]) {
+    return (await Promise.all(middlewares)).find((m) => m);
+}
+
 /**
  * Checks if a user can access a route depending on the CTF start time
- * @param req The request
- * @param res The response
- * @param db Prisma Database
  * @returns A response if the request does not pass the middleware
  */
-async function CTFStart(db: PrismaClient): Promise<Response | undefined> {
-    let start = await db.setting.findFirst({
+async function CTFStart(): Promise<Response | undefined> {
+    let start = await prisma.setting.findFirst({
         where: {
             key: 'CTF_START_TIME',
         },
@@ -21,7 +24,7 @@ async function CTFStart(db: PrismaClient): Promise<Response | undefined> {
         let session = await getServerSession();
 
         if (session) {
-            let user = await db.user.findFirst({
+            let user = await prisma.user.findFirst({
                 where: {
                     name: session.user?.name,
                 },
@@ -47,13 +50,10 @@ async function CTFStart(db: PrismaClient): Promise<Response | undefined> {
 
 /**
  * Checks if a user can access a route depending on the CTF end time
- * @param req The request
- * @param res The response
- * @param db Prisma Database
  * @returns True if the user does not pass and false otherwise
  */
-async function CTFEnd(db: PrismaClient): Promise<Response | undefined> {
-    let end = await db.setting.findFirst({
+async function CTFEnd(): Promise<Response | undefined> {
+    let end = await prisma.setting.findFirst({
         where: {
             key: 'CTF_END_TIME',
         },
@@ -63,7 +63,7 @@ async function CTFEnd(db: PrismaClient): Promise<Response | undefined> {
         let session = await getServerSession();
 
         if (session) {
-            let user = await db.user.findFirst({
+            let user = await prisma.user.findFirst({
                 where: {
                     name: session.user?.name,
                 },
@@ -89,12 +89,9 @@ async function CTFEnd(db: PrismaClient): Promise<Response | undefined> {
 
 /**
  * Checks if a user is an admin
- * @param req The request
- * @param res The response
- * @param db Prisma database
  * @returns True if the user does not pass and false otherwise
  */
-async function admin(db: PrismaClient): Promise<Response | undefined> {
+async function admin(): Promise<Response | undefined> {
     let session = await getServerSession();
 
     if (!session) {
@@ -108,7 +105,7 @@ async function admin(db: PrismaClient): Promise<Response | undefined> {
         );
     }
 
-    let user = await db.user.findFirst({
+    let user = await prisma.user.findFirst({
         where: {
             name: session.user?.name,
         },
@@ -130,16 +127,13 @@ async function admin(db: PrismaClient): Promise<Response | undefined> {
 
 /**
  * Checks if a user is on a team
- * @param req The request
- * @param res The response
- * @param db Prisma database
  * @returns True if the user does not pass and false otherwise
  */
-async function teamMember(db: PrismaClient): Promise<Response | undefined> {
+async function teamMember(): Promise<Response | undefined> {
     let session = await getServerSession();
 
     if (session) {
-        let user = await db.user.findFirst({
+        let user = await prisma.user.findFirst({
             where: {
                 name: session.user?.name,
             },
@@ -163,4 +157,4 @@ async function teamMember(db: PrismaClient): Promise<Response | undefined> {
     );
 }
 
-export { CTFStart, CTFEnd, admin, teamMember };
+export { Middleware, CTFStart, CTFEnd, admin, teamMember };

@@ -1,7 +1,7 @@
 import { Challenge, PrismaClient, Solve, Team } from '@prisma/client';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { StatusCodes } from 'http-status-codes';
-import { CTFStart } from 'lib/Middleware';
+import { CTFStart, Middleware } from 'lib/Middleware';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
@@ -13,10 +13,8 @@ function getColor() {
 }
 
 export async function GET() {
-    let temp;
-    if ((temp = await CTFStart(prisma))) {
-        return temp;
-    }
+    let middleware = Middleware([CTFStart()]);
+    if (middleware) return middleware;
 
     let teams: (Team & {
         solves: Solve[];

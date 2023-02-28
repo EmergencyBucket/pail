@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import { admin } from 'lib/Middleware';
+import { admin, Middleware } from 'lib/Middleware';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
@@ -27,10 +27,8 @@ const SettingRequestSchema: JSONSchemaType<SettingRequest> = {
 const settingRequestValidator = ajv.compile(SettingRequestSchema);
 
 export async function GET() {
-    let temp;
-    if ((temp = await admin(prisma))) {
-        return temp;
-    }
+    let middleware = Middleware([admin()]);
+    if (middleware) return middleware;
 
     let settings = await prisma.setting.findMany();
 
@@ -40,10 +38,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    let temp;
-    if ((temp = await admin(prisma))) {
-        return temp;
-    }
+    let middleware = Middleware([admin()]);
+    if (middleware) return middleware;
 
     let reqsetting = await req.json();
 
