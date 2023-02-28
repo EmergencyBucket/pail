@@ -157,8 +157,4 @@ async function teamMember(): Promise<Response | undefined> {
     );
 }
 
-async function getTestSession() {
-    return NextResponse.json(await getServerSession());
-}
-
-export { Middleware, CTFStart, CTFEnd, admin, teamMember, getTestSession };
+export { Middleware, CTFStart, CTFEnd, admin, teamMember };

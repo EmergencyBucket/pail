@@ -16,8 +16,6 @@ const Challenge = ({ challenge }: Props) => {
 
     const [status, setStatus] = useState(Statuses.Unsubmitted);
 
-    const [url, setUrl] = useState('');
-
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -40,6 +38,12 @@ const Challenge = ({ challenge }: Props) => {
         let req = await fetch(`/api/challenges/host/${challenge.id}`, {
             method: 'POST',
         });
+
+        let res = await req.json();
+
+        if (req.ok) {
+            window.open(res.url);
+        }
     }
 
     return (
@@ -90,6 +94,11 @@ const Challenge = ({ challenge }: Props) => {
                             ? 'Solved at: ' + challenge.firstBlood
                             : 'Unsolved'}
                     </div>
+                    {challenge.image && (
+                        <button onClick={requestContainer}>
+                            Start Container
+                        </button>
+                    )}
                     <form onSubmit={submit}>
                         <div className="flex">
                             <input
@@ -104,8 +113,6 @@ const Challenge = ({ challenge }: Props) => {
                                 {<Status status={status} />}
                             </div>
                         </div>
-
-                        <br />
                         <input
                             type={'submit'}
                             className={

@@ -1,7 +1,7 @@
 import { Category, Challenge, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import { admin, CTFStart, getTestSession, Middleware } from 'lib/Middleware';
+import { admin, CTFStart, Middleware } from 'lib/Middleware';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
