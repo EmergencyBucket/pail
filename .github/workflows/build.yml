@@ -11,6 +11,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     strategy:
       matrix:
         node-version: [16.x]
@@ -28,4 +44,6 @@ jobs:
       run: yarn install
 
     - name: Build site
-      run: yarn run next build
+      run: yarn build
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
