@@ -1,35 +1,100 @@
-import { PrismaClient } from '@prisma/client';
-import { getServerSession } from 'next-auth';
+'use client';
 
-export const metadata = {
-    title: 'EBucket | Account',
-};
+import { Team, User } from '@prisma/client';
+import { FormEvent, useEffect, useState } from 'react';
 
-const prisma = new PrismaClient();
+export default function Home() {
+    const [team, setTeam] = useState<Team>();
 
-export default async function Home() {
-    const session = await getServerSession();
+    const [user, setUser] = useState<User>();
 
-    const user = await prisma.user.findFirst({
-        where: {
-            name: session?.user?.name,
-        },
-    });
+    async function getTeam() {
+        let req = await fetch(`/api/team`, {
+            method: 'GET',
+            credentials: 'include',
+        });
 
-    const team = await prisma.team.findFirst({
-        where: {
-            id: user!.teamId as string,
-        },
-    });
+        if (!req.ok) {
+            return;
+        }
+
+        let res = await req.json();
+
+        setTeam(res as Team);
+    }
+
+    async function getUser() {
+        let req = await fetch(`/api/user`, {
+            method: 'GET',
+            credentials: 'include',
+        });
+
+        if (!req.ok) {
+            return;
+        }
+
+        let res = await req.json();
+
+        setUser(res as User);
+    }
+
+    async function leave() {
+        await fetch(`/api/teams/user/leave`, {
+            method: 'POST',
+        });
+
+        setTeam(undefined);
+    }
+
+    async function submitCreate(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        let req = await fetch(`/api/teams`, {
+            method: 'POST',
+            body: JSON.stringify({
+                //@ts-ignore
+                name: event.target.name.value,
+            }),
+        });
+
+        let res = await req.json();
+
+        setTeam(res as Team);
+    }
+
+    async function submitJoin(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        let req = await fetch(`/api/teams/join`, {
+            method: 'POST',
+            body: JSON.stringify({
+                //@ts-ignore
+                secret: event.target.secret.value,
+            }),
+        });
+
+        let res = await req.json();
+
+        setTeam(res as Team);
+    }
+
+    useEffect(() => {
+        getTeam();
+        getUser();
+    }, []);
+
+    if (!user) {
+        return <code className="text-xl text-white">Loading...</code>;
+    }
 
     return (
         <>
             <div className="mt-8">
                 <p className="text-white">
-                    Username: <kbd>{user?.name}</kbd>
+                    Username: <kbd>{user.name}</kbd>
                 </p>
                 <p className="text-white">
-                    ID: <kbd>{user?.id}</kbd>
+                    ID: <kbd>{user.id}</kbd>
                 </p>
             </div>
 
@@ -42,7 +107,7 @@ export default async function Home() {
                         Team secret: <kbd>{team.secret}</kbd>
                     </p>
                     <button
-                        //onClick={leave}
+                        onClick={leave}
                         className={
                             'bg-slate-800 cursor-pointer text-white p-2 border-2 mt-2 border-slate-700 hover:border-slate-500'
                         }
@@ -53,7 +118,7 @@ export default async function Home() {
             ) : (
                 <div>
                     <p className="text-white">Create your own team</p>
-                    <form /* onSubmit={submitCreate} */>
+                    <form onSubmit={submitCreate}>
                         <input
                             type={'text'}
                             placeholder="Team name"
@@ -71,7 +136,7 @@ export default async function Home() {
                         />
                     </form>
                     <p className="text-white">Join a team</p>
-                    <form /* onSubmit={submitJoin} */>
+                    <form onSubmit={submitJoin}>
                         <input
                             type={'text'}
                             placeholder="Team secret"
