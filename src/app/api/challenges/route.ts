@@ -1,7 +1,7 @@
 import { Category, Challenge, Difficulty, PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import { admin, CTFStart, Middleware } from 'lib/Middleware';
+import { admin, CTFStart, getTestSession, Middleware } from 'lib/Middleware';
 import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
@@ -41,7 +41,7 @@ const createChallengeRequestValidator = ajv.compile(
 );
 
 export async function GET() {
-    let middleware = Middleware([CTFStart()]);
+    let middleware = await Middleware([CTFStart()]);
     if (middleware) return middleware;
 
     const challenges: Partial<Challenge>[] = await prisma.challenge.findMany();
@@ -54,7 +54,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    let middleware = Middleware([admin()]);
+    let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
 
     const content = await req.json();

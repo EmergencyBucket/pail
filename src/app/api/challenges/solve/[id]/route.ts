@@ -27,7 +27,7 @@ export async function POST(
     req: Request,
     { params }: { params: { id?: string } }
 ) {
-    let middleware = Middleware([CTFStart(), CTFEnd(), teamMember()]);
+    let middleware = await Middleware([CTFStart(), CTFEnd(), teamMember()]);
     if (middleware) return middleware;
 
     const { id } = params;

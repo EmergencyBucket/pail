@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 const prisma = new PrismaClient();
 
 export async function GET() {
-    let middleware = Middleware([CTFStart()]);
+    let middleware = await Middleware([CTFStart()]);
     if (middleware) return middleware;
 
     let teams: (Team & {

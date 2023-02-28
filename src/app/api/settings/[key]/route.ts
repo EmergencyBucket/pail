@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
         });
     }
 
-    let middleware = Middleware([admin()]);
+    let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
 
     return NextResponse.json(setting, {

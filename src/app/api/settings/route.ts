@@ -27,7 +27,7 @@ const SettingRequestSchema: JSONSchemaType<SettingRequest> = {
 const settingRequestValidator = ajv.compile(SettingRequestSchema);
 
 export async function GET() {
-    let middleware = Middleware([admin()]);
+    let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
 
     let settings = await prisma.setting.findMany();
@@ -38,7 +38,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    let middleware = Middleware([admin()]);
+    let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
 
     let reqsetting = await req.json();

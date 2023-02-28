@@ -33,7 +33,7 @@ const CreateHostSchema: JSONSchemaType<CreateHostRequest> = {
 const createHostValidator = ajv.compile(CreateHostSchema);
 
 export async function GET() {
-    let middleware = Middleware([admin()]);
+    let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
 
     const hosts = await prisma.host.findMany();
@@ -44,7 +44,7 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-    let middleware = Middleware([admin()]);
+    let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
 
     const content = await req.json();

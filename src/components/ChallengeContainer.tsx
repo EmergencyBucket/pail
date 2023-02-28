@@ -16,6 +16,8 @@ const Challenge = ({ challenge }: Props) => {
 
     const [status, setStatus] = useState(Statuses.Unsubmitted);
 
+    const [url, setUrl] = useState('');
+
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -30,6 +32,14 @@ const Challenge = ({ challenge }: Props) => {
         });
 
         setStatus(req.status == 200 ? Statuses.Correct : Statuses.Incorrect);
+    }
+
+    async function requestContainer(event: FormEvent) {
+        event.preventDefault();
+
+        let req = await fetch(`/api/challenges/host/${challenge.id}`, {
+            method: 'POST',
+        });
     }
 
     return (
