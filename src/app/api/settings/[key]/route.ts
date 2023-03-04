@@ -1,10 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { admin, Middleware } from 'lib/Middleware';
+import { admin, Middleware } from '@/lib/Middleware';
 import { NextRequest, NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prismadb';
 
 export async function GET(req: NextRequest) {
     const key = req.nextUrl.searchParams.get('key');

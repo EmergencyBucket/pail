@@ -1,10 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
-import { admin, Middleware } from 'lib/Middleware';
+import { admin, Middleware } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prismadb';
 
 const ajv = new Ajv();
 

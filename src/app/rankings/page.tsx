@@ -1,7 +1,8 @@
-import { Challenge, PrismaClient, Solve, Team } from '@prisma/client';
+import { Challenge, Solve, Team } from '@prisma/client';
 import { ChartData } from 'chart.js';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
+import prisma from '@/lib/prismadb';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -33,8 +34,6 @@ function getColor() {
         255 * Math.random()
     }, 0.25)`;
 }
-
-const prisma = new PrismaClient();
 
 export default async function Home() {
     let teams: (Team & {

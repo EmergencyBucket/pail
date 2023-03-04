@@ -1,10 +1,9 @@
-import { Solve, Challenge, PrismaClient, Team } from '@prisma/client';
+import { Solve, Challenge, Team } from '@prisma/client';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { StatusCodes } from 'http-status-codes';
-import { CTFStart, Middleware } from 'lib/Middleware';
+import { CTFStart, Middleware } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prismadb';
 
 export async function GET() {
     let middleware = await Middleware([CTFStart()]);

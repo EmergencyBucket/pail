@@ -1,11 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prismadb';
 import Dockerode from 'dockerode';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { CTFEnd, CTFStart, Middleware } from 'lib/Middleware';
+import { CTFEnd, CTFStart, Middleware } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
 
 export async function POST(
     req: Request,

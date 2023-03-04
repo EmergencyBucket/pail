@@ -1,11 +1,9 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prismadb';
 
 export const metadata = {
     title: 'EBucket | Challenges',
 };
-
-const prisma = new PrismaClient();
 
 function exclude<Challenge, Key extends keyof Challenge>(
     challenge: Challenge,

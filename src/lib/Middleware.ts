@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prismadb';
 
 async function Middleware(middlewares: Promise<Response | undefined>[]) {
     return (await Promise.all(middlewares)).find((m) => m);

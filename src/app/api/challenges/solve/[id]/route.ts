@@ -1,12 +1,10 @@
-import { PrismaClient } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { CTFEnd, CTFStart, Middleware, teamMember } from 'lib/Middleware';
+import { CTFEnd, CTFStart, Middleware, teamMember } from '@/lib/Middleware';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prismadb';
 
 const ajv = new Ajv();
 interface SolveChallengeRequest {

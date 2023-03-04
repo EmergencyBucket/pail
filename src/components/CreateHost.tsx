@@ -1,5 +1,6 @@
 'use client';
 
+import { X509Certificate } from 'crypto';
 import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
@@ -36,11 +37,28 @@ const CreateHost = ({ className }: Props) => {
         });
     }
 
+    async function validateSSL(event: FormEvent<HTMLFormElement>) {
+        //@ts-ignore
+        let cert = event.target.ca.value;
+
+        let reader = new FileReader();
+
+        reader.readAsText(cert);
+
+        reader.onload = (evt) => {
+            let ssl = new X509Certificate(evt.target?.result as string);
+
+            ssl;
+
+            setCertStatus(Statuses.Loading);
+        };
+    }
+
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl">Create a host</p>
-                <form onSubmit={submit}>
+                <form onSubmit={submit} onChange={validateSSL}>
                     <input
                         type={'number'}
                         placeholder="Port"
@@ -66,7 +84,7 @@ const CreateHost = ({ className }: Props) => {
                         }
                     />
                     <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
-                        <div className='m-auto'>
+                        <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
                         <label htmlFor="ca" className="m-auto px-2">
@@ -75,7 +93,7 @@ const CreateHost = ({ className }: Props) => {
                         <input name="ca" type={'file'} className={'px-2'} />
                     </div>
                     <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
-                        <div className='m-auto'>
+                        <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
                         <label htmlFor="cert" className="m-auto px-2">
@@ -84,7 +102,7 @@ const CreateHost = ({ className }: Props) => {
                         <input name="cert" type={'file'} className={'px-2'} />
                     </div>
                     <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
-                        <div className='m-auto'>
+                        <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
                         <label htmlFor="key" className="m-auto px-2">

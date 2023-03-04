@@ -1,10 +1,9 @@
-import { Challenge, PrismaClient, Solve, Team } from '@prisma/client';
+import { Challenge, Solve, Team } from '@prisma/client';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { StatusCodes } from 'http-status-codes';
-import { CTFStart, Middleware } from 'lib/Middleware';
+import { CTFStart, Middleware } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import prisma from '@/lib/prismadb';
 
 function getColor() {
     return `rgba(${255 * Math.random()}, ${255 * Math.random()}, ${

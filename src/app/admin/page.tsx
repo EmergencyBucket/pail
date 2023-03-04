@@ -2,13 +2,11 @@ import CreateChallenge from '@/components/CreateChallenge';
 import CreateHost from '@/components/CreateHost';
 import EditChallenge from '@/components/EditChallenge';
 import { SettingsMenu } from '@/components/SettingsMenu';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prismadb';
 
 export const metadata = {
     title: 'EBucket | Admin',
 };
-
-const prisma = new PrismaClient();
 
 export default async function Home() {
     let challenges = await prisma.challenge.findMany();
