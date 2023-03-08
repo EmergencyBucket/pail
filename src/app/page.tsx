@@ -1,5 +1,6 @@
 'use client';
 
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -40,6 +41,9 @@ export default function Home() {
 
     return (
         <>
+            <Head>
+                <title>EBucket | Home</title>
+            </Head>
             <canvas
                 id="canvas"
                 className="mx-auto"
@@ -101,13 +105,13 @@ export default function Home() {
                     Prizes
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    $350
+                    🥇 - $350
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    $150
+                    🥈 - $150
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    $100
+                    🥉 - $100
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">

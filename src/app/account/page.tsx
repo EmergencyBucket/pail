@@ -1,5 +1,6 @@
 'use client';
 
+import { Status, Statuses } from '@/components/Status';
 import { Team, User } from '@prisma/client';
 import { FormEvent, useEffect, useState } from 'react';
 
@@ -84,11 +85,14 @@ export default function Home() {
     }, []);
 
     if (!user) {
-        return <code className="text-xl text-white">Loading...</code>;
+        return <Status status={Statuses.Loading} />;
     }
 
     return (
         <>
+            <head>
+                <title>EBucket | Home</title>
+            </head>
             <div className="mt-8">
                 <p className="text-white">
                     Username: <kbd>{user.name}</kbd>

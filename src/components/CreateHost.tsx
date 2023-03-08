@@ -38,6 +38,10 @@ const CreateHost = ({ className }: Props) => {
     }
 
     async function validateSSL(event: FormEvent<HTMLFormElement>) {
+        setCertStatus(Statuses.Loading);
+
+        console.log(event.target);
+
         //@ts-ignore
         let cert = event.target.ca.value;
 
@@ -50,7 +54,12 @@ const CreateHost = ({ className }: Props) => {
 
             ssl;
 
-            setCertStatus(Statuses.Loading);
+            if(ssl.ca) {
+                setCertStatus(Statuses.Correct);
+            }
+            else {
+                setCertStatus(Statuses.Incorrect);
+            }
         };
     }
 
