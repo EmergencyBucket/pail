@@ -4,8 +4,9 @@ import { admin, Middleware } from '@/lib/Middleware';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prismadb';
 
-export async function GET(req: NextRequest) {
-    const key = req.nextUrl.searchParams.get('key');
+export async function GET(req: NextRequest, { params }: { params: { key?: string } }) {
+
+    const { key } = params;
 
     if (!isString(key)) {
         return NextResponse.json(
