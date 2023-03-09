@@ -121,7 +121,15 @@ const Challenge = ({ challenge }: Props) => {
                         <>
                             <div className="flex">
                                 <button
-                                    onClick={requestContainer}
+                                    onClick={
+                                        url === 'Start Container'
+                                            ? requestContainer
+                                            : () => {
+                                                  navigator.clipboard.writeText(
+                                                      url
+                                                  );
+                                              }
+                                    }
                                     className="pl-2 bg-slate-700 focus:border-slate-400 focus:outline-none border-2 border-slate-500 my-2 w-full"
                                 >
                                     {url}
