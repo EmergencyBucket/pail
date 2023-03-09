@@ -91,7 +91,7 @@ export default function Home() {
     return (
         <>
             <head>
-                <title>EBucket | Home</title>
+                <title>EBucket | Account</title>
             </head>
             <div className="mt-8">
                 <p className="text-white">
