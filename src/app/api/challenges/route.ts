@@ -11,6 +11,7 @@ interface CreateChallengeRequest {
     name: string;
     description: string;
     files: string[];
+    image?: string;
     flag: string;
     category: string;
     difficulty: string;
@@ -22,6 +23,7 @@ const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
         name: { type: 'string', minLength: 1, maxLength: 50 },
         description: { type: 'string', minLength: 1 },
         files: { type: 'array', items: { type: 'string' } },
+        image: { type: 'string', nullable: true },
         flag: { type: 'string', minLength: 4 },
         category: {
             type: 'string',
@@ -85,6 +87,7 @@ export async function POST(req: Request) {
             name: content.name,
             description: content.description,
             files: content.files,
+            image: content.image,
             flag: content.flag,
             category: content.category as Category,
             difficulty: content.difficulty as Difficulty,

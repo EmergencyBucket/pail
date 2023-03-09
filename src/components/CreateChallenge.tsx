@@ -24,6 +24,8 @@ const CreateChallenge = ({ className }: Props) => {
                 //@ts-ignore
                 files: event.target.files.value.split(','),
                 //@ts-ignore
+                image: event.target.image.value,
+                //@ts-ignore
                 flag: event.target.flag.value,
                 //@ts-ignore
                 category: event.target.category.value,
@@ -83,6 +85,15 @@ const CreateChallenge = ({ className }: Props) => {
                         type={'text'}
                         placeholder="Challenge files"
                         name="files"
+                        className={
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
+                        }
+                    />
+                    <br />
+                    <input
+                        type={'text'}
+                        placeholder="Challenge Docker Image"
+                        name="image"
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
