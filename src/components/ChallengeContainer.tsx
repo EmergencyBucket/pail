@@ -21,6 +21,8 @@ const Challenge = ({ challenge }: Props) => {
 
     const [status, setStatus] = useState(Statuses.Unsubmitted);
 
+    const [url, setUrl] = useState('Start Container');
+
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
@@ -40,6 +42,8 @@ const Challenge = ({ challenge }: Props) => {
     async function requestContainer(event: FormEvent) {
         event.preventDefault();
 
+        setUrl('Loading');
+
         let req = await fetch(`/api/challenges/host/${challenge.id}`, {
             method: 'POST',
         });
@@ -47,7 +51,21 @@ const Challenge = ({ challenge }: Props) => {
         let res = await req.json();
 
         if (req.ok) {
-            window.open(res.url);
+            setUrl(res.url);
+        }
+    }
+
+    function getStatus() {
+        switch (url) {
+            case 'Start Container': {
+                return Statuses.Unsubmitted;
+            }
+            case 'Loading': {
+                return Statuses.Loading;
+            }
+            default: {
+                return Statuses.Correct;
+            }
         }
     }
 
@@ -100,9 +118,19 @@ const Challenge = ({ challenge }: Props) => {
                             : 'Unsolved'}
                     </div>
                     {challenge.image && (
-                        <button onClick={requestContainer}>
-                            Start Container
-                        </button>
+                        <>
+                            <div className="flex">
+                                <button
+                                    onClick={requestContainer}
+                                    className="pl-2 bg-slate-700 focus:border-slate-400 focus:outline-none border-2 border-slate-500 my-2 w-full"
+                                >
+                                    {url}
+                                </button>
+                                <div className="bg-slate-700 border-2 border-slate-500 my-2 w-8 flex place-items-center">
+                                    {<Status status={getStatus()} />}
+                                </div>
+                            </div>
+                        </>
                     )}
                     <form onSubmit={submit}>
                         <div className="flex">

@@ -100,8 +100,8 @@ export async function POST(
     await container.start();
 
     setTimeout(async () => {
-        container.kill();
-        container.remove();
+        await container.kill();
+        await container.remove();
 
         let newPorts = host!.usedPorts.filter((x) => {
             x != port;
