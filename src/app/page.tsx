@@ -49,7 +49,7 @@ export default function Home() {
                 style={{ zIndex: 100 }}
                 height={320}
                 width={320}
-            ></canvas>
+            />
             <h1 className="text-6xl font-bold mx-auto text-center text-white">
                 BucketCTF<i>[2023]</i>
             </h1>
@@ -116,7 +116,7 @@ export default function Home() {
                 <code className="text-white text-3xl text-center mx-auto">
                     Sponsors
                 </code>
-                <div className="grid grid-cols-2 w-1/4 mx-auto">
+                <div className="grid grid-cols-3 w-1/2 mx-auto">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -144,6 +144,23 @@ export default function Home() {
                                 <Image
                                     src="/asteralabs.png"
                                     alt="Astera Labs"
+                                    width={200}
+                                    height={750}
+                                    className="rounded-2xl bg-white p-2"
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                    <Link
+                        target={'_blank'}
+                        className="mx-auto"
+                        href={'https://www.diodes.com/'}
+                    >
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
+                            <div>
+                                <Image
+                                    src="/diodes.webp"
+                                    alt="Diodes Incorporated"
                                     width={200}
                                     height={750}
                                     className="rounded-2xl bg-white p-2"
