@@ -1,5 +1,7 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
 import prisma from '@/lib/prismadb';
+import { Challenge, Solve } from '@prisma/client';
+import { getServerSession } from 'next-auth';
 
 export const metadata = {
     title: 'EBucket | Challenges',
@@ -16,16 +18,57 @@ function exclude<Challenge, Key extends keyof Challenge>(
 }
 
 export default async function Home() {
-    let challenges = await prisma.challenge.findMany();
+    let session = await getServerSession();
 
-    let challengesWithoutFlag = challenges.map((chall) =>
-        exclude(chall, ['flag'])
+    let user = await prisma.user.findFirst({
+        where: {
+            email: session?.user?.email,
+        },
+    });
+
+    let challenges: Partial<
+        Challenge & {
+            points: number;
+            solved: Solve[];
+        }
+    >[] = await prisma.challenge.findMany({
+        include: {
+            solved: true,
+        },
+    });
+
+    challenges = challenges.filter((chall) => {
+        let inc: boolean = true;
+        chall.solved!.forEach((solve) => {
+            if (solve.teamId === user?.teamId) {
+                inc = false;
+            }
+        });
+        return inc;
+    });
+
+    challenges.forEach((challenge) => {
+        challenge.points = 500 - (challenge.solved?.length ?? 0) * 2;
+    });
+
+    let challengesWithoutSecrets = challenges.map((chall) =>
+        exclude(chall, ['flag', 'solved'])
     );
 
     return (
         <div className="grid grid-cols-4 gap-4 mt-8">
-            {challengesWithoutFlag.map((challenge) => (
-                <ChallengeContainer key={Math.random()} challenge={challenge} />
+            {challengesWithoutSecrets.map((challenge) => (
+                <ChallengeContainer
+                    key={Math.random()}
+                    challenge={
+                        challenge as Omit<
+                            Challenge & {
+                                points: number;
+                            },
+                            'flag'
+                        >
+                    }
+                />
             ))}
         </div>
     );

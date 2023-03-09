@@ -1,4 +1,4 @@
-import { Category, Challenge, Difficulty } from '@prisma/client';
+import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { StatusCodes } from 'http-status-codes';
 import { admin, CTFStart, Middleware } from '@/lib/Middleware';
@@ -43,10 +43,21 @@ export async function GET() {
     let middleware = await Middleware([CTFStart()]);
     if (middleware) return middleware;
 
-    const challenges: Partial<Challenge>[] = await prisma.challenge.findMany();
+    const challenges: Partial<
+        Challenge & {
+            points: number;
+            solved: Solve[];
+        }
+    >[] = await prisma.challenge.findMany({
+        include: {
+            solved: true,
+        },
+    });
 
     challenges.forEach((challenge) => {
         delete challenge.flag;
+        challenge.points = 500 - (challenge.solved?.length ?? 0) * 2;
+        delete challenge.solved;
     });
 
     return NextResponse.json(challenges);

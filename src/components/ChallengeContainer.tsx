@@ -8,7 +8,12 @@ import ReactMarkdown from 'react-markdown';
 import { Status, Statuses } from '@/components/Status';
 
 interface Props {
-    challenge: Omit<Challenge, 'flag'>;
+    challenge: Omit<
+        Challenge & {
+            points: number;
+        },
+        'flag'
+    >;
 }
 
 const Challenge = ({ challenge }: Props) => {
@@ -122,7 +127,13 @@ const Challenge = ({ challenge }: Props) => {
                     </form>
                 </div>
             </Modal>
-            <Button onClick={() => setOpen(true)}>{challenge.name}</Button>
+            <Button onClick={() => setOpen(true)}>
+                {challenge.category +
+                    ' - ' +
+                    challenge.name +
+                    ' - ' +
+                    challenge.points}
+            </Button>
         </>
     );
 };
