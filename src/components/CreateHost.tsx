@@ -1,10 +1,12 @@
 'use client';
 
-import { X509Certificate } from 'crypto';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
 import { Status, Statuses } from './Status';
+import forge from 'node-forge';
+
+let pki = forge.pki;
 
 interface Props {
     className?: string;
@@ -14,6 +16,12 @@ const CreateHost = ({ className }: Props) => {
     const [open, setOpen] = useState(false);
 
     const [certStatus, setCertStatus] = useState(Statuses.Loading);
+
+    let ssl = useRef({
+        ca: '',
+        cert: '',
+        key: '',
+    });
 
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -27,37 +35,56 @@ const CreateHost = ({ className }: Props) => {
                 remote: event.target.remote.value,
                 //@ts-ignore
                 ip: event.target.remote.ip,
-                //@ts-ignore
-                ca: event.target.ca.value,
-                //@ts-ignore
-                cert: event.target.cert.value,
-                //@ts-ignore
-                key: event.target.key.value,
+                ca: ssl.current.ca,
+                cert: ssl.current.cert,
+                key: ssl.current.key,
             }),
         });
     }
 
     async function validateSSL(event: FormEvent<HTMLFormElement>) {
+        //@ts-ignore
+        if (!event.target.files) {
+            return;
+        }
+
         setCertStatus(Statuses.Loading);
 
-        console.log(event.target);
-
         //@ts-ignore
-        let cert = event.target.ca.value;
+        let cert = event.target.files[0];
 
         let reader = new FileReader();
 
         reader.readAsText(cert);
 
         reader.onload = (evt) => {
-            let ssl = new X509Certificate(evt.target?.result as string);
-
-            ssl;
-
-            if(ssl.ca) {
-                setCertStatus(Statuses.Correct);
+            //@ts-ignore
+            switch (event.target.name) {
+                case 'ca': {
+                    ssl.current.ca = evt.target?.result as string;
+                    break;
+                }
+                case 'cert': {
+                    ssl.current.cert = evt.target?.result as string;
+                    break;
+                }
+                case 'key': {
+                    ssl.current.key = evt.target?.result as string;
+                    break;
+                }
             }
-            else {
+
+            if (!ssl.current.ca) {
+                return;
+            }
+
+            try {
+                pki.createCaStore([ssl.current.ca]);
+
+                if (ssl.current.ca && ssl.current.cert && ssl.current.key) {
+                    setCertStatus(Statuses.Correct);
+                }
+            } catch (e) {
                 setCertStatus(Statuses.Incorrect);
             }
         };
