@@ -1,6 +1,7 @@
 'use client';
 
 import { Challenge } from '@prisma/client';
+import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
@@ -12,6 +13,8 @@ interface Props {
 
 const EditChallenge = ({ challenge, className }: Props) => {
     const [open, setOpen] = useState(false);
+
+    const router = useRouter();
 
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -38,9 +41,13 @@ const EditChallenge = ({ challenge, className }: Props) => {
     ) {
         event.preventDefault();
 
+        setOpen(false);
+
         await fetch(`/api/challenges/${challenge.id}`, {
             method: 'DELETE',
         });
+
+        router.refresh();
     }
 
     return (
