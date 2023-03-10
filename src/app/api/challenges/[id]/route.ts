@@ -28,6 +28,9 @@ export async function DELETE(
         where: {
             id: id,
         },
+        include: {
+            solved: true,
+        },
     });
 
     if (!challenge) {
@@ -40,6 +43,12 @@ export async function DELETE(
             }
         );
     }
+
+    await prisma.solve.deleteMany({
+        where: {
+            challengeId: challenge.id,
+        },
+    });
 
     await prisma.challenge.delete({
         where: {
