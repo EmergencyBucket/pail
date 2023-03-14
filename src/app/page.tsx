@@ -67,7 +67,7 @@ export default function Home() {
                     🥇 - $350
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥈 - $150
+                    🥈 - $200
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
                     🥉 - $100
