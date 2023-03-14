@@ -7,7 +7,10 @@ interface Props {
 const Glitch = ({ text }: Props) => {
     return (
         <div className={styles.stack}>
-            <code className={styles.glitch + ' text-xl font-medium'} id={text}>
+            <code
+                className={styles.glitch + ' text-white text-xl font-medium'}
+                id={text}
+            >
                 {text}
             </code>
         </div>
