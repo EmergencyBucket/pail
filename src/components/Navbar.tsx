@@ -7,19 +7,19 @@ const Navbar = async () => {
 
     return (
         <div className="flex gap-4 w-full place-items-center">
-            <Button link="/">{<Glitch text="Home" />}</Button>
+            <Button className='w-full text-center' link="/">{<Glitch text="Home" />}</Button>
 
-            <Button link="/challenges">{<Glitch text="Challenges" />}</Button>
+            <Button className='w-full text-center' link="/challenges">{<Glitch text="Challenges" />}</Button>
 
-            <Button link="/rankings">{<Glitch text="Rankings" />}</Button>
+            <Button className='w-full text-center' link="/rankings">{<Glitch text="Rankings" />}</Button>
 
             {session && (
-                <Button link="/account">
+                <Button className='w-full text-center' link="/account">
                     {<Glitch text={session.user?.name as string} />}
                 </Button>
             )}
 
-            <Button link="/api/auth/signin">
+            <Button className='w-full text-center' link="/api/auth/signin">
                 <Glitch text={session ? 'Sign out' : 'Sign in'} />
             </Button>
         </div>

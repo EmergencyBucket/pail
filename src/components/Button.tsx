@@ -17,7 +17,7 @@ const Button = ({ onClick, children, link, className }: Props) => {
             {link ? (
                 <Link
                     href={link}
-                    className="bg-slate-800 text-white p-2 border-4 border-slate-700 hover:border-slate-500"
+                    className={`bg-slate-800 text-white p-2 border-4 border-slate-700 hover:border-slate-500 ${className}`}
                 >
                     {children}
                 </Link>

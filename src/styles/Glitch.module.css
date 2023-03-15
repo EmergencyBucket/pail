@@ -58,7 +58,9 @@
 :hover.glitch:after {
     content: attr(id);
     position: absolute;
-    left: 0;
+    top: 0%;
+  left: 50%;
+  transform: translate(-50%);
 }
 
 :hover.glitch:before {
