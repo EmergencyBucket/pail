@@ -76,6 +76,22 @@ export const SettingsMenu = () => {
                         );
                 },
             },
+            {
+                key: 'DISCORD_CHANNEL',
+                datatype: 'string',
+                defaultValue: await (
+                    await fetch(`/api/settings/DISCORD_CHANNEL`)
+                ).json(),
+                onSubmit: (e) => {
+                    e.preventDefault();
+                    //@ts-ignore
+                    let val = e.target.value.value;
+                    //@ts-ignore
+                    let pub = e.target.public.value === 'on';
+
+                    saveSetting('DISCORD_CHANNEL', val, pub);
+                },
+            },
         ]);
     }
 
