@@ -17,7 +17,7 @@ export default function Home() {
             <div className="grid mt-6 gap-2">
                 <code className="text-white text-center text-lg mb-2 hidden sm:block">
                     Welcome to Emergency Bucket&apos;s inaugural Capture The
-                    Flag competition. Bucket CTF will be and online,
+                    Flag competition. Bucket CTF will be an online,
                     jeopardy-style CTF, and we&apos;ll have a plethora of info
                     security challenges. Our challenge categories include web
                     exploitation (web), cryptography (crypto), reverse
