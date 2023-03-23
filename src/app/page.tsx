@@ -22,7 +22,8 @@ export default function Home() {
                     security challenges. Our challenge categories include web
                     exploitation (web), cryptography (crypto), reverse
                     engineering (rev), binary exploitation (pwn), and
-                    miscellaneous other categories (misc). Team sizes are capped at 4 members.
+                    miscellaneous other categories (misc). Team sizes are capped
+                    at 4 members.
                 </code>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-0 sm:w-1/4 mx-auto">
                     <Link
@@ -64,13 +65,13 @@ export default function Home() {
                     Prizes
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥇 - $350 per team and $250 DigitalOcean Credit per team member
+                    🥇 - $350 and $1250 in DO Credits
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥈 - $200 per team and $125 DigitalOcean Credit per team member
+                    🥈 - $200 and $500 in DO Credits
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥉 - $150 per team and $100 DigitalOcean Credit per team member
+                    🥉 - $150 and $250 in DO Credits
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">
