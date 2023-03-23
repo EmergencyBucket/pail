@@ -22,8 +22,7 @@ export default function Home() {
                     security challenges. Our challenge categories include web
                     exploitation (web), cryptography (crypto), reverse
                     engineering (rev), binary exploitation (pwn), and
-                    miscellaneous other categories (misc). Team sizes are capped
-                    at 4 members.
+                    miscellaneous other categories (misc).
                 </code>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-0 sm:w-1/4 mx-auto">
                     <Link
