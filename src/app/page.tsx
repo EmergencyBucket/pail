@@ -64,13 +64,13 @@ export default function Home() {
                     Prizes
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥇 - $350 + $1250 DO Credit
+                    🥇 - $350 + $1250 DigitalOcean Credit
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥈 - $200 + $500 DO Credit
+                    🥈 - $200 + $500 DigitalOcean Credit
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥉 - $150 + $250 DO Credit
+                    🥉 - $150 + $250 DigitalOcean Credit
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">
