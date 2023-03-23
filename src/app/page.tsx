@@ -10,12 +10,12 @@ export default function Home() {
     return (
         <>
             <Bucket />
-            <h1 className="text-6xl font-bold mx-auto text-center text-white">
+            <h1 className="text-4xl sm:text-6xl font-bold mx-auto text-center text-white">
                 BucketCTF<i>[2023]</i>
             </h1>
 
             <div className="grid mt-6 gap-2">
-                <code className="text-white text-center text-lg mb-2">
+                <code className="text-white text-center text-lg mb-2 hidden sm:block">
                     Welcome to Emergency Bucket&apos;s inaugural Capture The
                     Flag competition. Bucket CTF will be and online,
                     jeopardy-style CTF, and we&apos;ll have a plethora of info
@@ -24,7 +24,7 @@ export default function Home() {
                     engineering (rev), binary exploitation (pwn), and
                     miscellaneous other categories (misc).
                 </code>
-                <div className="grid grid-cols-2 w-1/4 mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-0 sm:w-1/4 mx-auto">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -64,19 +64,19 @@ export default function Home() {
                     Prizes
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥇 - $350
+                    🥇 - $350 + $1250 DO Credit
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥈 - $200
+                    🥈 - $200 + $500 DO Credit
                 </code>
                 <code className="text-white text-xl text-center mx-auto">
-                    🥉 - $100
+                    🥉 - $150 + $250 DO Credit
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">
                     Sponsors
                 </code>
-                <div className="grid grid-cols-3 w-1/2 mx-auto">
+                <div className="grid sm:grid-cols-4 sm:w-1/2 gap-4 sm:gap-0 mx-auto mb-6 sm:mb-0">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -85,7 +85,7 @@ export default function Home() {
                         <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
                             <div>
                                 <Image
-                                    src="/fyrehost.png"
+                                    src="/sponsors/fyrehost.png"
                                     alt="FyreHost Development"
                                     width={200}
                                     height={750}
@@ -102,7 +102,7 @@ export default function Home() {
                         <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
                             <div>
                                 <Image
-                                    src="/asteralabs.png"
+                                    src="/sponsors/asteralabs.png"
                                     alt="Astera Labs"
                                     width={200}
                                     height={750}
@@ -119,11 +119,28 @@ export default function Home() {
                         <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
                             <div>
                                 <Image
-                                    src="/diodes.webp"
+                                    src="/sponsors/diodes.webp"
                                     alt="Diodes Incorporated"
                                     width={200}
                                     height={750}
                                     className="rounded-2xl bg-white p-2"
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                    <Link
+                        target={'_blank'}
+                        className="mx-auto"
+                        href={'https://do.co/studenthackathon'}
+                    >
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
+                            <div>
+                                <Image
+                                    src="/sponsors/digitalocean.png"
+                                    alt="DigitalOcean"
+                                    width={200}
+                                    height={750}
+                                    className="rounded-2xl bg-white p-2 py-4"
                                 />
                             </div>
                         </div>

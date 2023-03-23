@@ -1,32 +1,35 @@
 import { getServerSession } from 'next-auth';
 import Button from './Button';
-import Glitch from './Glitch';
 
 const Navbar = async () => {
     const session = await getServerSession();
 
     return (
-        <div className="flex gap-4 w-full place-items-center">
+        <div className="flex flex-wrap sm:flex-nowrap gap-4 w-full place-items-center">
             <Button className="w-full text-center" link="/">
-                {<Glitch text="Home" />}
+                <code className="text-xl font-medium">Home</code>
             </Button>
 
             <Button className="w-full text-center" link="/challenges">
-                {<Glitch text="Challenges" />}
+                <code className="text-xl font-medium">Challenges</code>
             </Button>
 
             <Button className="w-full text-center" link="/rankings">
-                {<Glitch text="Rankings" />}
+                <code className="text-xl font-medium">Rankings</code>
             </Button>
 
             {session && (
                 <Button className="w-full text-center" link="/account">
-                    {<Glitch text={session.user?.name as string} />}
+                    <code className="text-xl font-medium">
+                        {session.user?.name as string}
+                    </code>
                 </Button>
             )}
 
             <Button className="w-full text-center" link="/api/auth/signin">
-                <Glitch text={session ? 'Sign out' : 'Sign in'} />
+                <code className="text-xl font-medium">
+                    {session ? 'Sign out' : 'Sign in'}
+                </code>
             </Button>
         </div>
     );
