@@ -60,7 +60,12 @@ export default function Home() {
 
         let res = await req.json();
 
-        setTeam(res as Team);
+        if (req.ok) {
+            setTeam(res as Team);
+        } else {
+            //@ts-ignore
+            event.target.name.value = 'Invalid name.';
+        }
     }
 
     async function submitJoin(event: FormEvent<HTMLFormElement>) {
@@ -76,7 +81,12 @@ export default function Home() {
 
         let res = await req.json();
 
-        setTeam(res as Team);
+        if (req.ok) {
+            setTeam(res as Team);
+        } else {
+            //@ts-ignore
+            event.target.secret.value = 'Bad secret.';
+        }
     }
 
     useEffect(() => {
@@ -120,9 +130,11 @@ export default function Home() {
                     </button>
                 </>
             ) : (
-                <div>
-                    <p className="text-white">Create your own team</p>
+                <div className="flex gap-4">
                     <form onSubmit={submitCreate}>
+                        <p className="text-white text-center">
+                            Create your own team
+                        </p>
                         <input
                             type={'text'}
                             placeholder="Team name"
@@ -134,13 +146,13 @@ export default function Home() {
                         <br />
                         <input
                             className={
-                                'bg-slate-800 cursor-pointer text-white p-2 border-2 border-slate-700 hover:border-slate-500'
+                                'bg-slate-800 cursor-pointer text-white border-2 border-slate-700 hover:border-slate-500 w-full'
                             }
                             type={'submit'}
                         />
                     </form>
-                    <p className="text-white">Join a team</p>
                     <form onSubmit={submitJoin}>
+                        <p className="text-white text-center">Join a team</p>
                         <input
                             type={'text'}
                             placeholder="Team secret"
@@ -152,7 +164,7 @@ export default function Home() {
                         <br />
                         <input
                             className={
-                                'bg-slate-800 cursor-pointer text-white p-2 border-2 border-slate-700 hover:border-slate-500'
+                                'bg-slate-800 cursor-pointer text-white border-2 border-slate-700 hover:border-slate-500 w-full'
                             }
                             type={'submit'}
                         />
