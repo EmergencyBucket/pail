@@ -24,7 +24,7 @@ export default function Home() {
                     engineering (rev), binary exploitation (pwn), and
                     miscellaneous other categories (misc).
                 </code>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-0 sm:w-1/4 mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:w-1/4 mx-auto">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -76,7 +76,7 @@ export default function Home() {
                 <code className="text-white text-3xl text-center mx-auto">
                     Sponsors!
                 </code>
-                <div className="grid sm:grid-cols-4 sm:w-1/2 gap-4 sm:gap-0 mx-auto mb-6 sm:mb-0">
+                <div className="grid sm:grid-cols-4 sm:w-1/2 gap-4 mx-auto mb-6 sm:mb-0">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
