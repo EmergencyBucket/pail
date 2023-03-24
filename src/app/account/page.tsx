@@ -40,7 +40,7 @@ export default function Home() {
     }
 
     async function leave() {
-        await fetch(`/api/teams/user/leave`, {
+        await fetch(`/api/teams/leave`, {
             method: 'POST',
         });
 
