@@ -112,11 +112,6 @@ const Challenge = ({ challenge }: Props) => {
                             </a>
                         ))}
                     </div>
-                    <div>
-                        {challenge.firstBlood
-                            ? 'Solved at: ' + challenge.firstBlood
-                            : 'Unsolved'}
-                    </div>
                     {challenge.image && (
                         <>
                             <div className="flex">

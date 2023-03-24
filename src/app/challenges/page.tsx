@@ -1,4 +1,5 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
+import { CTFStart } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 import { Challenge, Solve } from '@prisma/client';
 import { getServerSession } from 'next-auth';
@@ -54,6 +55,10 @@ export default async function Home() {
     let challengesWithoutSecrets = challenges.map((chall) =>
         exclude(chall, ['flag', 'solved'])
     );
+
+    if (await CTFStart()) {
+        return <>This CTF has not started yet.</>;
+    }
 
     return (
         <div className="grid grid-cols-4 gap-4 mt-8">
