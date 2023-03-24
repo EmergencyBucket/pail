@@ -26,7 +26,10 @@ const Navbar = async () => {
                 </Button>
             )}
 
-            <Button className="w-full text-center" link="/api/auth/signin">
+            <Button
+                className="w-full text-center"
+                link={session ? '/api/auth/signout' : '/api/auth/signin'}
+            >
                 <code className="text-xl font-medium">
                     {session ? 'Sign out' : 'Sign in'}
                 </code>
