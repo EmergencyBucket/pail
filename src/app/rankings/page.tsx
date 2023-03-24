@@ -128,7 +128,7 @@ export default async function Home() {
                         rankings.map((team) => (
                             <div
                                 key={Math.random()}
-                                className="bg-slate-700 m-1 rounded-lg text-center"
+                                className="bg-slate-700 m-1 text-center"
                             >
                                 <code className="text-white text-lg">
                                     {team.label + ' - ' + team.data[0]}
