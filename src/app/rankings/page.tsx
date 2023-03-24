@@ -3,6 +3,7 @@ import { ChartData } from 'chart.js';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
+import { CTFStart } from '@/lib/Middleware';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -36,6 +37,14 @@ function getColor() {
 }
 
 export default async function Home() {
+    if (await CTFStart()) {
+        return (
+            <code className="text-white text-2xl">
+                This CTF has not started yet.
+            </code>
+        );
+    }
+
     let teams: (Team & {
         solves: Solve[];
         points?: number;

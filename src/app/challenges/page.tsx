@@ -19,6 +19,14 @@ function exclude<Challenge, Key extends keyof Challenge>(
 }
 
 export default async function Home() {
+    if (await CTFStart()) {
+        return (
+            <code className="text-white text-2xl">
+                This CTF has not started yet.
+            </code>
+        );
+    }
+
     let session = await getServerSession();
 
     let user = await prisma.user.findFirst({
@@ -55,10 +63,6 @@ export default async function Home() {
     let challengesWithoutSecrets = challenges.map((chall) =>
         exclude(chall, ['flag', 'solved'])
     );
-
-    if (await CTFStart()) {
-        return <>This CTF has not started yet.</>;
-    }
 
     return (
         <div className="grid grid-cols-4 gap-4 mt-8">

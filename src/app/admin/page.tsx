@@ -2,6 +2,7 @@ import CreateChallenge from '@/components/CreateChallenge';
 import CreateHost from '@/components/CreateHost';
 import EditChallenge from '@/components/EditChallenge';
 import { SettingsMenu } from '@/components/SettingsMenu';
+import { admin } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 
 export const metadata = {
@@ -9,6 +10,14 @@ export const metadata = {
 };
 
 export default async function Home() {
+    if (await admin()) {
+        return (
+            <code className="text-white text-2xl">
+                You must be an admin to access this page.
+            </code>
+        );
+    }
+
     let challenges = await prisma.challenge.findMany();
 
     return (
