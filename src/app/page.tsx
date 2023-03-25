@@ -74,7 +74,7 @@ export default function Home() {
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">
-                    Sponsors!
+                    Sponsors
                 </code>
                 <div className="grid sm:grid-cols-4 sm:w-1/2 gap-4 mx-auto mb-6 sm:mb-0">
                     <Link
@@ -89,7 +89,7 @@ export default function Home() {
                                     alt="FyreHost Development"
                                     width={200}
                                     height={750}
-                                    className="rounded-2xl"
+                                    className="rounded-2xl bg-gray-900"
                                 />
                             </div>
                         </div>
@@ -99,14 +99,14 @@ export default function Home() {
                         className="mx-auto"
                         href={'https://www.asteralabs.com/'}
                     >
-                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-blue-700 via-cyan-700 to-green-700 p-0.5">
                             <div>
                                 <Image
                                     src="/sponsors/asteralabs.png"
                                     alt="Astera Labs"
                                     width={200}
                                     height={750}
-                                    className="rounded-2xl bg-white p-2"
+                                    className="rounded-2xl bg-gray-900 p-2"
                                 />
                             </div>
                         </div>
@@ -116,14 +116,14 @@ export default function Home() {
                         className="mx-auto"
                         href={'https://www.diodes.com/'}
                     >
-                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-green-700 via-lime-700 to-amber-700 p-0.5">
                             <div>
                                 <Image
                                     src="/sponsors/diodes.webp"
                                     alt="Diodes Incorporated"
                                     width={200}
                                     height={750}
-                                    className="rounded-2xl bg-white p-2"
+                                    className="rounded-2xl bg-gray-900 p-2"
                                 />
                             </div>
                         </div>
@@ -133,14 +133,14 @@ export default function Home() {
                         className="mx-auto"
                         href={'https://do.co/studenthackathon'}
                     >
-                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-zinc-200 via-cyan-500 to-blue-700 p-0.5">
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-amber-700 via-orange-700 to-red-700 p-0.5">
                             <div>
                                 <Image
                                     src="/sponsors/digitalocean.png"
                                     alt="DigitalOcean"
                                     width={200}
                                     height={750}
-                                    className="rounded-2xl bg-white p-2 py-4"
+                                    className="rounded-2xl bg-gray-900 p-2 py-4"
                                 />
                             </div>
                         </div>
