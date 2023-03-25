@@ -51,7 +51,7 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findFirst({
         where: {
-            id: session.user?.name!,
+            name: session.user?.name!,
         },
     });
 
