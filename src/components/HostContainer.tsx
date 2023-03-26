@@ -5,14 +5,16 @@ import Button from './Button';
 import Modal from './Modal';
 import { Status, Statuses } from './Status';
 import forge from 'node-forge';
+import { Host } from '@prisma/client';
 
 let pki = forge.pki;
 
 interface Props {
     className?: string;
+    data?: Partial<Host>;
 }
 
-const CreateHost = ({ className }: Props) => {
+const HostContainer = ({ className, data }: Props) => {
     const [open, setOpen] = useState(false);
 
     const [certStatus, setCertStatus] = useState(Statuses.Loading);
@@ -27,7 +29,7 @@ const CreateHost = ({ className }: Props) => {
         event.preventDefault();
 
         await fetch(`/api/hosts`, {
-            method: 'POST',
+            method: data ? 'PATCH' : 'POST',
             body: JSON.stringify({
                 //@ts-ignore
                 port: parseInt(event.target.port.value),
@@ -99,6 +101,7 @@ const CreateHost = ({ className }: Props) => {
                         type={'number'}
                         placeholder="Port"
                         name="port"
+                        value={data ? (data.port as number) : undefined}
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
@@ -107,6 +110,7 @@ const CreateHost = ({ className }: Props) => {
                         type={'text'}
                         placeholder="Remote"
                         name="remote"
+                        value={data ? (data.remote as string) : undefined}
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
@@ -115,6 +119,7 @@ const CreateHost = ({ className }: Props) => {
                         type={'text'}
                         placeholder="IP"
                         name="ip"
+                        value={data ? (data.ip as string) : undefined}
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 mt-2 pl-2 w-full outline-none'
                         }
@@ -174,4 +179,4 @@ const CreateHost = ({ className }: Props) => {
     );
 };
 
-export default CreateHost;
+export default HostContainer;
