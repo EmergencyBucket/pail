@@ -123,7 +123,7 @@ export default function Home() {
                                     alt="Diodes Incorporated"
                                     width={200}
                                     height={750}
-                                    className="rounded-2xl bg-gray-900 p-2"
+                                    className="rounded-2xl bg-gray-900 p-2.5"
                                 />
                             </div>
                         </div>

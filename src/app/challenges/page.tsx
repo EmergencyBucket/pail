@@ -50,7 +50,7 @@ export default async function Home({
         },
         where: {
             name: {
-                contains: searchParams.search,
+                search: searchParams.search,
             },
             difficulty: (searchParams.difficulty as Difficulty)
                 ? (searchParams.difficulty as Difficulty)
