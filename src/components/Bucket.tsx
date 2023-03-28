@@ -5,9 +5,13 @@ import bucket from '../../public/bucket.json';
 
 const Bucket = () => {
     async function load() {
-        let c = document.getElementById('canvas');
-        //  @ts-ignore
-        let ctx = c.getContext('2d');
+        let c: HTMLCanvasElement = document.getElementById(
+            'canvas'
+        ) as HTMLCanvasElement;
+
+        let ctx: CanvasRenderingContext2D = c.getContext(
+            '2d'
+        ) as CanvasRenderingContext2D;
 
         for (let x = 0; x < bucket.length; x++) {
             let sl =
@@ -20,7 +24,7 @@ const Bucket = () => {
                     ctx.beginPath();
                     if (bucket[x][y][3]) {
                         ctx.strokeStyle = `#1d1f20`;
-                        ctx.lineWidth = '0.5';
+                        ctx.lineWidth = 0.5;
                         ctx.rect(x * 5 - 0.5, y * 5 - 0.5, 5, 5);
                     }
 
