@@ -63,14 +63,23 @@ export default function Home() {
                 <code className="text-white text-4xl text-center mx-auto">
                     Prizes
                 </code>
-                <code className="text-white text-xl text-center mx-auto">
-                    🥇 - $350 and $1250 in DO Credits
+                <code
+                    title="Cash prizes distributed in VISA Gift Cards."
+                    className="text-white text-xl text-center mx-auto"
+                >
+                    🥇 - $350* and $1250 in DO Credits
                 </code>
-                <code className="text-white text-xl text-center mx-auto">
-                    🥈 - $200 and $500 in DO Credits
+                <code
+                    title="Cash prizes distributed in VISA Gift Cards."
+                    className="text-white text-xl text-center mx-auto"
+                >
+                    🥈 - $200* and $500 in DO Credits
                 </code>
-                <code className="text-white text-xl text-center mx-auto">
-                    🥉 - $150 and $250 in DO Credits
+                <code
+                    title="Cash prizes distributed in VISA Gift Cards."
+                    className="text-white text-xl text-center mx-auto"
+                >
+                    🥉 - $150* and $250 in DO Credits
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">
