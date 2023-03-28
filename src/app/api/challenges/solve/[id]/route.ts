@@ -5,6 +5,14 @@ import { CTFEnd, CTFStart, Middleware, teamMember } from '@/lib/Middleware';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prismadb';
+import {
+    Client,
+    EmbedBuilder,
+    Events,
+    GatewayIntentBits,
+    TextChannel,
+} from 'discord.js';
+import { User } from '@prisma/client';
 
 const ajv = new Ajv();
 interface SolveChallengeRequest {
@@ -43,11 +51,11 @@ export async function POST(
         );
     }
 
-    const user = await prisma.user.findFirst({
+    const user: User = (await prisma.user.findFirst({
         where: {
             name: session!.user?.name,
         },
-    });
+    })) as User;
 
     const team = await prisma.team.findFirst({
         where: {
@@ -58,6 +66,9 @@ export async function POST(
     const challenge = await prisma.challenge.findFirst({
         where: {
             id: id as string,
+        },
+        include: {
+            solved: true,
         },
     });
 
@@ -119,6 +130,40 @@ export async function POST(
                 time: new Date(),
             },
         });
+
+        if (challenge.solved.length == 0) {
+            let token = process.env.DISCORD_TOKEN;
+
+            let channel = await prisma.setting.findFirst({
+                where: {
+                    key: 'DISCORD_CHANNEL',
+                },
+            });
+
+            const firstBlood = new EmbedBuilder()
+                .setColor(0x4361ee)
+                .setTitle('First Blood!')
+                .setURL('https://ctf.ebucket.dev')
+                .setAuthor({
+                    name: user.name!,
+                    iconURL: user.image!,
+                    url: `https://github.com/${user.name}`,
+                })
+                .setDescription(`${team?.name} has solved ${challenge.name}!`)
+                .setTimestamp();
+
+            const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+            client.once(Events.ClientReady, (client) => {
+                (
+                    client.channels.cache.get(
+                        channel?.value as string
+                    ) as TextChannel
+                ).send({ embeds: [firstBlood] });
+            });
+
+            client.login(token);
+        }
 
         return NextResponse.json(
             {

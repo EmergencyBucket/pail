@@ -3,7 +3,7 @@ const nextConfig = {
     reactStrictMode: false,
     experimental: {
         appDir: true,
-        serverComponentsExternalPackages: ['cpu-features', 'ssh2'],
+        serverComponentsExternalPackages: ['cpu-features', 'ssh2', 'zlib_sync', 'discord.js'],
     },
 }
 
