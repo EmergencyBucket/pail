@@ -67,25 +67,25 @@ export default function Home() {
                     title="Cash prizes distributed in VISA Gift Cards."
                     className="text-white text-xl text-center mx-auto"
                 >
-                    🥇 - $350* and $1250 in DO Credits
+                    🥇 - $500* and $1250 in DO Credits
                 </code>
                 <code
                     title="Cash prizes distributed in VISA Gift Cards."
                     className="text-white text-xl text-center mx-auto"
                 >
-                    🥈 - $200* and $500 in DO Credits
+                    🥈 - $300* and $500 in DO Credits
                 </code>
                 <code
                     title="Cash prizes distributed in VISA Gift Cards."
                     className="text-white text-xl text-center mx-auto"
                 >
-                    🥉 - $150* and $250 in DO Credits
+                    🥉 - $200* and $250 in DO Credits
                 </code>
                 <br />
                 <code className="text-white text-3xl text-center mx-auto">
                     Sponsors
                 </code>
-                <div className="grid sm:grid-cols-4 sm:w-1/2 gap-4 mx-auto mb-6 sm:mb-0">
+                <div className="grid sm:grid-cols-5 sm:w-1/2 gap-4 mx-auto mb-6 sm:mb-0">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -150,6 +150,23 @@ export default function Home() {
                                     width={200}
                                     height={750}
                                     className="rounded-2xl bg-gray-900 p-2 py-4"
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                    <Link
+                        target={'_blank'}
+                        className="mx-auto"
+                        href={'https://do.co/studenthackathon'}
+                    >
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-violet-700 to-purple-700 p-0.5">
+                            <div>
+                                <Image
+                                    src="/sponsors/sagent.png"
+                                    alt="Sagent Management"
+                                    width={200}
+                                    height={750}
+                                    className="rounded-xl bg-gray-900 p-2 py-3"
                                 />
                             </div>
                         </div>
