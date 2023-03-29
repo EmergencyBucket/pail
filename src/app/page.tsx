@@ -85,7 +85,7 @@ export default function Home() {
                 <code className="text-white text-3xl text-center mx-auto">
                     Sponsors
                 </code>
-                <div className="grid sm:grid-cols-5 sm:w-1/2 gap-4 mx-auto mb-6 sm:mb-0">
+                <div className="grid sm:grid-cols-6 sm:w-2/3 gap-4 mx-auto mb-6 sm:mb-0">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -149,7 +149,7 @@ export default function Home() {
                                     alt="DigitalOcean"
                                     width={200}
                                     height={750}
-                                    className="rounded-2xl bg-gray-900 p-2 py-4"
+                                    className="rounded-2xl bg-gray-900 p-2 py-5"
                                 />
                             </div>
                         </div>
@@ -157,16 +157,33 @@ export default function Home() {
                     <Link
                         target={'_blank'}
                         className="mx-auto"
-                        href={'https://do.co/studenthackathon'}
+                        href={'http://www.sagentmanagement.com/'}
                     >
-                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-violet-700 to-purple-700 p-0.5">
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-red-700 via-pink-700 to-purple-700 p-0.5">
                             <div>
                                 <Image
                                     src="/sponsors/sagent.png"
                                     alt="Sagent Management"
                                     width={200}
                                     height={750}
-                                    className="rounded-xl bg-gray-900 p-2 py-3"
+                                    className="rounded-xl bg-gray-900 p-2 py-3.5"
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                    <Link
+                        target={'_blank'}
+                        className="mx-auto"
+                        href={'https://www.catalyst-us.com/'}
+                    >
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 p-0.5">
+                            <div>
+                                <Image
+                                    src="/sponsors/catalyst.png"
+                                    alt="Catalyst Business Partners"
+                                    width={200}
+                                    height={750}
+                                    className="rounded-xl bg-gray-900"
                                 />
                             </div>
                         </div>
