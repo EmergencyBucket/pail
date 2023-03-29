@@ -14,11 +14,6 @@ const Bucket = () => {
         ) as CanvasRenderingContext2D;
 
         for (let x = 0; x < bucket.length; x++) {
-            let sl =
-                200 /
-                bucket[x].filter((b) => {
-                    return b[3];
-                }).length;
             for (let y = bucket[x].length - 1; y >= 0; y--) {
                 setTimeout(() => {
                     ctx.beginPath();
@@ -31,7 +26,7 @@ const Bucket = () => {
                     ctx.fillStyle = `rgba(${bucket[x][y][0]}, ${bucket[x][y][1]}, ${bucket[x][y][2]}, ${bucket[x][y][3]})`;
                     ctx.fillRect(x * 5, y * 5, 4.5, 4.5);
                     ctx.stroke();
-                }, sl * y);
+                }, y);
             }
         }
     }
