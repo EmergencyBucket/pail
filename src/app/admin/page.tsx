@@ -20,6 +20,8 @@ export default async function Home() {
 
     let challenges = await prisma.challenge.findMany();
 
+    let hosts = await prisma.host.findMany();
+
     return (
         <div className="mt-4 flex flex-wrap">
             <div className="w-1/2 grid gap-4 px-2 h-min">
@@ -40,6 +42,9 @@ export default async function Home() {
             </div>
             <div className="w-1/2 grid gap-4 px-2 h-min">
                 <code className="text-white text-2xl text-center">Hosts</code>
+                {hosts.map((host) => (
+                    <HostContainer data={host} key={Math.random()} />
+                ))}
                 <HostContainer />
             </div>
             <div className="w-1/2"></div>
