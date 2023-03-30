@@ -101,7 +101,7 @@ const HostContainer = ({ className, data }: Props) => {
                         type={'number'}
                         placeholder="Port"
                         name="port"
-                        value={data ? (data.port as number) : undefined}
+                        defaultValue={data ? (data.port as number) : undefined}
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
@@ -110,7 +110,9 @@ const HostContainer = ({ className, data }: Props) => {
                         type={'text'}
                         placeholder="Remote"
                         name="remote"
-                        value={data ? (data.remote as string) : undefined}
+                        defaultValue={
+                            data ? (data.remote as string) : undefined
+                        }
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
@@ -119,7 +121,7 @@ const HostContainer = ({ className, data }: Props) => {
                         type={'text'}
                         placeholder="IP"
                         name="ip"
-                        value={data ? (data.ip as string) : undefined}
+                        defaultValue={data ? (data.ip as string) : undefined}
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 mt-2 pl-2 w-full outline-none'
                         }

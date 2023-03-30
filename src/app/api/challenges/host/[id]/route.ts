@@ -85,6 +85,8 @@ export async function POST(
         key: host.key!,
     });
 
+    await docker.pull(challenge.image);
+
     let container = await docker.createContainer({
         Image: challenge.image,
         ExposedPorts: {
