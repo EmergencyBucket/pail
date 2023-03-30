@@ -73,3 +73,38 @@ export async function POST(req: Request) {
         status: StatusCodes.CREATED,
     });
 }
+
+export async function PATCH(req: Request) {
+    let middleware = await Middleware([admin()]);
+    if (middleware) return middleware;
+
+    const content = await req.json();
+
+    if (!createHostValidator(content)) {
+        return NextResponse.json(
+            {
+                Error: 'Bad request',
+            },
+            {
+                status: StatusCodes.BAD_REQUEST,
+            }
+        );
+    }
+
+    const host = await prisma.host.update({
+        where: {
+            remote: content.remote,
+        },
+        data: {
+            port: content.port,
+            ip: content.ip,
+            ca: content.ca,
+            cert: content.cert,
+            key: content.key,
+        },
+    });
+
+    return NextResponse.json(host, {
+        status: StatusCodes.OK,
+    });
+}

@@ -99,7 +99,7 @@ model Setting {
 model Host {
   id        String  @id @default(cuid())
   port      Int?
-  remote    String
+  remote    String  @unique
   ip        String?
   ca        String?
   cert      String?
