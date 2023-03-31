@@ -1,5 +1,5 @@
 import prisma from '@/lib/prismadb';
-import Dockerode from 'dockerode';
+import Dockerode, { AuthConfig } from 'dockerode';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { CTFEnd, CTFStart, Middleware } from '@/lib/Middleware';
@@ -85,7 +85,13 @@ export async function POST(
         key: host.key!,
     });
 
-    await docker.pull(challenge.image);
+    let auth: AuthConfig = {
+        username: process.env.DOCKER_USERNAME!,
+        password: process.env.DOCKER_PASSWORD!,
+        serveraddress: 'ghcr.io',
+    };
+
+    await docker.pull(challenge.image, { auth: auth });
 
     let container = await docker.createContainer({
         Image: challenge.image,
