@@ -1,5 +1,5 @@
 import prisma from '@/lib/prismadb';
-import Dockerode, { AuthConfig } from 'dockerode';
+import Dockerode from 'dockerode';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { CTFEnd, CTFStart, Middleware } from '@/lib/Middleware';
