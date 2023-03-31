@@ -85,9 +85,8 @@ export async function POST(
         key: host.key!,
     });
 
-    let auth: AuthConfig = {
-        username: process.env.DOCKER_USERNAME!,
-        password: process.env.DOCKER_PASSWORD!,
+    let auth = {
+        auth: process.env.DOCKER_AUTH!,
         serveraddress: 'ghcr.io',
     };
 
