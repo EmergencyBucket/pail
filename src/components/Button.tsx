@@ -24,7 +24,7 @@ const Button = ({ onClick, children, link, className }: Props) => {
             ) : (
                 <button
                     onClick={onClick}
-                    className={`bg-slate-800 text-white p-2 border-4 border-slate-700 hover:border-slate-500 ${className}`}
+                    className={`bg-slate-800 text-white p-2 border-4 border-slate-700 hover:border-slate-500 focus:outline-none ${className}`}
                 >
                     {children}
                 </button>
