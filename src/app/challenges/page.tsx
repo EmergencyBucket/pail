@@ -72,7 +72,11 @@ export default async function Home({
     });
 
     challenges.forEach((challenge) => {
-        challenge.points = 500 - (challenge.solved?.length ?? 0) * 2;
+        challenge.points = challenge.staticPoints
+            ? challenge.staticPoints
+            : challenge.solved!.length > 150
+            ? 200
+            : 500 - challenge.solved!.length * 2;
     });
 
     let challengesWithoutSecrets = challenges.map((chall) =>
