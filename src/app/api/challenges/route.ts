@@ -15,6 +15,7 @@ interface CreateChallengeRequest {
     flag: string;
     category: string;
     difficulty: string;
+    staticPoints?: number;
 }
 
 const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
@@ -33,6 +34,7 @@ const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
             type: 'string',
             enum: ['EASY', 'MEDIUM', 'HARD'],
         },
+        staticPoints: { type: 'integer', nullable: true },
     },
     required: ['name', 'description', 'files', 'flag'],
 };
@@ -94,6 +96,7 @@ export async function POST(req: Request) {
             category: content.category as Category,
             difficulty: content.difficulty as Difficulty,
             solved: undefined,
+            staticPoints: content.staticPoints,
         },
     });
 

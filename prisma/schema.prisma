@@ -61,16 +61,17 @@ model VerificationToken {
 }
 
 model Challenge {
-  id          String     @id @default(cuid())
-  name        String
-  description String
-  files       String[]
-  flag        String
-  solved      Solve[]
-  category    Category   @default(MISC)
-  difficulty  Difficulty @default(EASY)
-  firstBlood  DateTime?
-  image       String?
+  id           String     @id @default(cuid())
+  name         String
+  description  String
+  files        String[]
+  flag         String
+  solved       Solve[]
+  category     Category   @default(MISC)
+  difficulty   Difficulty @default(EASY)
+  firstBlood   DateTime?
+  image        String?
+  staticPoints Int?
 }
 
 model Team {

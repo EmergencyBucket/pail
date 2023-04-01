@@ -78,6 +78,7 @@ interface EditChallengeRequest {
     flag?: string;
     category?: string;
     difficulty?: string;
+    staticPoints?: number;
 }
 
 const EditChallengeSchema: JSONSchemaType<EditChallengeRequest> = {
@@ -98,12 +99,13 @@ const EditChallengeSchema: JSONSchemaType<EditChallengeRequest> = {
             nullable: true,
             enum: ['EASY', 'MEDIUM', 'HARD'],
         },
+        staticPoints: { type: 'integer', nullable: true },
     },
 };
 
 const editChallengeValidator = ajv.compile(EditChallengeSchema);
 
-export async function POST(
+export async function PATCH(
     req: NextRequest,
     { params }: { params: { id?: string } }
 ) {
@@ -131,7 +133,7 @@ export async function POST(
                 Error: 'Bad request',
             },
             {
-                status: StatusCodes.FORBIDDEN,
+                status: StatusCodes.BAD_REQUEST,
             }
         );
     }
@@ -148,6 +150,7 @@ export async function POST(
             flag: content.flag,
             category: content.category as Category | undefined,
             difficulty: content.difficulty as Difficulty | undefined,
+            staticPoints: content.staticPoints,
         },
     });
 

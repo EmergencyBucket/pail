@@ -27,6 +27,7 @@ const CreateChallenge = ({ className, data }: Props) => {
             flag: { value: string };
             category: { value: string };
             difficulty: { value: string };
+            staticPoints: { value: string };
         };
 
         setOpen(false);
@@ -41,6 +42,7 @@ const CreateChallenge = ({ className, data }: Props) => {
                 flag: target.flag.value,
                 category: target.category.value,
                 difficulty: target.difficulty.value,
+                staticPoints: parseInt(target.staticPoints.value),
             }),
         });
 
@@ -125,6 +127,16 @@ const CreateChallenge = ({ className, data }: Props) => {
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
                         defaultValue={data?.flag}
+                    />
+                    <br />
+                    <input
+                        type={'number'}
+                        placeholder="Points"
+                        name="staticPoints"
+                        className={
+                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
+                        }
+                        defaultValue={data?.staticPoints ?? undefined}
                     />
                     <br />
                     <input

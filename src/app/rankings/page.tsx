@@ -71,7 +71,9 @@ export default async function Home() {
                     solved: Solve[];
                 }
             ) =>
-                challenge.solved.length > 150
+                challenge.staticPoints
+                    ? challenge.staticPoints
+                    : challenge.solved.length > 150
                     ? 200
                     : 500 - challenge.solved.length * 2,
         })
