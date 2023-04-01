@@ -4,12 +4,14 @@ import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
+import { Challenge } from '@prisma/client';
 
 interface Props {
     className?: string;
+    data?: Challenge;
 }
 
-const CreateChallenge = ({ className }: Props) => {
+const CreateChallenge = ({ className, data }: Props) => {
     const [open, setOpen] = useState(false);
 
     const router = useRouter();
@@ -17,25 +19,28 @@ const CreateChallenge = ({ className }: Props) => {
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        const target = event.target as typeof event.target & {
+            name: { value: string };
+            description: { value: string };
+            files: { value: string };
+            image: { value: string };
+            flag: { value: string };
+            category: { value: string };
+            difficulty: { value: string };
+        };
+
         setOpen(false);
 
-        await fetch(`/api/challenges`, {
-            method: 'POST',
+        await fetch(`/api/challenges/${data ? data.id : ''}`, {
+            method: data ? 'PATCH' : 'POST',
             body: JSON.stringify({
-                //@ts-ignore
-                name: event.target.name.value,
-                //@ts-ignore
-                description: event.target.description.value,
-                //@ts-ignore
-                files: event.target.files.value.split(','),
-                //@ts-ignore
-                image: event.target.image.value,
-                //@ts-ignore
-                flag: event.target.flag.value,
-                //@ts-ignore
-                category: event.target.category.value,
-                //@ts-ignore
-                difficulty: event.target.difficulty.value,
+                name: target.name.value,
+                description: target.description.value,
+                files: target.files.value.split(','),
+                image: target.image.value,
+                flag: target.flag.value,
+                category: target.category.value,
+                difficulty: target.difficulty.value,
             }),
         });
 
@@ -45,7 +50,7 @@ const CreateChallenge = ({ className }: Props) => {
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
-                <p className="text-white text-4xl">Create a challenge</p>
+                <p className="text-white text-4xl">Challenge</p>
                 <form onSubmit={submit}>
                     <input
                         type={'text'}
@@ -54,6 +59,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.name}
                     />
                     <br />
                     <textarea
@@ -62,6 +68,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.description}
                     />
                     <br />
                     <select
@@ -69,6 +76,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.category}
                     >
                         <option value={'WEB'}>Web</option>
                         <option value={'CRYPTO'}>Crypto</option>
@@ -82,6 +90,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.difficulty}
                     >
                         <option value={'EASY'}>Easy</option>
                         <option value={'MEDIUM'}>Medium</option>
@@ -95,6 +104,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.files}
                     />
                     <br />
                     <input
@@ -104,6 +114,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.image ?? ''}
                     />
                     <br />
                     <input
@@ -113,6 +124,7 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
                         }
+                        defaultValue={data?.flag}
                     />
                     <br />
                     <input
@@ -120,24 +132,29 @@ const CreateChallenge = ({ className }: Props) => {
                         className={
                             'bg-slate-800 cursor-pointer text-white my-2 p border-2 w-full border-slate-700 hover:border-slate-500'
                         }
+                        value={data ? 'Save' : 'Create'}
                     />
                 </form>
             </Modal>
             <Button className={className} onClick={() => setOpen(true)}>
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6 mx-auto"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                    />
-                </svg>
+                {data ? (
+                    <code>{data!.name}</code>
+                ) : (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6 mx-auto"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                    </svg>
+                )}
             </Button>
         </>
     );
