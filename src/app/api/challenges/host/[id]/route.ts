@@ -91,9 +91,7 @@ export async function POST(
         serveraddress: 'https://ghcr.io',
     };
 
-    console.log(auth);
-
-    await docker.pull(challenge.image, { 'authconfig': auth });
+    await docker.pull(challenge.image, { authconfig: auth });
 
     let container = await docker.createContainer({
         Image: challenge.image,
