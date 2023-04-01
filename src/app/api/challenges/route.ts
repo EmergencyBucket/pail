@@ -86,7 +86,9 @@ export async function POST(req: Request) {
         data: {
             name: content.name,
             description: content.description,
-            files: content.files,
+            files: content.files.filter((s) => s.length).length
+                ? content.files
+                : [],
             image: content.image,
             flag: content.flag,
             category: content.category as Category,
