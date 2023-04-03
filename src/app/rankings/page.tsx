@@ -1,5 +1,5 @@
 import { Challenge, Solve, Team } from '@prisma/client';
-import { ChartData } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
@@ -9,7 +9,7 @@ export const metadata = {
     title: 'EBucket | Rankings',
 };
 
-const options = {
+const options: ChartOptions = {
     responsive: true,
     color: '#FFFFFF',
     borderColor: '#FFFFFF',
