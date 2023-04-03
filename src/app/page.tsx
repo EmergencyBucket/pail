@@ -85,7 +85,7 @@ export default function Home() {
                 <code className="text-white text-3xl text-center mx-auto">
                     Sponsors
                 </code>
-                <div className="grid sm:grid-cols-6 sm:w-2/3 gap-4 mx-auto mb-6 sm:mb-0">
+                <div className="grid sm:grid-cols-7 sm:w-4/5 gap-4 mx-auto mb-6 sm:mb-0">
                     <Link
                         target={'_blank'}
                         className="mx-auto"
@@ -184,6 +184,23 @@ export default function Home() {
                                     width={200}
                                     height={750}
                                     className="rounded-xl bg-gray-900"
+                                />
+                            </div>
+                        </div>
+                    </Link>
+                    <Link
+                        target={'_blank'}
+                        className="mx-auto"
+                        href={'https://ml.com/'}
+                    >
+                        <div className="shadow-2xl shadow-indigo-500 rounded-2xl bg-gradient-to-r from-blue-700 via-teal-700 to-green-700 p-0.5">
+                            <div>
+                                <Image
+                                    src="/sponsors/merrill.png"
+                                    alt="Merrill Lynch"
+                                    width={200}
+                                    height={750}
+                                    className="rounded-xl p-1 bg-gray-900"
                                 />
                             </div>
                         </div>
