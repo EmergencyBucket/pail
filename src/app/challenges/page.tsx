@@ -2,6 +2,7 @@ import ChallengeContainer from '@/components/ChallengeContainer';
 import { CTFStart } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
+import { arrange, asc, tidy } from '@tidyjs/tidy';
 import { getServerSession } from 'next-auth';
 
 export const metadata = {
@@ -82,6 +83,8 @@ export default async function Home({
     let challengesWithoutSecrets = challenges.map((chall) =>
         exclude(chall, ['flag', 'solved'])
     );
+
+    challengesWithoutSecrets = tidy(challenges, arrange(asc('points')));
 
     return (
         <>
