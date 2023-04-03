@@ -38,6 +38,13 @@ export async function GET() {
         where: {
             id: user.teamId,
         },
+        include: {
+            members: true,
+        },
+    });
+
+    team!.members.forEach((member) => {
+        member.email = '';
     });
 
     return NextResponse.json(team);

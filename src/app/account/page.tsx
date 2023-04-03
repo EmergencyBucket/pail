@@ -5,7 +5,11 @@ import { Team, User } from '@prisma/client';
 import { FormEvent, useEffect, useState } from 'react';
 
 export default function Home() {
-    const [team, setTeam] = useState<Team>();
+    const [team, setTeam] = useState<
+        Team & {
+            members: User[];
+        }
+    >();
 
     const [user, setUser] = useState<User>();
 
@@ -21,7 +25,11 @@ export default function Home() {
 
         let res = await req.json();
 
-        setTeam(res as Team);
+        setTeam(
+            res as Team & {
+                members: User[];
+            }
+        );
     }
 
     async function getUser() {
@@ -61,7 +69,11 @@ export default function Home() {
         let res = await req.json();
 
         if (req.ok) {
-            setTeam(res as Team);
+            setTeam(
+                res as Team & {
+                    members: User[];
+                }
+            );
         } else {
             //@ts-ignore
             event.target.name.value = 'Invalid name.';
@@ -82,7 +94,11 @@ export default function Home() {
         let res = await req.json();
 
         if (req.ok) {
-            setTeam(res as Team);
+            setTeam(
+                res as Team & {
+                    members: User[];
+                }
+            );
         } else {
             //@ts-ignore
             event.target.secret.value = 'Bad secret.';
@@ -119,6 +135,10 @@ export default function Home() {
                     </p>
                     <p className="text-white">
                         Team secret: <kbd>{team.secret}</kbd>
+                    </p>
+                    <p className="text-white">
+                        Team members:{' '}
+                        <kbd>{team.members.map((m) => m.name + ' ')}</kbd>
                     </p>
                     <button
                         onClick={leave}

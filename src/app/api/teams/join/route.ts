@@ -59,6 +59,9 @@ export async function POST(req: Request) {
         where: {
             secret: data.secret,
         },
+        include: {
+            members: true,
+        },
     });
 
     if (!team) {
@@ -83,6 +86,10 @@ export async function POST(req: Request) {
                 },
             },
         },
+    });
+
+    team!.members.forEach((member) => {
+        member.email = '';
     });
 
     return NextResponse.json(team, {
