@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 export const metadata = {
     title: 'EBucket | Home',
+    description:
+        "Bucket CTF will be and online, jeopardy-style CTF, and we'll have a plethora of info security challenges. Our challenge categories include web exploitation (web), cryptography (crypto), reverse engineering (rev), binary exploitation (pwn), and miscellaneous other categories (misc).",
 };
 
 export default function Home() {
