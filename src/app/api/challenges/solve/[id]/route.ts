@@ -160,8 +160,6 @@ export async function POST(
                         channel?.value as string
                     ) as TextChannel
                 ).send({ embeds: [firstBlood] });
-
-                client.destroy();
             });
 
             client.login(token);
