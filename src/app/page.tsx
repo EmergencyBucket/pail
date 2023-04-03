@@ -6,6 +6,23 @@ export const metadata = {
     title: 'EBucket | Home',
     description:
         "Bucket CTF will be and online, jeopardy-style CTF, and we'll have a plethora of info security challenges. Our challenge categories include web exploitation (web), cryptography (crypto), reverse engineering (rev), binary exploitation (pwn), and miscellaneous other categories (misc).",
+    openGraph: {
+        title: 'BucketCTF 2023',
+        description:
+            'BucketCTF is an online jeopardy-style CTF from April 7th to April 9th with over $3000 in prizes.',
+        url: 'https://ctf.ebucket.dev',
+        siteName: 'BucketCTF',
+        images: [
+            {
+                url: 'https://ctf.ebucket.dev/bucket.png',
+                height: 512,
+                width: 512,
+                alt: 'logo',
+            },
+        ],
+        locale: 'en-US',
+        type: 'website',
+    },
 };
 
 export default function Home() {
