@@ -11,7 +11,7 @@ export default async function RootLayout({
             <head>
                 <link rel="icon" type="image/x-icon" href="/bucket.png"></link>
             </head>
-            <body className="w-screen h-screen bg-gray-900 p-8">
+            <body className="w-full h-full bg-gray-900 p-8">
                 {/* @ts-expect-error Server Component */}
                 <Navbar />
                 {children}
