@@ -23,12 +23,6 @@ export async function POST() {
         },
     });
 
-    await prisma.solve.deleteMany({
-        where: {
-            teamId: user!.teamId as string,
-        },
-    });
-
     let team = await prisma.team.update({
         include: {
             members: true,
@@ -46,6 +40,12 @@ export async function POST() {
     });
 
     if (team.members.length === 0) {
+        await prisma.solve.deleteMany({
+            where: {
+                teamId: user!.teamId as string,
+            },
+        });
+
         await prisma.team.delete({
             where: {
                 id: team.id,
