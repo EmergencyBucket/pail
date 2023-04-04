@@ -44,6 +44,7 @@ export default async function Home({
         Challenge & {
             points: number;
             solved: Solve[];
+            done: boolean;
         }
     >[] = await prisma.challenge.findMany({
         include: {
@@ -62,14 +63,14 @@ export default async function Home({
         },
     });
 
-    challenges = challenges.filter((chall) => {
+    challenges.forEach((chall) => {
         let inc: boolean = true;
         chall.solved!.forEach((solve) => {
             if (solve.teamId === user?.teamId) {
                 inc = false;
             }
         });
-        return inc;
+        chall.done = !inc;
     });
 
     challenges.forEach((challenge) => {
@@ -123,20 +124,43 @@ export default async function Home({
                     className="bg-slate-800 cursor-pointer text-white my-2 p border-2 w-full border-slate-700 hover:border-slate-500"
                 />
             </form>
-            <div className="grid grid-cols-4 gap-4 mt-8">
-                {challengesWithoutSecrets.map((challenge) => (
-                    <ChallengeContainer
-                        key={Math.random()}
-                        challenge={
-                            challenge as Omit<
-                                Challenge & {
-                                    points: number;
-                                },
-                                'flag'
-                            >
-                        }
-                    />
-                ))}
+            <p className="text-white text-3xl underline">Unsolved</p>
+            <div className="grid grid-cols-4 gap-4 mt-4">
+                {challengesWithoutSecrets
+                    .filter((c) => !c.done)
+                    .map((challenge) => (
+                        <ChallengeContainer
+                            key={Math.random()}
+                            challenge={
+                                challenge as Omit<
+                                    Challenge & {
+                                        points: number;
+                                        done: boolean;
+                                    },
+                                    'flag'
+                                >
+                            }
+                        />
+                    ))}
+            </div>
+            <p className="text-white text-3xl underline">Solved</p>
+            <div className="grid grid-cols-4 gap-4 mt-4">
+                {challengesWithoutSecrets
+                    .filter((c) => c.done)
+                    .map((challenge) => (
+                        <ChallengeContainer
+                            key={Math.random()}
+                            challenge={
+                                challenge as Omit<
+                                    Challenge & {
+                                        points: number;
+                                        done: boolean;
+                                    },
+                                    'flag'
+                                >
+                            }
+                        />
+                    ))}
             </div>
         </>
     );

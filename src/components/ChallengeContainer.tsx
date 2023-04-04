@@ -6,11 +6,13 @@ import Button from './Button';
 import Modal from './Modal';
 import ReactMarkdown from 'react-markdown';
 import { Status, Statuses } from '@/components/Status';
+import { useRouter } from 'next/navigation';
 
 interface Props {
     challenge: Omit<
         Challenge & {
             points: number;
+            done: boolean;
         },
         'flag'
     >;
@@ -22,6 +24,8 @@ const Challenge = ({ challenge }: Props) => {
     const [status, setStatus] = useState(Statuses.Unsubmitted);
 
     const [url, setUrl] = useState('Start Container');
+
+    const router = useRouter();
 
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -37,6 +41,8 @@ const Challenge = ({ challenge }: Props) => {
         });
 
         setStatus(req.status == 200 ? Statuses.Correct : Statuses.Incorrect);
+
+        router.refresh();
     }
 
     async function requestContainer(event: FormEvent) {
@@ -163,7 +169,8 @@ const Challenge = ({ challenge }: Props) => {
                     ' - ' +
                     challenge.name +
                     ' - ' +
-                    challenge.points}
+                    challenge.points +
+                    (challenge.done ? ' - ✔️' : '')}
             </Button>
         </>
     );
