@@ -4,6 +4,7 @@ import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
 import { CTFStart } from '@/lib/Middleware';
+import { getServerSession } from 'next-auth';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -44,6 +45,20 @@ export default async function Home() {
             </code>
         );
     }
+
+    let session = await getServerSession();
+
+    let user = await prisma.user.findFirst({
+        where: {
+            email: session?.user?.email,
+        },
+    });
+
+    let myTeam = await prisma.team.findFirst({
+        where: {
+            id: user?.teamId ?? undefined,
+        },
+    });
 
     let teams: (Team & {
         solves: Solve[];
@@ -130,7 +145,11 @@ export default async function Home() {
                         rankings.map((team) => (
                             <div
                                 key={Math.random()}
-                                className="bg-slate-700 m-1 text-center"
+                                className={`${
+                                    user?.teamId && team.id == myTeam!.id
+                                        ? 'bg-teal-700'
+                                        : 'bg-slate-700'
+                                } m-1 text-center`}
                             >
                                 <code className="text-white text-lg">
                                     {team.label + ' - ' + team.data[0]}
