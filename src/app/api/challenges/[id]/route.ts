@@ -145,7 +145,11 @@ export async function PATCH(
         data: {
             name: content.name,
             description: content.description,
-            files: content.files,
+            files: content.files
+                ? content.files.filter((s) => s.length).length
+                    ? content.files
+                    : []
+                : content.files,
             image: content.image,
             flag: content.flag,
             category: content.category as Category | undefined,
