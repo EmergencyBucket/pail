@@ -94,6 +94,9 @@ export async function POST(req: Request) {
                     },
                 },
             },
+            include: {
+                members: true,
+            },
         });
 
         return NextResponse.json(team, {
