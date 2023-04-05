@@ -21,7 +21,7 @@ interface CreateChallengeRequest {
 const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
     type: 'object',
     properties: {
-        name: { type: 'string', minLength: 1, maxLength: 50 },
+        name: { type: 'string', minLength: 1, maxLength: 100 },
         description: { type: 'string', minLength: 1 },
         files: { type: 'array', items: { type: 'string' } },
         image: { type: 'string', nullable: true },
