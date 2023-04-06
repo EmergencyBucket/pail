@@ -18,7 +18,7 @@ export async function POST(
     let middleware = await Middleware([
         CTFStart(),
         CTFEnd(),
-        limiter.check(10, 'CACHE_TOKEN'),
+        limiter.check(1, 'CACHE_TOKEN'),
     ]);
     if (middleware) return middleware;
 
