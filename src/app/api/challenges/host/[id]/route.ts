@@ -4,12 +4,22 @@ import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { CTFEnd, CTFStart, Middleware } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
+import rateLimit from '@/lib/rate-limit';
+
+const limiter = rateLimit({
+    interval: 60 * 1000, // 60 seconds
+    uniqueTokenPerInterval: 500, // Max 500 users per second
+});
 
 export async function POST(
     req: Request,
     { params }: { params: { id?: string } }
 ) {
-    let middleware = await Middleware([CTFStart(), CTFEnd()]);
+    let middleware = await Middleware([
+        CTFStart(),
+        CTFEnd(),
+        limiter.check(10, 'CACHE_TOKEN'),
+    ]);
     if (middleware) return middleware;
 
     const { id } = params;
