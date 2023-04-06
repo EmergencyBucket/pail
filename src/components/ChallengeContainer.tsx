@@ -58,6 +58,8 @@ const Challenge = ({ challenge }: Props) => {
 
         if (req.ok) {
             setUrl(res.url);
+        } else {
+            alert('You are on a 60 second cooldown for hosting instances.');
         }
     }
 
