@@ -5,6 +5,7 @@ import isString from 'is-string';
 import { CTFEnd, CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
 import rateLimit from '@/lib/rate-limit';
+import { getServerSession } from 'next-auth';
 
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
@@ -15,11 +16,13 @@ export async function POST(
     req: Request,
     { params }: { params: { id?: string } }
 ) {
+    let session = await getServerSession();
+
     let middleware = await Middleware([
         CTFStart(),
         CTFEnd(),
         user(),
-        limiter.check(2, 'CACHE_TOKEN'),
+        limiter.check(2, session!.user!.email as string),
     ]);
     if (middleware) return middleware;
 
