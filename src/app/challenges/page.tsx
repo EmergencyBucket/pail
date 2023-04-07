@@ -1,5 +1,5 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
-import { CTFStart } from '@/lib/Middleware';
+import { CTFStart, teamMember } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
 import { arrange, asc, tidy } from '@tidyjs/tidy';
@@ -28,6 +28,14 @@ export default async function Home({
         return (
             <code className="text-white text-2xl">
                 This CTF has not started yet.
+            </code>
+        );
+    }
+
+    if (await teamMember()) {
+        return (
+            <code className="text-white text-2xl">
+                Create a team to access this page.
             </code>
         );
     }
