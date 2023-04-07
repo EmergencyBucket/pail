@@ -86,17 +86,19 @@ export default async function Home() {
                     solved: Solve[];
                 }
             ) =>
-                challenge.staticPoints
-                    ? challenge.staticPoints
-                    : challenge.solved.length > 150
-                    ? 200
-                    : 500 -
-                      challenge.solved.length *
-                          (challenge.difficulty == Difficulty.EASY
-                              ? 4
-                              : challenge.difficulty == Difficulty.MEDIUM
-                              ? 3
-                              : 2),
+                Math.max(
+                    200,
+                    challenge.staticPoints
+                        ? challenge.staticPoints
+                        : 500 -
+                              challenge.solved.length *
+                                  (challenge.difficulty == Difficulty.EASY
+                                      ? 4
+                                      : challenge.difficulty ==
+                                        Difficulty.MEDIUM
+                                      ? 3
+                                      : 2)
+                ),
         })
     );
 
