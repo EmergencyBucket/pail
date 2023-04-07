@@ -131,6 +131,7 @@ const Challenge = ({ challenge }: Props) => {
                                                   navigator.clipboard.writeText(
                                                       url
                                                   );
+                                                  alert('Copied!');
                                               }
                                     }
                                     className="pl-2 bg-slate-700 focus:border-slate-400 focus:outline-none border-2 border-slate-500 my-2 w-full"

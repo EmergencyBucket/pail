@@ -84,7 +84,7 @@ interface EditChallengeRequest {
 const EditChallengeSchema: JSONSchemaType<EditChallengeRequest> = {
     type: 'object',
     properties: {
-        name: { type: 'string', nullable: true, minLength: 1, maxLength: 50 },
+        name: { type: 'string', nullable: true, minLength: 1, maxLength: 100 },
         description: { type: 'string', nullable: true, minLength: 1 },
         files: { type: 'array', nullable: true, items: { type: 'string' } },
         image: { type: 'string', nullable: true },
