@@ -1,4 +1,4 @@
-import { Challenge, Difficulty, Solve, Team } from '@prisma/client';
+import { Challenge, Solve, Team } from '@prisma/client';
 import { ChartData, ChartOptions } from 'chart.js';
 import { tidy, mutate } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
@@ -86,19 +86,11 @@ export default async function Home() {
                     solved: Solve[];
                 }
             ) =>
-                Math.max(
-                    200,
-                    challenge.staticPoints
-                        ? challenge.staticPoints
-                        : 500 -
-                              challenge.solved.length *
-                                  (challenge.difficulty == Difficulty.EASY
-                                      ? 4
-                                      : challenge.difficulty ==
-                                        Difficulty.MEDIUM
-                                      ? 3
-                                      : 2)
-                ),
+                challenge.staticPoints
+                    ? challenge.staticPoints
+                    : challenge.solved.length > 150
+                    ? 200
+                    : 500 - challenge.solved.length * 2,
         })
     );
 
