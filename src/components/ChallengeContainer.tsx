@@ -172,6 +172,8 @@ const Challenge = ({ challenge }: Props) => {
                     challenge.name +
                     ' - ' +
                     challenge.points +
+                    ' - ' +
+                    challenge.difficulty +
                     (challenge.done ? ' - ✔️' : '')}
             </Button>
         </>
