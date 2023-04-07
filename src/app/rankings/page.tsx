@@ -139,7 +139,7 @@ export default async function Home() {
     });
 
     rankings = rankings.sort((a, b) => {
-        return a.data[0] - b.data[0];
+        return b.data[0] - a.data[0];
     });
 
     const data: ChartData<'bar', number[], string> = {
