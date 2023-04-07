@@ -2,7 +2,7 @@ import prisma from '@/lib/prismadb';
 import Dockerode, { AuthConfig } from 'dockerode';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { CTFEnd, CTFStart, Middleware } from '@/lib/Middleware';
+import { CTFEnd, CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
 import rateLimit from '@/lib/rate-limit';
 
@@ -18,6 +18,7 @@ export async function POST(
     let middleware = await Middleware([
         CTFStart(),
         CTFEnd(),
+        user(),
         limiter.check(2, 'CACHE_TOKEN'),
     ]);
     if (middleware) return middleware;

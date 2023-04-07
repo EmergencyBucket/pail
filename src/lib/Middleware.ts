@@ -155,4 +155,21 @@ async function teamMember(): Promise<Response | undefined> {
     );
 }
 
-export { Middleware, CTFStart, CTFEnd, admin, teamMember };
+async function user(): Promise<Response | undefined> {
+    let session = await getServerSession();
+
+    if (session) {
+        return undefined;
+    }
+
+    return NextResponse.json(
+        {
+            Error: 'You must be a registered user to preform this action!',
+        },
+        {
+            status: StatusCodes.FORBIDDEN,
+        }
+    );
+}
+
+export { Middleware, CTFStart, CTFEnd, admin, teamMember, user };
