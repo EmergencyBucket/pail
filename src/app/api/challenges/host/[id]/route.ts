@@ -139,7 +139,7 @@ export async function POST(
                 usedPorts: newPorts,
             },
         });
-    }, 1000 * 300);
+    }, 1000 * 900);
 
     return NextResponse.json(
         {
