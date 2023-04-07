@@ -1,6 +1,6 @@
 import { Challenge, Difficulty, Solve, Team } from '@prisma/client';
 import { ChartData, ChartOptions } from 'chart.js';
-import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
+import { tidy, mutate } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
 import { CTFStart } from '@/lib/Middleware';
@@ -138,7 +138,9 @@ export default async function Home() {
         });
     });
 
-    rankings = tidy(rankings, arrange(desc('data')));
+    rankings = rankings.sort((a, b) => {
+        return a.data[0] - b.data[0];
+    });
 
     const data: ChartData<'bar', number[], string> = {
         labels: [''],
