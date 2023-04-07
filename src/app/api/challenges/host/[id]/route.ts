@@ -71,7 +71,7 @@ export async function POST(
 
     let availablePorts: number[] = [];
 
-    for (let i = 5000; i < 6000; i++) {
+    for (let i = 5000; i < 8000; i++) {
         if (!host.usedPorts.includes(i)) {
             availablePorts.push(i);
         }
