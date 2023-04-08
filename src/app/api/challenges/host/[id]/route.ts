@@ -4,9 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { CTFEnd, CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
 //import rateLimit from '@/lib/rate-limit';
-//import { getServerSession } from 'next-auth';
-
 /*
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
@@ -27,6 +26,8 @@ export async function POST(
         //limiter.check(5, session!.user!.name as string),
     ]);
     if (middleware) return middleware;
+
+    let session = await getServerSession();
 
     const { id } = params;
 
@@ -122,6 +123,8 @@ export async function POST(
     });
 
     await container.start();
+
+    console.log(session?.user?.name + ' - ' + container.id);
 
     setTimeout(async () => {
         await container.kill();
