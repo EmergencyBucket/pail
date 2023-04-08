@@ -147,7 +147,7 @@ export async function POST(
                 .setAuthor({
                     name: user.name!,
                     iconURL: user.image!,
-                    url: `https://github.com/${user.name}`,
+                    url: `https://github.com/${user.name!.replace(' ', '')}`,
                 })
                 .setDescription(`${team?.name} has solved ${challenge.name}!`)
                 .setTimestamp();
