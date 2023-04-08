@@ -149,20 +149,11 @@ export default async function Home() {
                         rankings.map((team, i) => (
                             <div key={Math.random()}>
                                 <div
-                                    onClick={() => {
-                                        let element = document.getElementById(
-                                            team.id
-                                        ) as HTMLElement;
-
-                                        element.classList.contains('block')
-                                            ? element.classList.remove('block')
-                                            : element.classList.add('block');
-                                    }}
                                     className={`${
                                         user?.teamId && team.id == myTeam!.id
                                             ? 'bg-teal-700'
                                             : 'bg-slate-700'
-                                    } m-1 text-center`}
+                                    } m-1 text-center entry`}
                                 >
                                     <code className="text-white text-lg">
                                         {i +
@@ -173,7 +164,7 @@ export default async function Home() {
                                             team.data[0]}
                                     </code>
                                 </div>
-                                <div id={team.id} className="hidden">
+                                <div id={team.id} className="hide">
                                     {team.solves &&
                                         team.solves.map((solve) => (
                                             <div

@@ -47,3 +47,11 @@ input[type='file'] {
     color: white;
     border-color: #64748b;
 }
+
+.hide {
+    display: none;
+  }
+      
+.entry:hover + .hide {
+    display: block;
+}
