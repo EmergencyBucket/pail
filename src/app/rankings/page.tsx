@@ -174,23 +174,23 @@ export default async function Home() {
                                     </code>
                                 </div>
                                 <div id={team.id} className="hidden">
-                                    {team.solves.map((solve) => (
-                                        <div
-                                            key={Math.random()}
-                                            className={`bg-indigo-700 m-1 text-center`}
-                                        >
-                                            <code className="text-white text-lg">
-                                                {
-                                                    challenges.filter(
-                                                        (chall) => {
-                                                            chall.id =
-                                                                solve.challengeId;
-                                                        }
-                                                    )[0].name
-                                                }
-                                            </code>
-                                        </div>
-                                    ))}
+                                    {team.solves &&
+                                        team.solves.map((solve) => (
+                                            <div
+                                                key={Math.random()}
+                                                className={`bg-indigo-700 m-1 text-center`}
+                                            >
+                                                <code className="text-white text-lg">
+                                                    {
+                                                        challenges.find(
+                                                            (challenge) =>
+                                                                challenge.id ==
+                                                                solve.challengeId
+                                                        )!.name
+                                                    }
+                                                </code>
+                                            </div>
+                                        ))}
                                 </div>
                             </div>
                         ))}
