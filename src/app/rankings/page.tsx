@@ -119,6 +119,7 @@ export default async function Home() {
         id: string;
         data: number[];
         backgroundColor: string;
+        solves: Solve[];
     }> = [];
 
     teams.forEach((team) => {
@@ -127,6 +128,7 @@ export default async function Home() {
             id: team.id,
             data: [team.points ?? 0],
             backgroundColor: getColor(),
+            solves: team.solves,
         });
     });
 
@@ -144,18 +146,52 @@ export default async function Home() {
             <div className="flex w-full">
                 <div className="w-1/2">
                     {rankings &&
-                        rankings.map((team) => (
-                            <div
-                                key={Math.random()}
-                                className={`${
-                                    user?.teamId && team.id == myTeam!.id
-                                        ? 'bg-teal-700'
-                                        : 'bg-slate-700'
-                                } m-1 text-center`}
-                            >
-                                <code className="text-white text-lg">
-                                    {team.label + ' - ' + team.data[0]}
-                                </code>
+                        rankings.map((team, i) => (
+                            <div key={Math.random()}>
+                                <div
+                                    onClick={() => {
+                                        let element = document.getElementById(
+                                            team.id
+                                        ) as HTMLElement;
+
+                                        element.classList.contains('block')
+                                            ? element.classList.remove('block')
+                                            : element.classList.add('block');
+                                    }}
+                                    className={`${
+                                        user?.teamId && team.id == myTeam!.id
+                                            ? 'bg-teal-700'
+                                            : 'bg-slate-700'
+                                    } m-1 text-center`}
+                                >
+                                    <code className="text-white text-lg">
+                                        {i +
+                                            1 +
+                                            ' - ' +
+                                            team.label +
+                                            ' - ' +
+                                            team.data[0]}
+                                    </code>
+                                </div>
+                                <div id={team.id} className="hidden">
+                                    {team.solves.map((solve) => (
+                                        <div
+                                            key={Math.random()}
+                                            className={`bg-indigo-700 m-1 text-center`}
+                                        >
+                                            <code className="text-white text-lg">
+                                                {
+                                                    challenges.filter(
+                                                        (chall) => {
+                                                            chall.id =
+                                                                solve.challengeId;
+                                                        }
+                                                    )[0].name
+                                                }
+                                            </code>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ))}
                 </div>
