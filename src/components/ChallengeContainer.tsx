@@ -42,7 +42,9 @@ const Challenge = ({ challenge }: Props) => {
 
         setStatus(req.status == 200 ? Statuses.Correct : Statuses.Incorrect);
 
-        router.refresh();
+        setTimeout(() => {
+            router.refresh();
+        }, 500);
     }
 
     async function requestContainer(event: FormEvent) {
