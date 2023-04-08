@@ -136,7 +136,7 @@ export default async function Home() {
 
     const data: ChartData<'bar', number[], string> = {
         labels: [''],
-        datasets: rankings ?? [],
+        datasets: rankings.slice(0, 10) ?? [],
     };
 
     return (
