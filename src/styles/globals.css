@@ -50,7 +50,11 @@ input[type='file'] {
 
 .hide {
     display: none;
-  }
+}
+
+.hide:hover {
+    display:block;
+}
       
 .entry:hover + .hide {
     display: block;

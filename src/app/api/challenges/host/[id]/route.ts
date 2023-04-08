@@ -4,25 +4,27 @@ import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { CTFEnd, CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
-import rateLimit from '@/lib/rate-limit';
-import { getServerSession } from 'next-auth';
+//import rateLimit from '@/lib/rate-limit';
+//import { getServerSession } from 'next-auth';
 
+/*
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
     uniqueTokenPerInterval: 500, // Max 500 users per second
 });
+*/
 
 export async function POST(
     req: Request,
     { params }: { params: { id?: string } }
 ) {
-    let session = await getServerSession();
+    //let session = await getServerSession();
 
     let middleware = await Middleware([
         CTFStart(),
         CTFEnd(),
         user(),
-        limiter.check(2, session!.user!.email as string),
+        //limiter.check(5, session!.user!.name as string),
     ]);
     if (middleware) return middleware;
 
