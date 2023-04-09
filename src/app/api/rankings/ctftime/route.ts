@@ -64,7 +64,7 @@ export async function GET() {
     );
 
     let rankings: Array<{
-        label: string;
+        team: string;
         id: string;
         score: number;
         pos?: number;
@@ -72,7 +72,7 @@ export async function GET() {
 
     teams.forEach((team) => {
         rankings.push({
-            label: team.name,
+            team: team.name,
             id: team.id,
             score: team.points ?? 0,
         });
