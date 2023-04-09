@@ -2,7 +2,7 @@ import prisma from '@/lib/prismadb';
 import Dockerode, { AuthConfig } from 'dockerode';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { CTFEnd, CTFStart, Middleware, user } from '@/lib/Middleware';
+import { CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 //import rateLimit from '@/lib/rate-limit';
@@ -21,7 +21,7 @@ export async function POST(
 
     let middleware = await Middleware([
         CTFStart(),
-        CTFEnd(),
+        //CTFEnd(),
         user(),
         //limiter.check(5, session!.user!.name as string),
     ]);
