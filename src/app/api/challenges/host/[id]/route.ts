@@ -2,32 +2,29 @@ import prisma from '@/lib/prismadb';
 import Dockerode, { AuthConfig } from 'dockerode';
 import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
-import { CTFStart, Middleware, user } from '@/lib/Middleware';
+import { CTFEnd, CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-//import rateLimit from '@/lib/rate-limit';
-/*
+import rateLimit from '@/lib/rate-limit';
+
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
     uniqueTokenPerInterval: 500, // Max 500 users per second
 });
-*/
 
 export async function POST(
     req: Request,
     { params }: { params: { id?: string } }
 ) {
-    //let session = await getServerSession();
+    let session = await getServerSession();
 
     let middleware = await Middleware([
         CTFStart(),
-        //CTFEnd(),
+        CTFEnd(),
         user(),
-        //limiter.check(5, session!.user!.name as string),
+        limiter.check(5, session!.user!.name as string),
     ]);
     if (middleware) return middleware;
-
-    let session = await getServerSession();
 
     const { id } = params;
 
@@ -155,59 +152,3 @@ export async function POST(
         }
     );
 }
-
-/*
-export async function DELETE(
-    req: Request,
-    { params }: { params: { id?: string } }
-) {
-    let middleware = await Middleware([CTFStart(), CTFEnd()]);
-    if (middleware) return middleware;
-
-    const { id } = params;
-
-    if (!isString(id)) {
-        return NextResponse.json(
-            {
-                Error: 'Bad request.',
-            },
-            {
-                status: StatusCodes.BAD_REQUEST,
-            }
-        );
-    }
-
-    let host = await prisma.host.findFirst();
-
-    if (!host) {
-        return NextResponse.json(
-            {
-                Error: 'No host available.',
-            },
-            {
-                status: StatusCodes.SERVICE_UNAVAILABLE,
-            }
-        );
-    }
-
-    let docker = new Dockerode({
-        host: host.remote,
-        port: host.port ?? 2375,
-        ca: host.ca!,
-        cert: host.cert!,
-        key: host.key!,
-    });
-
-    let container = docker.getContainer(id);
-
-    await container.kill();
-
-    await container.remove();
-
-    return NextResponse.json(
-        {
-            status: StatusCodes.OK,
-        }
-    );
-}
-*/
