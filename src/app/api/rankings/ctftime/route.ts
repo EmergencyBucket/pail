@@ -85,9 +85,12 @@ export async function GET() {
         ranking.pos = index + 1;
     }
 
-    return NextResponse.json({
-        standings: rankings
-    }, {
-        status: StatusCodes.OK,
-    });
+    return NextResponse.json(
+        {
+            standings: rankings,
+        },
+        {
+            status: StatusCodes.OK,
+        }
+    );
 }
