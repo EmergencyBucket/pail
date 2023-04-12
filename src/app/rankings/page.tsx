@@ -5,6 +5,7 @@ import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
 import { CTFStart } from '@/lib/Middleware';
 import { getServerSession } from 'next-auth';
+import { Error } from '@/components/Error';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -39,11 +40,7 @@ function getColor() {
 
 export default async function Home() {
     if (await CTFStart()) {
-        return (
-            <code className="text-white text-2xl">
-                This CTF has not started yet.
-            </code>
-        );
+        return <Error reason={'The CTF has not started yet'} />;
     }
 
     let session = await getServerSession();
