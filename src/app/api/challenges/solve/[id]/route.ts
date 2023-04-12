@@ -97,14 +97,42 @@ export async function POST(
     }
 
     if (challenge.flag === data.flag) {
-        let solve = await prisma.solve.findFirst({
+        let time = new Date();
+
+        const solvedTeam = await prisma.team.update({
+            data: {
+                solves: {
+                    create: {
+                        challenge: {
+                            connect: {
+                                id: challenge.id,
+                            },
+                        },
+                        time: time,
+                    },
+                },
+            },
             where: {
-                teamId: team!.id,
-                challengeId: challenge.id,
+                id: team!.id,
+            },
+            include: {
+                solves: true,
             },
         });
 
-        if (solve) {
+        if (
+            solvedTeam.solves.filter(
+                (solve) => solve.challengeId == challenge.id
+            ).length > 1
+        ) {
+            await prisma.solve.deleteMany({
+                where: {
+                    time: time,
+                    teamId: team!.id,
+                    challengeId: challenge.id,
+                },
+            });
+
             return NextResponse.json(
                 {
                     Error: 'Your team has already solved this challenge.',
@@ -114,22 +142,6 @@ export async function POST(
                 }
             );
         }
-
-        await prisma.solve.create({
-            data: {
-                challenge: {
-                    connect: {
-                        id: challenge.id,
-                    },
-                },
-                team: {
-                    connect: {
-                        id: team?.id,
-                    },
-                },
-                time: new Date(),
-            },
-        });
 
         if (challenge.solved.length == 0) {
             let token = process.env.DISCORD_TOKEN;
