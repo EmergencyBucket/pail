@@ -4,6 +4,7 @@ import prisma from '@/lib/prismadb';
 import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
 import { arrange, asc, tidy } from '@tidyjs/tidy';
 import { getServerSession } from 'next-auth';
+import { Error } from '@/components/Error';
 
 export const metadata = {
     title: 'EBucket | Challenges',
@@ -25,19 +26,11 @@ export default async function Home({
     searchParams: { search?: string; difficulty?: string; category?: string };
 }) {
     if (await CTFStart()) {
-        return (
-            <code className="text-white text-2xl">
-                This CTF has not started yet.
-            </code>
-        );
+        return <Error reason={'The CTF has not started yet'} />;
     }
 
     if (await teamMember()) {
-        return (
-            <code className="text-white text-2xl">
-                Create a team to access this page.
-            </code>
-        );
+        return <Error reason={'Create a team'} />;
     }
 
     let session = await getServerSession();

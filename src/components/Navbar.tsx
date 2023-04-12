@@ -5,7 +5,7 @@ const Navbar = async () => {
     const session = await getServerSession();
 
     return (
-        <div className="flex flex-wrap sm:flex-nowrap gap-4 w-full place-items-center">
+        <div className="flex flex-wrap sm:flex-nowrap gap-4 w-full place-items-center mb-4">
             <Button className="w-full text-center" link="/">
                 <code className="text-xl font-medium">Home</code>
             </Button>
