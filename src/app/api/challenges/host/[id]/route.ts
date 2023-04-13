@@ -68,28 +68,6 @@ export async function POST(
         );
     }
 
-    let availablePorts: number[] = [];
-
-    for (let i = 5000; i < 8000; i++) {
-        if (!host.usedPorts.includes(i)) {
-            availablePorts.push(i);
-        }
-    }
-
-    let port =
-        availablePorts[Math.floor(Math.random() * availablePorts.length)];
-
-    host.usedPorts.push(port);
-
-    await prisma.host.update({
-        where: {
-            id: host.id,
-        },
-        data: {
-            usedPorts: host.usedPorts,
-        },
-    });
-
     let docker = new Dockerode({
         host: host.remote,
         port: host.port ?? 2375,
@@ -113,33 +91,21 @@ export async function POST(
         },
         HostConfig: {
             PortBindings: {
-                '80/tcp': [{ HostPort: port + '' }],
+                '80/tcp': [{ HostPort: '0' }],
             },
         },
     });
 
     await container.start();
 
+    let port = (await container.inspect()).NetworkSettings.Ports['80/tcp'][0]
+        .HostPort;
+
     console.log(session?.user?.name + ' - ' + container.id);
 
     setTimeout(async () => {
         await container.kill();
         await container.remove();
-
-        let host = await prisma.host.findFirst();
-
-        let newPorts = host!.usedPorts.filter((x) => {
-            x != port;
-        });
-
-        await prisma.host.update({
-            where: {
-                id: host!.id,
-            },
-            data: {
-                usedPorts: newPorts,
-            },
-        });
     }, 1000 * 900);
 
     return NextResponse.json(
