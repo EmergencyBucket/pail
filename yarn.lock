@@ -554,10 +554,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/react@18.0.34":
-  version "18.0.34"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.34.tgz#e553444a578f023e6e1ac499514688fb80b0a984"
-  integrity sha512-NO1UO8941541CJl1BeOXi8a9dNKFK09Gnru5ZJqkm4Q3/WoQJtHvmwt0VX0SB9YCEwe7TfSSxDuaNmx6H2BAIQ==
+"@types/react@18.0.35":
+  version "18.0.35"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.35.tgz#192061cb1044fe01f2d3a94272cd35dd50502741"
+  integrity sha512-6Laome31HpetaIUGFWl1VQ3mdSImwxtFZ39rh059a1MNnKGqBpC88J6NJ8n/Is3Qx7CefDGLgf/KhN/sYCf7ag==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3986,10 +3986,10 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-markdown@^8.0.6:
-  version "8.0.6"
-  resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-8.0.6.tgz#3e939018f8bfce800ffdf22cf50aba3cdded7ad1"
-  integrity sha512-KgPWsYgHuftdx510wwIzpwf+5js/iHqBR+fzxefv8Khk3mFbnioF1bmL2idHN3ler0LMQmICKeDrWnZrX9mtbQ==
+react-markdown@^8.0.7:
+  version "8.0.7"
+  resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-8.0.7.tgz#c8dbd1b9ba5f1c5e7e5f2a44de465a3caafdf89b"
+  integrity sha512-bvWbzG4MtOU62XqBx3Xx+zB2raaFFsq4mYiAzfjXJMEz2sixgeAfraA3tvzULF02ZdOMUOKTBFFaZJDDrq+BJQ==
   dependencies:
     "@types/hast" "^2.0.0"
     "@types/prop-types" "^15.0.0"
