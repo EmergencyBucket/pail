@@ -98,14 +98,13 @@ model Setting {
 }
 
 model Host {
-  id        String  @id @default(cuid())
-  port      Int?
-  remote    String  @unique
-  ip        String?
-  ca        String?
-  cert      String?
-  key       String?
-  usedPorts Int[]
+  id     String  @id @default(cuid())
+  port   Int?
+  remote String  @unique
+  ip     String?
+  ca     String?
+  cert   String?
+  key    String?
 }
 
 enum Category {
