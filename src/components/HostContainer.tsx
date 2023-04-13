@@ -28,15 +28,18 @@ const HostContainer = ({ className, data }: Props) => {
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        const target = event.target as typeof event.target & {
+            port: { value: string };
+            remote: { value: string };
+            ip: { value: string };
+        };
+
         await fetch(`/api/hosts`, {
             method: data ? 'PATCH' : 'POST',
             body: JSON.stringify({
-                //@ts-ignore
-                port: parseInt(event.target.port.value),
-                //@ts-ignore
-                remote: event.target.remote.value,
-                //@ts-ignore
-                ip: event.target.ip.value,
+                port: parseInt(target.port.value),
+                remote: target.remote.value,
+                ip: target.ip.value,
                 ca: ssl.current.ca,
                 cert: ssl.current.cert,
                 key: ssl.current.key,
@@ -45,23 +48,25 @@ const HostContainer = ({ className, data }: Props) => {
     }
 
     async function validateSSL(event: FormEvent<HTMLFormElement>) {
-        //@ts-ignore
-        if (!event.target.files) {
+        const target = event.target as typeof event.target & {
+            files: File[];
+            name: string;
+        };
+
+        if (!target.files) {
             return;
         }
 
         setCertStatus(Statuses.Loading);
 
-        //@ts-ignore
-        let cert = event.target.files[0];
+        let cert = target.files[0];
 
         let reader = new FileReader();
 
         reader.readAsText(cert);
 
         reader.onload = (evt) => {
-            //@ts-ignore
-            switch (event.target.name) {
+            switch (target.name) {
                 case 'ca': {
                     ssl.current.ca = evt.target?.result as string;
                     break;

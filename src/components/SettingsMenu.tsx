@@ -28,10 +28,15 @@ export const SettingsMenu = () => {
                 ).json(),
                 onSubmit: (e) => {
                     e.preventDefault();
-                    //@ts-ignore
-                    let start = new Date(e.target.value.value);
-                    //@ts-ignore
-                    let pub = e.target.public.value === 'on';
+
+                    const target = e.target as typeof e.target & {
+                        value: { value: string };
+                        public: { value: string };
+                    };
+
+                    let start = new Date(target.value.value);
+
+                    let pub = target.public.value === 'on';
 
                     saveSetting('CTF_START_TIME', start.getTime() + '', pub);
                 },
@@ -56,10 +61,15 @@ export const SettingsMenu = () => {
                 ).json(),
                 onSubmit: (e) => {
                     e.preventDefault();
-                    //@ts-ignore
-                    let end = new Date(e.target.value.value);
-                    //@ts-ignore
-                    let pub = e.target.public.value === 'on';
+
+                    const target = e.target as typeof e.target & {
+                        value: { value: string };
+                        public: { value: string };
+                    };
+
+                    let end = new Date(target.value.value);
+
+                    let pub = target.public.value === 'on';
 
                     saveSetting('CTF_END_TIME', end.getTime() + '', pub);
                 },
@@ -84,10 +94,15 @@ export const SettingsMenu = () => {
                 ).json(),
                 onSubmit: (e) => {
                     e.preventDefault();
-                    //@ts-ignore
-                    let val = e.target.value.value;
-                    //@ts-ignore
-                    let pub = e.target.public.value === 'on';
+
+                    const target = e.target as typeof e.target & {
+                        value: { value: string };
+                        public: { value: string };
+                    };
+
+                    let val = target.value.value;
+
+                    let pub = target.public.value === 'on';
 
                     saveSetting('DISCORD_CHANNEL', val, pub);
                 },

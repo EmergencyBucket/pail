@@ -32,11 +32,14 @@ const Challenge = ({ challenge }: Props) => {
 
         setStatus(Statuses.Loading);
 
+        const target = event.target as typeof event.target & {
+            flag: { value: string };
+        };
+
         let req = await fetch(`/api/challenges/solve/${challenge.id}`, {
             method: 'POST',
             body: JSON.stringify({
-                //@ts-ignore
-                flag: event.target.flag.value,
+                flag: target.flag.value,
             }),
         });
 

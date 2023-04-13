@@ -58,11 +58,14 @@ export default function Home() {
     async function submitCreate(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        const target = event.target as typeof event.target & {
+            name: { value: string };
+        };
+
         let req = await fetch(`/api/teams`, {
             method: 'POST',
             body: JSON.stringify({
-                //@ts-ignore
-                name: event.target.name.value,
+                name: target.name.value,
             }),
         });
 
@@ -75,19 +78,21 @@ export default function Home() {
                 }
             );
         } else {
-            //@ts-ignore
-            event.target.name.value = 'Invalid name.';
+            target.name.value = 'Invalid name.';
         }
     }
 
     async function submitJoin(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
+        const target = event.target as typeof event.target & {
+            secret: { value: string };
+        };
+
         let req = await fetch(`/api/teams/join`, {
             method: 'POST',
             body: JSON.stringify({
-                //@ts-ignore
-                secret: event.target.secret.value,
+                secret: target.secret.value,
             }),
         });
 
@@ -100,8 +105,7 @@ export default function Home() {
                 }
             );
         } else {
-            //@ts-ignore
-            event.target.secret.value = 'Bad secret.';
+            target.secret.value = 'Bad secret.';
         }
     }
 
