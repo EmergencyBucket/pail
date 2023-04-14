@@ -126,7 +126,7 @@ export default async function Home({
                 />
             </form>
             <p className="text-white text-3xl underline">Unsolved</p>
-            <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className="grid sm:grid-cols-4 gap-4 mt-4">
                 {challengesWithoutSecrets
                     .filter((c) => !c.done)
                     .map((challenge) => (
@@ -145,7 +145,7 @@ export default async function Home({
                     ))}
             </div>
             <p className="text-white text-3xl underline">Solved</p>
-            <div className="grid grid-cols-4 gap-4 mt-4">
+            <div className="grid sm:grid-cols-4 gap-4 mt-4">
                 {challengesWithoutSecrets
                     .filter((c) => c.done)
                     .map((challenge) => (
