@@ -83,7 +83,7 @@ export default async function Home({
     });
 
     let challengesWithoutSecrets = challenges.map((chall) =>
-        exclude(chall, ['flag', 'solved'])
+        exclude(chall, ['flag'])
     );
 
     challengesWithoutSecrets = tidy(challenges, arrange(asc('points')));
@@ -136,6 +136,7 @@ export default async function Home({
                                 challenge as Omit<
                                     Challenge & {
                                         points: number;
+                                        solved: Solve[];
                                         done: boolean;
                                     },
                                     'flag'
@@ -155,6 +156,7 @@ export default async function Home({
                                 challenge as Omit<
                                     Challenge & {
                                         points: number;
+                                        solved: Solve[];
                                         done: boolean;
                                     },
                                     'flag'

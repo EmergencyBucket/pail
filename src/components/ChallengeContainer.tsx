@@ -1,6 +1,6 @@
 'use client';
 
-import { Challenge } from '@prisma/client';
+import { Challenge, Solve } from '@prisma/client';
 import { FormEvent, useState } from 'react';
 import Button from './Button';
 import Modal from './Modal';
@@ -12,6 +12,7 @@ interface Props {
     challenge: Omit<
         Challenge & {
             points: number;
+            solved: Solve[];
             done: boolean;
         },
         'flag'
@@ -95,6 +96,9 @@ const Challenge = ({ challenge }: Props) => {
                         </code>
                         <p className="text-white text-2xl w-full">
                             {challenge.difficulty}
+                        </p>
+                        <p className="text-white text-2xl w-full">
+                            {challenge.solved.length + ' Solves'}
                         </p>
                     </div>
                     <ReactMarkdown>{challenge.description}</ReactMarkdown>
