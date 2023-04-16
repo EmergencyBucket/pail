@@ -1,11 +1,11 @@
-import { Challenge, Solve, Team } from '@prisma/client';
+import { Challenge, Solve } from '@prisma/client';
 import { ChartData, ChartOptions } from 'chart.js';
-import { tidy, mutate } from '@tidyjs/tidy';
 import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
 import { CTFStart } from '@/lib/Middleware';
 import { getServerSession } from 'next-auth';
 import { Error } from '@/components/Error';
+import { getRankings } from '@/lib/Rankings';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -57,15 +57,6 @@ export default async function Home() {
         },
     });
 
-    let teams: (Team & {
-        solves: Solve[];
-        points?: number;
-    })[] = await prisma.team.findMany({
-        include: {
-            solves: true,
-        },
-    });
-
     let challenges: (Challenge & {
         solved: Solve[];
         points?: number;
@@ -75,42 +66,6 @@ export default async function Home() {
         },
     });
 
-    challenges = tidy(
-        challenges,
-        mutate({
-            points: (
-                challenge: Challenge & {
-                    solved: Solve[];
-                }
-            ) =>
-                challenge.staticPoints
-                    ? challenge.staticPoints
-                    : challenge.solved.length > 150
-                    ? 200
-                    : 500 - challenge.solved.length * 2,
-        })
-    );
-
-    teams = tidy(
-        teams,
-        mutate({
-            points: (
-                team: Team & {
-                    solves: Solve[];
-                    points?: number;
-                }
-            ) => {
-                let points = 0;
-                team.solves.forEach((solve) => {
-                    points += challenges.find(
-                        (challenge) => challenge.id == solve.challengeId
-                    )?.points as number;
-                });
-                return points;
-            },
-        })
-    );
-
     let rankings: Array<{
         label: string;
         id: string;
@@ -119,19 +74,15 @@ export default async function Home() {
         solves: Solve[];
     }> = [];
 
-    teams.forEach((team) => {
-        rankings.push({
-            label: team.name,
-            id: team.id,
-            data: [team.points ?? 0],
-            backgroundColor: getColor(),
-            solves: team.solves,
-        });
-    });
-
-    rankings = rankings.sort((a, b) => {
-        return b.data[0] - a.data[0];
-    });
+    rankings = await (
+        await getRankings()
+    ).map((ranking) => ({
+        label: ranking.team.name,
+        id: ranking.team.id,
+        data: [ranking.team.points ?? 0],
+        backgroundColor: getColor(),
+        solves: ranking.team.solves,
+    }));
 
     const data: ChartData<'bar', number[], string> = {
         labels: [''],

@@ -1,4 +1,4 @@
-import CreateChallenge from '@/components/CreateChallenge';
+import { CreateChallenge } from '@/components/CreateChallenge';
 import HostContainer from '@/components/HostContainer';
 import { SettingsMenu } from '@/components/SettingsMenu';
 import { admin } from '@/lib/Middleware';
@@ -30,7 +30,7 @@ export default async function Home() {
                 {challenges.map((challenge) => (
                     <CreateChallenge
                         className="w-full"
-                        data={challenge}
+                        challenge={challenge}
                         key={Math.random()}
                     />
                 ))}
