@@ -1,6 +1,6 @@
 import { Challenge, Solve, Team } from '@prisma/client';
 import prisma from './prismadb';
-import { tidy, mutate } from '@tidyjs/tidy';
+import { tidy, mutate, asc, arrange } from '@tidyjs/tidy';
 
 interface Ranking {
     team: Team & {
@@ -62,7 +62,8 @@ export async function getRankings(): Promise<Ranking[]> {
                 });
                 return points;
             },
-        })
+        }),
+        arrange(asc('points'))
     );
 
     return teams.map((team, i) => ({
