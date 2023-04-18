@@ -82,6 +82,10 @@ export async function countPoints(
         });
     }
 
+    if (team.solves.length == 0) {
+        return 0;
+    }
+
     let challenges = await Promise.all(
         team.solves.map((solve) =>
             prisma.challenge.findFirst({
