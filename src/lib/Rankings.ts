@@ -37,7 +37,7 @@ export async function getRankings(): Promise<Ranking[]> {
 
     await Promise.all(
         teams.map(async (team) => {
-            team.points = await countPoints(team);
+            team.points = await countPoints(team, challenges);
         })
     );
 
@@ -72,7 +72,10 @@ export async function pointValue(
 export async function countPoints(
     team: Team & {
         solves?: Solve[];
-    }
+    },
+    challenges?: (Challenge & {
+        solved: Solve[];
+    })[]
 ): Promise<number> {
     if (!team.solves) {
         team.solves = await prisma.solve.findMany({
@@ -88,14 +91,22 @@ export async function countPoints(
 
     let challId = team.solves.map((solve) => solve.challengeId);
 
-    let challenges = await prisma.challenge.findMany({
-        where: {
-            id: {
-                in: challId,
+    if (!challenges) {
+        challenges = await prisma.challenge.findMany({
+            where: {
+                id: {
+                    in: challId,
+                },
             },
-        },
-        include: { solved: true },
-    });
+            include: { solved: true },
+        });
+    } else {
+        challenges = challenges.filter((challenge) => {
+            return challenge.solved
+                .map((solve) => solve.teamId)
+                .includes(team.id);
+        });
+    }
 
     return (
         await Promise.all(challenges.map((challenge) => pointValue(challenge!)))
