@@ -71,3 +71,23 @@ export async function getRankings(): Promise<Ranking[]> {
         pos: i + 1,
     }));
 }
+
+export async function pointValue(
+    challenge: Challenge & {
+        solved?: Solve[];
+    }
+): Promise<number> {
+    if (!challenge.solved) {
+        challenge.solved = await prisma.solve.findMany({
+            where: {
+                challengeId: challenge.id,
+            },
+        });
+    }
+
+    return challenge.staticPoints
+        ? challenge.staticPoints
+        : challenge.solved.length > 150
+        ? 200
+        : 500 - challenge.solved.length * 2;
+}

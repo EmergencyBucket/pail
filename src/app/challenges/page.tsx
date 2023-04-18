@@ -5,6 +5,7 @@ import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
 import { arrange, asc, tidy } from '@tidyjs/tidy';
 import { getServerSession } from 'next-auth';
 import { Error } from '@/components/Error';
+import { pointValue } from '@/lib/Rankings';
 
 export const metadata = {
     title: 'EBucket | Challenges',
@@ -74,12 +75,12 @@ export default async function Home({
         chall.done = !inc;
     });
 
-    challenges.forEach((challenge) => {
-        challenge.points = challenge.staticPoints
-            ? challenge.staticPoints
-            : challenge.solved!.length > 150
-            ? 200
-            : 500 - challenge.solved!.length * 2;
+    challenges.forEach(async (challenge) => {
+        challenge.points = await pointValue(
+            challenge as Challenge & {
+                solved?: Solve[];
+            }
+        );
     });
 
     let challengesWithoutSecrets = challenges.map((chall) =>
