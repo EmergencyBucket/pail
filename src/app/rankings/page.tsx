@@ -2,7 +2,7 @@ import { Challenge, Solve } from '@prisma/client';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Graph } from '@/components/Graph';
 import prisma from '@/lib/prismadb';
-import { CTFStart } from '@/lib/Middleware';
+import { CTFStart, Middleware } from '@/lib/Middleware';
 import { getServerSession } from 'next-auth';
 import { Error } from '@/components/Error';
 import { getRankings } from '@/lib/Rankings';
@@ -39,9 +39,9 @@ function getColor() {
 }
 
 export default async function Home() {
-    if (await CTFStart()) {
-        return <Error reason={'The CTF has not started yet'} />;
-    }
+    let middleware = await Middleware([CTFStart()]);
+    if (middleware)
+        return <Error reason={(await middleware.json())['Error']} />;
 
     let session = await getServerSession();
 

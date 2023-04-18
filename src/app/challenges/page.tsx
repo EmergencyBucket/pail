@@ -1,5 +1,5 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
-import { CTFStart, teamMember } from '@/lib/Middleware';
+import { CTFStart, Middleware, teamMember } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
 import { arrange, asc, tidy } from '@tidyjs/tidy';
@@ -26,13 +26,9 @@ export default async function Home({
 }: {
     searchParams: { search?: string; difficulty?: string; category?: string };
 }) {
-    if (await CTFStart()) {
-        return <Error reason={'The CTF has not started yet'} />;
-    }
-
-    if (await teamMember()) {
-        return <Error reason={'Create a team'} />;
-    }
+    let middleware = await Middleware([CTFStart(), teamMember()]);
+    if (middleware)
+        return <Error reason={(await middleware.json())['Error']} />;
 
     let session = await getServerSession();
 
