@@ -86,14 +86,16 @@ export async function countPoints(
         return 0;
     }
 
-    let challenges = await Promise.all(
-        team.solves.map((solve) =>
-            prisma.challenge.findFirst({
-                where: { id: solve.challengeId },
-                include: { solved: true },
-            })
-        )
-    );
+    let challId = team.solves.map((solve) => solve.challengeId);
+
+    let challenges = await prisma.challenge.findMany({
+        where: {
+            id: {
+                in: challId,
+            },
+        },
+        include: { solved: true },
+    });
 
     return (
         await Promise.all(challenges.map((challenge) => pointValue(challenge!)))
