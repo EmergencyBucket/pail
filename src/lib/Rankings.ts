@@ -52,8 +52,13 @@ export async function getRankings(): Promise<Ranking[]> {
 export async function pointValue(
     challenge: Challenge & {
         solved?: Solve[];
+        points?: number;
     }
 ): Promise<number> {
+    if (challenge.points) {
+        return challenge.points;
+    }
+
     if (!challenge.solved) {
         challenge.solved = await prisma.solve.findMany({
             where: {
