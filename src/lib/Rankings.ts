@@ -1,6 +1,6 @@
 import { Challenge, Solve, Team } from '@prisma/client';
 import prisma from './prismadb';
-import { tidy, mutate, arrange, desc } from '@tidyjs/tidy';
+import { tidy, arrange, desc } from '@tidyjs/tidy';
 
 interface Ranking {
     team: Team & {
@@ -20,19 +20,9 @@ export async function getRankings(): Promise<Ranking[]> {
         },
     });
 
-    challenges = tidy(
-        challenges,
-        mutate({
-            points: (
-                challenge: Challenge & {
-                    solved: Solve[];
-                }
-            ) =>
-                challenge.staticPoints
-                    ? challenge.staticPoints
-                    : challenge.solved.length > 150
-                    ? 200
-                    : 500 - challenge.solved.length * 2,
+    await Promise.all(
+        challenges.map(async (challenge) => {
+            challenge.points = await pointValue(challenge);
         })
     );
 
@@ -45,26 +35,13 @@ export async function getRankings(): Promise<Ranking[]> {
         },
     });
 
-    teams = tidy(
-        teams,
-        mutate({
-            points: (
-                team: Team & {
-                    solves: Solve[];
-                    points?: number;
-                }
-            ) => {
-                let points = 0;
-                team.solves.forEach((solve) => {
-                    points += challenges.find(
-                        (challenge) => challenge.id == solve.challengeId
-                    )?.points as number;
-                });
-                return points;
-            },
-        }),
-        arrange(desc('points'))
+    await Promise.all(
+        teams.map(async (team) => {
+            team.points = await countPoints(team);
+        })
     );
+
+    teams = tidy(teams, arrange(desc('points')));
 
     return teams.map((team, i) => ({
         team: team,
@@ -90,4 +67,31 @@ export async function pointValue(
         : challenge.solved.length > 150
         ? 200
         : 500 - challenge.solved.length * 2;
+}
+
+export async function countPoints(
+    team: Team & {
+        solves?: Solve[];
+    }
+): Promise<number> {
+    if (!team.solves) {
+        team.solves = await prisma.solve.findMany({
+            where: {
+                teamId: team.id,
+            },
+        });
+    }
+
+    let challenges = await Promise.all(
+        team.solves.map((solve) =>
+            prisma.challenge.findFirst({
+                where: { id: solve.challengeId },
+                include: { solved: true },
+            })
+        )
+    );
+
+    return (
+        await Promise.all(challenges.map((challenge) => pointValue(challenge!)))
+    ).reduce((a, b) => a + b);
 }

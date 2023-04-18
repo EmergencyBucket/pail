@@ -75,13 +75,15 @@ export default async function Home({
         chall.done = !inc;
     });
 
-    challenges.forEach(async (challenge) => {
-        challenge.points = await pointValue(
-            challenge as Challenge & {
-                solved?: Solve[];
-            }
-        );
-    });
+    await Promise.all(
+        challenges.map(async (challenge) => {
+            challenge.points = await pointValue(
+                challenge as Challenge & {
+                    solved?: Solve[];
+                }
+            );
+        })
+    );
 
     let challengesWithoutSecrets = challenges.map((chall) =>
         exclude(chall, ['flag'])
