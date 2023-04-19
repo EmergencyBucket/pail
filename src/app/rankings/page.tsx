@@ -1,11 +1,11 @@
 import { Challenge, Solve } from '@prisma/client';
 import { ChartData, ChartOptions } from 'chart.js';
-import { Graph } from '@/components/Graph';
+import { Graph } from '@/components/BarGraph';
 import prisma from '@/lib/prismadb';
 import { CTFStart, Middleware } from '@/lib/Middleware';
-import { getServerSession } from 'next-auth';
 import { Error } from '@/components/Error';
 import { getRankings } from '@/lib/Rankings';
+import { getTeam } from '@/lib/Utils';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -43,19 +43,7 @@ export default async function Home() {
     if (middleware)
         return <Error reason={(await middleware.json())['Error']} />;
 
-    let session = await getServerSession();
-
-    let user = await prisma.user.findFirst({
-        where: {
-            email: session?.user?.email,
-        },
-    });
-
-    let myTeam = await prisma.team.findFirst({
-        where: {
-            id: user?.teamId ?? undefined,
-        },
-    });
+    let myTeam = await getTeam();
 
     let challenges: (Challenge & {
         solved: Solve[];
@@ -98,7 +86,7 @@ export default async function Home() {
                             <div key={Math.random()}>
                                 <div
                                     className={`${
-                                        user?.teamId && team.id == myTeam!.id
+                                        myTeam && team.id == myTeam!.id
                                             ? 'bg-teal-700'
                                             : 'bg-slate-700'
                                     } m-1 text-center entry`}

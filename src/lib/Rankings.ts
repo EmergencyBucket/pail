@@ -10,34 +10,35 @@ interface Ranking {
     pos: number;
 }
 
+/**
+ * Gets ranking for all teams
+ * @returns Rankings for all teams in the @interface Ranking
+ */
 export async function getRankings(): Promise<Ranking[]> {
-    let challenges: (Challenge & {
-        solved: Solve[];
-        points?: number;
-    })[] = await prisma.challenge.findMany({
-        include: {
-            solved: true,
-        },
-    });
-
-    await Promise.all(
-        challenges.map(async (challenge) => {
-            challenge.points = await pointValue(challenge);
-        })
-    );
-
     let teams: (Team & {
-        solves: Solve[];
+        solves: (Solve & {
+            challenge: Challenge & {
+                solved: Solve[];
+            };
+        })[];
         points?: number;
     })[] = await prisma.team.findMany({
         include: {
-            solves: true,
+            solves: {
+                include: {
+                    challenge: {
+                        include: {
+                            solved: true,
+                        },
+                    },
+                },
+            },
         },
     });
 
     await Promise.all(
         teams.map(async (team) => {
-            team.points = await countPoints(team, challenges);
+            team.points = await countPoints(team);
         })
     );
 
@@ -49,6 +50,12 @@ export async function getRankings(): Promise<Ranking[]> {
     }));
 }
 
+/**
+ * Calculates the point value of a challenge
+ * @param challenge The challenge to determine the point value for, can supply solved array or points to make this an instant function
+ * @returns The point value as a number
+ * @see getRankings
+ */
 export async function pointValue(
     challenge: Challenge & {
         solved?: Solve[];
@@ -74,9 +81,19 @@ export async function pointValue(
         : 500 - challenge.solved.length * 2;
 }
 
+/**
+ * Gets total point value of team
+ * @param team The team to count total points for
+ * @param challenges Challege array, can be supplied with solves or point value to make an instant function
+ * @returns The point value as a number
+ */
 export async function countPoints(
     team: Team & {
-        solves?: Solve[];
+        solves?: (Solve & {
+            challenge?: Challenge & {
+                solved: Solve[];
+            };
+        })[];
     },
     challenges?: (Challenge & {
         solved: Solve[];
@@ -94,23 +111,27 @@ export async function countPoints(
         return 0;
     }
 
-    let challId = team.solves.map((solve) => solve.challengeId);
-
-    if (!challenges) {
-        challenges = await prisma.challenge.findMany({
-            where: {
-                id: {
-                    in: challId,
-                },
-            },
-            include: { solved: true },
-        });
+    if (team.solves[0].challenge) {
+        challenges = team.solves.map((solve) => solve.challenge!);
     } else {
-        challenges = challenges.filter((challenge) => {
-            return challenge.solved
-                .map((solve) => solve.teamId)
-                .includes(team.id);
-        });
+        let challId = team.solves.map((solve) => solve.challengeId);
+
+        if (!challenges) {
+            challenges = await prisma.challenge.findMany({
+                where: {
+                    id: {
+                        in: challId,
+                    },
+                },
+                include: { solved: true },
+            });
+        } else {
+            challenges = challenges.filter((challenge) => {
+                return challenge.solved
+                    .map((solve) => solve.teamId)
+                    .includes(team.id);
+            });
+        }
     }
 
     return (
