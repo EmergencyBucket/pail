@@ -18,34 +18,35 @@ interface Ranking {
 export async function getRankings(): Promise<Ranking[]> {
     logger.info(`Started team data collection.`);
 
-    let teams: (Team & {
-        solves: (Solve & {
-            challenge: Challenge & {
-                solved: Solve[];
-            };
-        })[];
+    let challenges: (Challenge & {
+        solved: Solve[];
         points?: number;
-    })[] = await prisma.team.findMany({
+    })[] = await prisma.challenge.findMany({
         include: {
-            solves: {
-                include: {
-                    challenge: {
-                        include: {
-                            solved: true,
-                        },
-                    },
-                },
-            },
+            solved: true,
         },
     });
 
-    logger.info(teams);
+    await Promise.all(
+        challenges.map(async (challenge) => {
+            challenge.points = await pointValue(challenge);
+        })
+    );
+
+    let teams: (Team & {
+        solves: Solve[];
+        points?: number;
+    })[] = await prisma.team.findMany({
+        include: {
+            solves: true,
+        },
+    });
 
     logger.info(`Ended team data collection.`);
 
     await Promise.all(
         teams.map(async (team) => {
-            team.points = await countPoints(team);
+            team.points = await countPoints(team, challenges);
         })
     );
 
