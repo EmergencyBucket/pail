@@ -6,6 +6,7 @@ import { CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import rateLimit from '@/lib/rate-limit';
+import { logger } from '@/lib/Logger';
 
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
@@ -101,7 +102,7 @@ export async function POST(
     let port = (await container.inspect()).NetworkSettings.Ports['80/tcp'][0]
         .HostPort;
 
-    console.log(session?.user?.name + ' - ' + container.id);
+    logger.info(session?.user?.name + ' - ' + container.id);
 
     setTimeout(async () => {
         await container.kill();
