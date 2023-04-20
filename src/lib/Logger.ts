@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format } from 'winston';
 import WinstonCloudwatch from 'winston-cloudwatch';
 
 const logger = createLogger({
