@@ -24,6 +24,8 @@
  - [Prisma](https://www.prisma.io/)
  - [Ajv](https://ajv.js.org/)
  - [Tidy.js](https://pbeshai.github.io/tidy/)
+ 
+![Alt](https://repobeats.axiom.co/api/embed/a038bcda85628f372bee7badd55b31e06a3cac7d.svg "Repobeats analytics image")
 
 ## Installation
 ### Railway one-click (Recommended)
