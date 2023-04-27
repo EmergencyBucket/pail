@@ -22,6 +22,8 @@ const authOptions: NextAuthOptions = {
     session: {
         strategy: 'jwt',
     },
+    //@ts-ignore
+    site: process.env.NEXTAUTH_URL
 };
 
 const handler = NextAuth(authOptions);
