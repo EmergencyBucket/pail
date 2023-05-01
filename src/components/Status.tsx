@@ -1,6 +1,7 @@
 'use client';
 
-import Image from 'next/image';
+import { CheckIcon, XIcon } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 enum Statuses {
     Unsubmitted,
@@ -19,37 +20,13 @@ const Status = ({ status }: Props) => {
             return <></>;
         }
         case Statuses.Loading: {
-            return (
-                <Image
-                    src="loading.svg"
-                    alt="Loading"
-                    className="mx-auto"
-                    height={20}
-                    width={20}
-                />
-            );
+            return <Loader2 rotate={10} className="animate-spin" />;
         }
         case Statuses.Correct: {
-            return (
-                <Image
-                    src="correct.svg"
-                    alt="Correct"
-                    className="mx-auto"
-                    height={20}
-                    width={20}
-                />
-            );
+            return <CheckIcon />;
         }
         case Statuses.Incorrect: {
-            return (
-                <Image
-                    src="incorrect.svg"
-                    alt="Incorrect"
-                    className="mx-auto"
-                    height={20}
-                    width={20}
-                />
-            );
+            return <XIcon />;
         }
     }
 };

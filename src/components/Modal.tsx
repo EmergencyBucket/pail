@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from './Button';
+import { Button } from './Button';
 
 interface Props {
     visible: boolean;
@@ -39,14 +39,17 @@ const Modal = ({ visible, children, onClose }: Props) => {
                     style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
                 >
                     <div
-                        className="bg-slate-800 m-auto p-8 text-white relative w-1/3 flex"
+                        className="bg-slate-800 rounded-lg m-auto p-8 text-white relative w-1/3 flex"
                         style={{
                             maxWidth: '50%',
                             maxHeight: 'calc(100vh - 8rem)',
                         }}
                     >
                         <div className="absolute right-0 top-0 p-4">
-                            <Button onClick={() => setRender(false)}>
+                            <Button
+                                variant={'subtle'}
+                                onClick={() => setRender(false)}
+                            >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"

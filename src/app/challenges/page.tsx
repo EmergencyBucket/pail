@@ -1,7 +1,7 @@
 import ChallengeContainer from '@/components/ChallengeContainer';
 import { CTFStart, Middleware, teamMember } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
-import { Category, Challenge, Difficulty, Solve } from '@prisma/client';
+import { Category, Challenge, Solve } from '@prisma/client';
 import { arrange, asc, tidy } from '@tidyjs/tidy';
 import { getServerSession } from 'next-auth';
 import { Error } from '@/components/Error';
@@ -21,11 +21,7 @@ function exclude<Challenge, Key extends keyof Challenge>(
     return challenge;
 }
 
-export default async function Home({
-    searchParams,
-}: {
-    searchParams: { search?: string; difficulty?: string; category?: string };
-}) {
+export default async function Home() {
     let middleware = await Middleware([CTFStart(), teamMember()]);
     if (middleware)
         return <Error reason={(await middleware.json())['Error']} />;
@@ -47,17 +43,6 @@ export default async function Home({
     >[] = await prisma.challenge.findMany({
         include: {
             solved: true,
-        },
-        where: {
-            name: {
-                search: searchParams.search ? searchParams.search : undefined,
-            },
-            difficulty: (searchParams.difficulty as Difficulty)
-                ? (searchParams.difficulty as Difficulty)
-                : undefined,
-            category: (searchParams.category as Category)
-                ? (searchParams.category as Category)
-                : undefined,
         },
     });
 
@@ -89,45 +74,10 @@ export default async function Home({
 
     return (
         <>
-            <form method="GET" className="flex gap-4">
-                <input
-                    type="text"
-                    name="search"
-                    placeholder="Search"
-                    className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none text-white"
-                    defaultValue={searchParams.search}
-                />
-                <select
-                    defaultValue={searchParams.difficulty}
-                    name="difficulty"
-                    className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none text-white"
-                >
-                    <option value={''}>None</option>
-                    <option value={'EASY'}>Easy</option>
-                    <option value={'MEDIUM'}>Medium</option>
-                    <option value={'HARD'}>Hard</option>
-                </select>
-                <select
-                    defaultValue={searchParams.category}
-                    name="category"
-                    className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none text-white"
-                >
-                    <option value={''}>None</option>
-                    <option value={'WEB'}>Web</option>
-                    <option value={'CRYPTO'}>Crypto</option>
-                    <option value={'REV'}>Rev</option>
-                    <option value={'PWN'}>Pwn</option>
-                    <option value={'MISC'}>Misc</option>
-                </select>
-                <input
-                    type="submit"
-                    className="bg-slate-800 cursor-pointer text-white my-2 p border-2 w-full border-slate-700 hover:border-slate-500"
-                />
-            </form>
-            <p className="text-white text-3xl underline">Unsolved</p>
-            <div className="grid sm:grid-cols-4 gap-4 mt-4">
+            <p className="text-white text-4xl font-bold font-mono">Web</p>
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
-                    .filter((c) => !c.done)
+                    .filter((c) => c.category == Category.WEB)
                     .map((challenge) => (
                         <ChallengeContainer
                             key={Math.random()}
@@ -144,10 +94,70 @@ export default async function Home({
                         />
                     ))}
             </div>
-            <p className="text-white text-3xl underline">Solved</p>
-            <div className="grid sm:grid-cols-4 gap-4 mt-4">
+            <p className="text-white text-4xl font-bold font-mono">Crypto</p>
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
-                    .filter((c) => c.done)
+                    .filter((c) => c.category == Category.CRYPTO)
+                    .map((challenge) => (
+                        <ChallengeContainer
+                            key={Math.random()}
+                            challenge={
+                                challenge as Omit<
+                                    Challenge & {
+                                        points: number;
+                                        solved: Solve[];
+                                        done: boolean;
+                                    },
+                                    'flag'
+                                >
+                            }
+                        />
+                    ))}
+            </div>
+            <p className="text-white text-4xl font-bold font-mono">Rev</p>
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
+                {challengesWithoutSecrets
+                    .filter((c) => c.category == Category.REV)
+                    .map((challenge) => (
+                        <ChallengeContainer
+                            key={Math.random()}
+                            challenge={
+                                challenge as Omit<
+                                    Challenge & {
+                                        points: number;
+                                        solved: Solve[];
+                                        done: boolean;
+                                    },
+                                    'flag'
+                                >
+                            }
+                        />
+                    ))}
+            </div>
+            <p className="text-white text-4xl font-bold font-mono">Pwn</p>
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
+                {challengesWithoutSecrets
+                    .filter((c) => c.category == Category.PWN)
+                    .map((challenge) => (
+                        <ChallengeContainer
+                            key={Math.random()}
+                            challenge={
+                                challenge as Omit<
+                                    Challenge & {
+                                        points: number;
+                                        solved: Solve[];
+                                        done: boolean;
+                                    },
+                                    'flag'
+                                >
+                            }
+                        />
+                    ))}
+            </div>
+            <p className="text-white text-4xl font-bold font-mono">Misc</p>
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
+                {challengesWithoutSecrets
+                    .filter((c) => c.category == Category.MISC)
                     .map((challenge) => (
                         <ChallengeContainer
                             key={Math.random()}

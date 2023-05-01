@@ -2,11 +2,13 @@
 
 import { Challenge, Solve } from '@prisma/client';
 import { FormEvent, useState } from 'react';
-import Button from './Button';
+import { Button } from './Button';
 import Modal from './Modal';
-import ReactMarkdown from 'react-markdown';
 import { Status, Statuses } from '@/components/Status';
 import { useRouter } from 'next/navigation';
+import { Input } from './Input';
+import Code from './Code';
+import { DownloadIcon, PowerIcon } from 'lucide-react';
 
 interface Props {
     challenge: Omit<
@@ -24,7 +26,7 @@ const Challenge = ({ challenge }: Props) => {
 
     const [status, setStatus] = useState(Statuses.Unsubmitted);
 
-    const [url, setUrl] = useState('Start Container');
+    const [url, setUrl] = useState('Instance Not Started');
 
     const router = useRouter();
 
@@ -69,114 +71,78 @@ const Challenge = ({ challenge }: Props) => {
         }
     }
 
-    function getStatus() {
-        switch (url) {
-            case 'Start Container': {
-                return Statuses.Unsubmitted;
-            }
-            case 'Loading': {
-                return Statuses.Loading;
-            }
-            default: {
-                return Statuses.Correct;
-            }
-        }
-    }
-
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
-                <div className="text-center w-full">
-                    <code className="text-white text-4xl">
-                        {challenge.name}
-                    </code>
-                    <div className="flex text-center">
-                        <code className="text-white text-2xl w-full">
-                            {challenge.category}
-                        </code>
-                        <p className="text-white text-2xl w-full">
-                            {challenge.difficulty}
-                        </p>
-                        <p className="text-white text-2xl w-full">
-                            {challenge.solved.length + ' Solves'}
-                        </p>
-                    </div>
-                    <ReactMarkdown>{challenge.description}</ReactMarkdown>
-                    <div>
-                        {challenge.files.map((file) => (
-                            <a
-                                href={file}
-                                key={Math.random()}
-                                target="_blank"
-                                className="flex text-blue-600 text-sm p-2 bg-slate-700 gap my-2"
-                                rel="noreferrer"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-5 h-5"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                                    />
-                                </svg>
-                                {file}
-                            </a>
-                        ))}
-                    </div>
+                <div className=" bg-slate-800 p-2 rounded-sm m-3  text-center">
+                    <h1 className="text-2xl font-bold">
+                        {challenge.category} / {challenge.name}
+                    </h1>
+                    <h2 className="text-xl">
+                        {challenge.difficulty}&nbsp;
+                        <span className="text-sm italic">
+                            ({challenge.points}pts / {challenge.solved.length}{' '}
+                            solves)
+                        </span>
+                    </h2>
+
+                    <p className="text-md">{challenge.description}</p>
+
+                    <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
                     {challenge.image && (
-                        <>
-                            <div className="flex">
-                                <button
-                                    onClick={
-                                        url === 'Start Container'
-                                            ? requestContainer
-                                            : () => {
-                                                  navigator.clipboard.writeText(
-                                                      url
-                                                  );
-                                                  alert('Copied!');
-                                              }
-                                    }
-                                    className="pl-2 bg-slate-700 focus:border-slate-400 focus:outline-none border-2 border-slate-500 my-2 w-full"
-                                >
-                                    {url}
-                                </button>
-                                <div className="bg-slate-700 border-2 border-slate-500 my-2 w-8 flex place-items-center">
-                                    {<Status status={getStatus()} />}
-                                </div>
+                        <div className="grid grid-cols-4 gap-2 m-3">
+                            <div className="col-span-3">
+                                <Code>{url}</Code>
                             </div>
+                            <Button
+                                onClick={requestContainer}
+                                icon={<PowerIcon size={16}></PowerIcon>}
+                            >
+                                Start
+                            </Button>
+                        </div>
+                    )}
+                    <form
+                        className="grid grid-cols-4 gap-2 m-3"
+                        onSubmit={submit}
+                    >
+                        <div className="col-span-3">
+                            <Input
+                                className="w-full"
+                                variant={'outline'}
+                                placeholder="bucket{...}"
+                            ></Input>
+                        </div>
+                        <Status status={status} />
+                        <Button variant={'outline'}>Submit Flag</Button>
+                    </form>
+
+                    {challenge.files.length > 0 && (
+                        <>
+                            <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
+                            <h2 className="text-lg font-bold my-2">
+                                Attachments
+                            </h2>
                         </>
                     )}
-                    <form onSubmit={submit}>
-                        <div className="flex">
-                            <input
-                                type={'text'}
-                                placeholder="Flag"
-                                name="flag"
-                                className={
-                                    'pl-2 bg-slate-700 focus:border-slate-400 focus:outline-none border-2 border-slate-500 my-2 w-full'
-                                }
-                            />
-                            <div className="bg-slate-700 border-2 border-slate-500 my-2 w-8 flex place-items-center">
-                                {<Status status={status} />}
-                            </div>
-                        </div>
-                        <input
-                            type={'submit'}
-                            className={
-                                'bg-slate-800 cursor-pointer text-white p border-2 w-full border-slate-700 hover:border-slate-500'
-                            }
-                        />
-                    </form>
+                    {challenge.files.map((file) => (
+                        <Button
+                            key={file}
+                            variant="ghost"
+                            className="w-full"
+                            onClick={() => window.open(file)}
+                            icon={<DownloadIcon></DownloadIcon>}
+                        >
+                            <span className="text-md font-bold">Download</span>
+                            &nbsp;
+                            <span className="font-mono">
+                                {file.substring(file.lastIndexOf('/'))}
+                            </span>
+                        </Button>
+                    ))}
                 </div>
             </Modal>
-            <Button onClick={() => setOpen(true)}>
+            <Button variant={'subtle'} onClick={() => setOpen(true)}>
                 {challenge.category +
                     ' - ' +
                     challenge.name +
