@@ -110,11 +110,12 @@ const Challenge = ({ challenge }: Props) => {
                             <Input
                                 className="w-full"
                                 variant={'outline'}
+                                name="flag"
                                 placeholder="bucket{...}"
                             ></Input>
                         </div>
                         <Status status={status} />
-                        <Button variant={'outline'} type="submit">
+                        <Button variant={'outline'} formAction="submit">
                             Submit Flag
                         </Button>
                     </form>
