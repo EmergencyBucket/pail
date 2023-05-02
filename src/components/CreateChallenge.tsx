@@ -17,7 +17,7 @@ interface Props {
 const CreateChallenge = ({ className, challenge }: Props) => {
     const [open, setOpen] = useState(false);
 
-    const [data, setData] = useState<Partial<Challenge>>({});
+    const [data, setData] = useState<Partial<Challenge>>(challenge ?? {});
 
     const router = useRouter();
 
@@ -27,27 +27,51 @@ const CreateChallenge = ({ className, challenge }: Props) => {
         fetch(`/api/challenges`, {
             method: 'POST',
             body: JSON.stringify(data),
-        }).then(() => {
-            router.refresh();
-        });
+        }).then(() => router.refresh());
+    }
+
+    function deleteChallenge() {
+        setOpen(false);
+
+        fetch(`/api/challenges/${challenge!.id}`, { method: 'DELETE' }).then(
+            () => router.refresh()
+        );
     }
 
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl mb-6">Challenge</p>
-                <form className="w-full grid gap-4">
+                <div className="w-full grid gap-4">
                     <Input
                         variant={'subtle'}
                         placeholder="Name"
+                        defaultValue={challenge?.name}
                         onChange={(e) =>
                             setData({ ...data, name: e.target.value })
                         }
                     ></Input>
-                    <Textarea placeholder="Description" />
-                    <Input variant={'subtle'} placeholder="Files"></Input>
+                    <Textarea
+                        placeholder="Description"
+                        defaultValue={challenge?.description}
+                        onChange={(e) =>
+                            setData({ ...data, description: e.target.value })
+                        }
+                    />
+                    <Input
+                        variant={'subtle'}
+                        placeholder="Files"
+                        defaultValue={challenge?.files}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                files: e.target.value.split(','),
+                            })
+                        }
+                    ></Input>
                     <Dropdown
                         items={['Web', 'Crypto', 'Rev', 'Pwn', 'Misc']}
+                        defaultValue={challenge?.category}
                         onChange={(e) =>
                             setData({
                                 ...data,
@@ -57,6 +81,7 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                     />
                     <Dropdown
                         items={['Easy', 'Medium', 'Hard']}
+                        defaultValue={challenge?.difficulty}
                         onChange={(e) =>
                             setData({
                                 ...data,
@@ -64,9 +89,32 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                             })
                         }
                     />
-                    <Input variant={'subtle'} placeholder="Flag"></Input>
-                    <Button variant={'outline'}>Submit</Button>
-                </form>
+                    <Input
+                        variant={'subtle'}
+                        placeholder="Flag"
+                        defaultValue={challenge?.flag}
+                        onChange={(e) =>
+                            setData({ ...data, flag: e.target.value })
+                        }
+                    ></Input>
+                    {challenge ? (
+                        <div className="grid grid-cols-2 gap-4">
+                            <Button variant={'outline'} onClick={submit}>
+                                Save
+                            </Button>
+                            <Button
+                                variant={'destructive'}
+                                onClick={deleteChallenge}
+                            >
+                                Delete
+                            </Button>
+                        </div>
+                    ) : (
+                        <Button variant={'outline'} onClick={submit}>
+                            Submit
+                        </Button>
+                    )}
+                </div>
             </Modal>
             <Button
                 className={className}

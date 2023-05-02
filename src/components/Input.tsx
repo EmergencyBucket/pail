@@ -12,7 +12,7 @@ const inputVariants = cva(
                     'bg-slate-900 hover:bg-slate-950 dark:hover:bg-gray-200 text-white dark:bg-slate-50 dark:text-slate-900',
                 outline:
                     'bg-transparent border border-slate-200 dark:border-slate-700 dark:text-slate-100 hover:bg-slate-950 dark:hover:bg-gray-900',
-                subtle: 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100 hover:bg-slate-950 dark:hover:bg-gray-900',
+                subtle: 'bg-slate-100 text-slate-900 dark:bg-slate-700 dark:text-slate-100 hover:bg-slate-950 dark:hover:bg-slate-800 border dark:border-slate-700',
                 error: 'bg-slate-900 text-white dark:bg-slate-50 hover:bg-slate-950 dark:hover:bg-gray-200 dark:text-slate-900 ring-offset-2 ring ring-rose-500',
                 success:
                     'bg-slate-900 text-white hover:bg-slate-950 dark:hover:bg-gray-200  dark:bg-slate-50 dark:text-slate-900 ring-offset-2 ring ring-emerald-500',
