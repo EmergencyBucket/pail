@@ -37,16 +37,32 @@ const CreateChallenge = ({ className, challenge }: Props) => {
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl mb-6">Challenge</p>
                 <form className="w-full grid gap-4">
-                    <Input variant={'subtle'} placeholder="Name" onChange={(e) => setData({...data, name: e.target.value})}></Input>
+                    <Input
+                        variant={'subtle'}
+                        placeholder="Name"
+                        onChange={(e) =>
+                            setData({ ...data, name: e.target.value })
+                        }
+                    ></Input>
                     <Textarea placeholder="Description" />
                     <Input variant={'subtle'} placeholder="Files"></Input>
                     <Dropdown
                         items={['Web', 'Crypto', 'Rev', 'Pwn', 'Misc']}
-                        onChange={(e) => setData({...data, category: e.target.value as Category})}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                category: e.target.value as Category,
+                            })
+                        }
                     />
                     <Dropdown
                         items={['Easy', 'Medium', 'Hard']}
-                        onChange={(e) => setData({...data, difficulty: e.target.value as Difficulty})}
+                        onChange={(e) =>
+                            setData({
+                                ...data,
+                                difficulty: e.target.value as Difficulty,
+                            })
+                        }
                     />
                     <Input variant={'subtle'} placeholder="Flag"></Input>
                     <Button variant={'outline'}>Submit</Button>
