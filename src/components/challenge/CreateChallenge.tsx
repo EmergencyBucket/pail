@@ -2,12 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from './Button';
-import Modal from './Modal';
+import { Button } from '../Button';
+import Modal from '../Modal';
 import { Category, Challenge, Difficulty } from '@prisma/client';
-import { Input } from './Input';
-import { Dropdown } from './Dropdown';
-import { Textarea } from './Textarea';
+import { Input } from '../Input';
+import { Dropdown } from '../Dropdown';
+import { Textarea } from '../Textarea';
 
 interface Props {
     className?: string;

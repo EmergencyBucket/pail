@@ -2,12 +2,12 @@
 
 import { Challenge, Solve } from '@prisma/client';
 import { FormEvent, useState } from 'react';
-import { Button } from './Button';
-import Modal from './Modal';
+import { Button } from '../Button';
+import Modal from '../Modal';
 import { Status, Statuses } from '@/components/Status';
 import { useRouter } from 'next/navigation';
-import { Input } from './Input';
-import Code from './Code';
+import { Input } from '../Input';
+import Code from '../Code';
 import { DownloadIcon, PowerIcon } from 'lucide-react';
 
 interface Props {
@@ -114,7 +114,9 @@ const Challenge = ({ challenge }: Props) => {
                             ></Input>
                         </div>
                         <Status status={status} />
-                        <Button variant={'outline'}>Submit Flag</Button>
+                        <Button variant={'outline'} type="submit">
+                            Submit Flag
+                        </Button>
                     </form>
 
                     {challenge.files.length > 0 && (

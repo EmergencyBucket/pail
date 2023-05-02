@@ -1,4 +1,4 @@
-import ChallengeContainer from '@/components/ChallengeContainer';
+import ChallengeContainer from '@/components/challenge/ChallengeContainer';
 import { CTFStart, Middleware, teamMember } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 import { Category, Challenge, Solve } from '@prisma/client';

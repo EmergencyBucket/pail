@@ -1,4 +1,4 @@
-import { CreateChallenge } from '@/components/CreateChallenge';
+import { CreateChallenge } from '@/components/challenge/CreateChallenge';
 import HostContainer from '@/components/HostContainer';
 import { SettingsMenu } from '@/components/SettingsMenu';
 import { admin } from '@/lib/Middleware';
