@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent, useRef, useState } from 'react';
-import Button from './Button';
+import { Button } from './Button';
 import Modal from './Modal';
 import { Status, Statuses } from './Status';
 import forge from 'node-forge';
