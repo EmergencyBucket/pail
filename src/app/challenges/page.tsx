@@ -71,19 +71,17 @@ export default async function Home() {
 
     return (
         <>
-            <div className="grid grid-cols-4 text-center bg-slate-800 rounded-lg border border-slate-700 my-2 p-2">
-                <p className="text-white text-2xl font-semibold font-mono">
+            <div className="grid grid-cols-4 text-center bg-slate-800 rounded-lg border border-slate-700 my-2 p-2 text-white text-2xl font-medium font-mono">
+                <p className="border-r border-slate-700">
                     Solved:{' '}
                     {challengesWithoutSecrets.filter((c) => c.done).length}
                 </p>
-                <p className="text-white text-2xl font-semibold font-mono">
+                <p className="border-r border-slate-700">
                     Unsolved:{' '}
                     {challengesWithoutSecrets.filter((c) => !c.done).length}
                 </p>
-                <p className="text-white text-2xl font-semibold font-mono">
-                    {team?.name}
-                </p>
-                <p className="text-white text-2xl font-semibold font-mono flex">
+                <p className="border-r border-slate-700">{team?.name}</p>
+                <p className="flex mx-auto">
                     {await countPoints(team!)}&nbsp;
                     <Image
                         src={'/bucket.png'}
@@ -91,7 +89,6 @@ export default async function Home() {
                         width={32}
                         height={32}
                     />{' '}
-                    s
                 </p>
             </div>
             <p className="text-white text-3xl font-bold font-mono">Web</p>
