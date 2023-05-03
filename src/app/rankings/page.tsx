@@ -6,6 +6,7 @@ import { CTFStart, Middleware } from '@/lib/Middleware';
 import { Error } from '@/components/Error';
 import { getRankings } from '@/lib/Rankings';
 import { getTeam } from '@/lib/Utils';
+import { StarIcon } from 'lucide-react';
 
 export const metadata = {
     title: 'EBucket | Rankings',
@@ -85,27 +86,28 @@ export default async function Home() {
                         rankings.map((team, i) => (
                             <div key={Math.random()}>
                                 <div
-                                    className={`${
-                                        myTeam && team.id == myTeam!.id
-                                            ? 'bg-teal-700'
-                                            : 'bg-slate-700'
-                                    } m-1 text-center entry`}
+                                    className={`bg-slate-800 border border-slate-700 m-1 text-center entry rounded-lg flex`}
                                 >
-                                    <code className="text-white text-lg">
-                                        {i +
-                                            1 +
-                                            ' - ' +
-                                            team.label +
-                                            ' - ' +
-                                            team.data[0]}
-                                    </code>
+                                    <div className="mx-auto flex gap-4">
+                                        {team.id === myTeam!.id && (
+                                            <StarIcon className="text-yellow-500 my-auto" />
+                                        )}
+                                        <code className="text-white text-lg">
+                                            {i +
+                                                1 +
+                                                ' - ' +
+                                                team.label +
+                                                ' - ' +
+                                                team.data[0]}
+                                        </code>
+                                    </div>
                                 </div>
                                 <div id={team.id} className="hide">
                                     {team.solves &&
                                         team.solves.map((solve) => (
                                             <div
                                                 key={Math.random()}
-                                                className={`bg-indigo-700 m-1 text-center`}
+                                                className={`bg-indigo-900 m-1 text-center rounded-lg border border-indigo-700`}
                                             >
                                                 <code className="text-white text-lg">
                                                     {
