@@ -49,7 +49,6 @@ export async function GET() {
 
     const challenges: Partial<
         Challenge & {
-            points: number;
             solved: Solve[];
         }
     >[] = await prisma.challenge.findMany({
@@ -58,9 +57,8 @@ export async function GET() {
         },
     });
 
-    challenges.forEach((challenge) => {
+    challenges.forEach(async (challenge) => {
         delete challenge.flag;
-        challenge.points = 500 - (challenge.solved?.length ?? 0) * 2;
         delete challenge.solved;
     });
 

@@ -3,9 +3,10 @@ import { CTFStart, Middleware, teamMember } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 import { Category, Challenge, Solve } from '@prisma/client';
 import { arrange, asc, tidy } from '@tidyjs/tidy';
-import { getServerSession } from 'next-auth';
 import { Error } from '@/components/Error';
-import { pointValue } from '@/lib/Rankings';
+import { countPoints, pointValue } from '@/lib/Rankings';
+import { getTeam, getUser } from '@/lib/Utils';
+import Image from 'next/image';
 
 export const metadata = {
     title: 'EBucket | Challenges',
@@ -26,13 +27,9 @@ export default async function Home() {
     if (middleware)
         return <Error reason={(await middleware.json())['Error']} />;
 
-    let session = await getServerSession();
+    let user = await getUser();
 
-    let user = await prisma.user.findFirst({
-        where: {
-            email: session?.user?.email,
-        },
-    });
+    let team = await getTeam();
 
     let challenges: Partial<
         Challenge & {
@@ -74,12 +71,28 @@ export default async function Home() {
 
     return (
         <>
-            <div className="flex bg-slate-800 rounded-lg border border-slate-700 p-2">
-                <p className="text-white text-2xl font-bold font-mono">
+            <div className="grid grid-cols-4 text-center bg-slate-800 rounded-lg border border-slate-700 my-2 p-2">
+                <p className="text-white text-2xl font-semibold font-mono">
                     Solved:{' '}
                     {challengesWithoutSecrets.filter((c) => c.done).length}
                 </p>
-                <div className="rounded-lg border border-slate-700 bg-green-500 w-10"></div>
+                <p className="text-white text-2xl font-semibold font-mono">
+                    Unsolved:{' '}
+                    {challengesWithoutSecrets.filter((c) => !c.done).length}
+                </p>
+                <p className="text-white text-2xl font-semibold font-mono">
+                    {team?.name}
+                </p>
+                <p className="text-white text-2xl font-semibold font-mono flex">
+                    {await countPoints(team!)}&nbsp;
+                    <Image
+                        src={'/bucket.png'}
+                        alt="Bucket Logo"
+                        width={32}
+                        height={32}
+                    />{' '}
+                    s
+                </p>
             </div>
             <p className="text-white text-3xl font-bold font-mono">Web</p>
             <div className="grid sm:grid-cols-4 gap-4 my-4">
