@@ -6,6 +6,7 @@ import Modal from './Modal';
 import { Status, Statuses } from './Status';
 import forge from 'node-forge';
 import { Host } from '@prisma/client';
+import { Input } from './Input';
 
 let pki = forge.pki;
 
@@ -101,26 +102,26 @@ const HostContainer = ({ className, data }: Props) => {
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl">Create a host</p>
-                <form onSubmit={submit} onChange={validateSSL}>
-                    <input
+                <form
+                    onSubmit={submit}
+                    onChange={validateSSL}
+                    className="grid w-full gap-4"
+                >
+                    <Input
                         type={'number'}
                         placeholder="Port"
                         name="port"
+                        variant={'subtle'}
                         defaultValue={data ? (data.port as number) : undefined}
-                        className={
-                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
-                        }
                     />
-                    <input
+                    <Input
                         type={'text'}
                         placeholder="Remote"
                         name="remote"
                         defaultValue={
                             data ? (data.remote as string) : undefined
                         }
-                        className={
-                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-2 pl-2 w-full outline-none'
-                        }
+                        variant={'subtle'}
                     />
                     <input
                         type={'text'}
@@ -166,7 +167,11 @@ const HostContainer = ({ className, data }: Props) => {
                     />
                 </form>
             </Modal>
-            <Button className={className} onClick={() => setOpen(true)}>
+            <Button
+                className={className}
+                variant={'subtle'}
+                onClick={() => setOpen(true)}
+            >
                 {data ? (
                     data.ip
                 ) : (

@@ -1,200 +1,58 @@
-'use client';
+import { Button } from '@/components/Button';
+import { Input } from '@/components/Input';
+import { TeamUI } from '@/components/team/TeamUI';
+import { getTeam, getUser } from '@/lib/Utils';
 
-import { Status, Statuses } from '@/components/Status';
-import { Team, User } from '@prisma/client';
-import { FormEvent, useEffect, useState } from 'react';
+export default async function Home() {
+    let user = await getUser();
 
-export default function Home() {
-    const [team, setTeam] = useState<
-        Team & {
-            members: User[];
-        }
-    >();
-
-    const [user, setUser] = useState<User>();
-
-    async function getTeam() {
-        let req = await fetch(`/api/team`, {
-            method: 'GET',
-            credentials: 'include',
-        });
-
-        if (!req.ok) {
-            return;
-        }
-
-        let res = await req.json();
-
-        setTeam(
-            res as Team & {
-                members: User[];
-            }
-        );
-    }
-
-    async function getUser() {
-        let req = await fetch(`/api/user`, {
-            method: 'GET',
-            credentials: 'include',
-        });
-
-        if (!req.ok) {
-            return;
-        }
-
-        let res = await req.json();
-
-        setUser(res as User);
-    }
-
-    async function leave() {
-        await fetch(`/api/teams/leave`, {
-            method: 'POST',
-        });
-
-        setTeam(undefined);
-    }
-
-    async function submitCreate(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const target = event.target as typeof event.target & {
-            name: { value: string };
-        };
-
-        let req = await fetch(`/api/teams`, {
-            method: 'POST',
-            body: JSON.stringify({
-                name: target.name.value,
-            }),
-        });
-
-        let res = await req.json();
-
-        if (req.ok) {
-            setTeam(
-                res as Team & {
-                    members: User[];
-                }
-            );
-        } else {
-            target.name.value = 'Invalid name.';
-        }
-    }
-
-    async function submitJoin(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const target = event.target as typeof event.target & {
-            secret: { value: string };
-        };
-
-        let req = await fetch(`/api/teams/join`, {
-            method: 'POST',
-            body: JSON.stringify({
-                secret: target.secret.value,
-            }),
-        });
-
-        let res = await req.json();
-
-        if (req.ok) {
-            setTeam(
-                res as Team & {
-                    members: User[];
-                }
-            );
-        } else {
-            target.secret.value = 'Bad secret.';
-        }
-    }
-
-    useEffect(() => {
-        getTeam();
-        getUser();
-    }, []);
-
-    if (!user) {
-        return <Status status={Statuses.Loading} />;
-    }
+    let team = (
+        await prisma.user.findFirst({
+            where: {
+                email: user?.email,
+            },
+            include: {
+                team: {
+                    include: {
+                        members: true,
+                    },
+                },
+            },
+        })
+    )?.team;
 
     return (
-        <>
-            <head>
-                <title>EBucket | Account</title>
-            </head>
-            <div className="mt-8">
-                <p className="text-white">
-                    Username: <kbd>{user.name}</kbd>
-                </p>
-                <p className="text-white">
-                    ID: <kbd>{user.id}</kbd>
+        <div className="mx-auto w-1/3 border border-slate-700 rounded-lg p-4">
+            <div className="flex">
+                <img
+                    src={user?.image!}
+                    alt={user?.name!}
+                    width={100}
+                    height={100}
+                    className="rounded-full border-2 border-slate-700"
+                />
+                <p className="text-white text-7xl font-mono m-auto">
+                    {user?.name}
                 </p>
             </div>
-
-            {team ? (
-                <>
-                    <p className="text-white">
-                        Team name: <kbd>{team.name}</kbd>
-                    </p>
-                    <p className="text-white">
-                        Team secret: <kbd>{team.secret}</kbd>
-                    </p>
-                    <p className="text-white">
-                        Team members:{' '}
-                        <kbd>{team.members.map((m) => m.name + ' ')}</kbd>
-                    </p>
-                    <button
-                        onClick={leave}
-                        className={
-                            'bg-slate-800 cursor-pointer text-white p-2 border-2 mt-2 border-slate-700 hover:border-slate-500'
-                        }
-                    >
-                        Leave team
-                    </button>
-                </>
-            ) : (
-                <div className="flex gap-4">
-                    <form onSubmit={submitCreate}>
-                        <p className="text-white text-center">
-                            Create your own team
-                        </p>
-                        <input
-                            type={'text'}
-                            placeholder="Team name"
-                            name="name"
-                            className={
-                                'pl-2 bg-slate-700 border-2 text-white border-slate-500 my-2'
-                            }
-                        />
-                        <br />
-                        <input
-                            className={
-                                'bg-slate-800 cursor-pointer text-white border-2 border-slate-700 hover:border-slate-500 w-full'
-                            }
-                            type={'submit'}
-                        />
-                    </form>
-                    <form onSubmit={submitJoin}>
-                        <p className="text-white text-center">Join a team</p>
-                        <input
-                            type={'text'}
-                            placeholder="Team secret"
-                            name="secret"
-                            className={
-                                'pl-2 bg-slate-700 border-2 text-white border-slate-500 my-2'
-                            }
-                        />
-                        <br />
-                        <input
-                            className={
-                                'bg-slate-800 cursor-pointer text-white border-2 border-slate-700 hover:border-slate-500 w-full'
-                            }
-                            type={'submit'}
-                        />
-                    </form>
+            <hr className="my-4 border-slate-700" />
+            <div className="grid">
+                <div className="grid grid-cols-2 mx-auto">
+                    <p className="text-white text-mono text-center">Email</p>
+                    <code className="text-white">{user?.email}</code>
                 </div>
-            )}
-        </>
+                <div className="grid grid-cols-2 mx-auto">
+                    <p className="text-white text-mono text-center">ID</p>
+                    <code className="text-white">{user?.id}</code>
+                </div>
+            </div>
+            <hr className="my-4 border-slate-700" />
+            <div className="grid">
+                {team?.members.map((user) => (
+                    <div>{user.name}</div>
+                ))}
+                {!team && <TeamUI />}
+            </div>
+        </div>
     );
 }

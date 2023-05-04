@@ -4,7 +4,7 @@ interface Props {
 
 const Error = ({ reason }: Props) => {
     return (
-        <div className="bg-red-800 ring-4 m-1 p-2 ring-red-500 text-white text-center max-w-fit mx-auto">
+        <div className="bg-red-800 border m-1 p-2 border-red-500 text-white text-center rounded-lg max-w-fit mx-auto">
             <div className="flex gap-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

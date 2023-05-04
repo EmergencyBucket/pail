@@ -100,7 +100,10 @@ export async function POST(req: Request) {
         });
 
         return NextResponse.json(team, {
-            status: StatusCodes.CREATED,
+            status: StatusCodes.TEMPORARY_REDIRECT,
+            headers: {
+                Location: '/account',
+            },
         });
     } else {
         return NextResponse.json(
