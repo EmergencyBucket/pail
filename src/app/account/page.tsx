@@ -1,6 +1,7 @@
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { getUser } from '@/lib/Utils';
+import prisma from '@/lib/prismadb';
 
 async function submitJoin(data: FormData) {
     'use server';
