@@ -89,7 +89,7 @@ export default async function Home() {
                                     className={`bg-slate-800 border border-slate-700 m-1 text-center entry rounded-lg flex`}
                                 >
                                     <div className="mx-auto flex gap-4">
-                                        {team.id === myTeam!.id && (
+                                        {myTeam && team.id === myTeam.id && (
                                             <StarIcon className="text-yellow-500 my-auto" />
                                         )}
                                         <code className="text-white text-lg">
