@@ -2,6 +2,11 @@ import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { getUser } from '@/lib/Utils';
 import prisma from '@/lib/prismadb';
+import { revalidatePath } from 'next/cache';
+
+export const metadata = {
+    title: 'EBucket | Account',
+};
 
 async function submitJoin(data: FormData) {
     'use server';
@@ -20,6 +25,8 @@ async function submitJoin(data: FormData) {
             },
         },
     });
+
+    revalidatePath('/account');
 }
 
 async function submitCreate(data: FormData) {
@@ -40,6 +47,8 @@ async function submitCreate(data: FormData) {
             members: true,
         },
     });
+
+    revalidatePath('/account');
 }
 
 async function leaveTeam() {
@@ -76,6 +85,8 @@ async function leaveTeam() {
             },
         });
     }
+
+    revalidatePath('/account');
 }
 
 export default async function Home() {
