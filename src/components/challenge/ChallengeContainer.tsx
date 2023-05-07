@@ -1,7 +1,7 @@
 'use client';
 
 import { Challenge, Solve } from '@prisma/client';
-import { FormEvent, useState } from 'react';
+import { FormEvent, Suspense, useState } from 'react';
 import { Button } from '../Button';
 import Modal from '../Modal';
 import { Status, Statuses } from '@/components/Status';
@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '../Input';
 import Code from '../Code';
 import { DownloadIcon, PowerIcon } from 'lucide-react';
+import { MDXRemote } from 'next-mdx-remote/rsc';
 
 interface Props {
     challenge: Omit<
@@ -86,7 +87,10 @@ const Challenge = ({ challenge }: Props) => {
                         </span>
                     </h2>
 
-                    <p className="text-md">{challenge.description}</p>
+                    <Suspense fallback={<>Loading...</>}>
+                        {/* @ts-expect-error Server Component */}
+                        <MDXRemote source={challenge.description} />
+                    </Suspense>
 
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
                     {challenge.image && (
