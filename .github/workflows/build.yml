@@ -49,4 +49,4 @@ jobs:
     - name: Build site
       run: yarn build
       env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        DATABASE_URL_NON_POOLING: postgresql://postgres:postgres@localhost:5432/postgres
