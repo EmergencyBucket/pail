@@ -87,7 +87,14 @@ const Challenge = ({ challenge }: Props) => {
                         </span>
                     </h2>
 
-                    <Suspense fallback={<>Loading...</>}>
+                    <Suspense
+                        fallback={
+                            <Status
+                                status={Statuses.Loading}
+                                className="mx-auto"
+                            />
+                        }
+                    >
                         {/* @ts-expect-error Server Component */}
                         <MDXRemote source={challenge.description} />
                     </Suspense>

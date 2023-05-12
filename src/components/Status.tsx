@@ -2,6 +2,7 @@
 
 import { CheckIcon, XIcon } from 'lucide-react';
 import { Loader2 } from 'lucide-react';
+import React from 'react';
 
 enum Statuses {
     Unsubmitted,
@@ -10,23 +11,25 @@ enum Statuses {
     Incorrect,
 }
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLElement> {
     status: Statuses;
 }
 
-const Status = ({ status }: Props) => {
+const Status = ({ status, className }: Props) => {
     switch (status) {
         case Statuses.Unsubmitted: {
             return <></>;
         }
         case Statuses.Loading: {
-            return <Loader2 rotate={10} className="animate-spin" />;
+            return (
+                <Loader2 rotate={10} className={`animate-spin ${className}`} />
+            );
         }
         case Statuses.Correct: {
-            return <CheckIcon />;
+            return <CheckIcon className={className} />;
         }
         case Statuses.Incorrect: {
-            return <XIcon />;
+            return <XIcon className={className} />;
         }
     }
 };
