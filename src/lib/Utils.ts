@@ -4,6 +4,10 @@ import prisma from './prismadb';
 export async function getUser() {
     let session = await getServerSession();
 
+    if (!session) {
+        return null;
+    }
+
     return await prisma.user.findFirst({
         where: {
             email: session?.user?.email,
@@ -13,6 +17,10 @@ export async function getUser() {
 
 export async function getTeam() {
     let session = await getServerSession();
+
+    if (!session) {
+        return null;
+    }
 
     return (
         await prisma.user.findFirst({

@@ -1,8 +1,8 @@
-import { getServerSession } from 'next-auth';
 import { Button } from './Button';
+import { getUser } from '@/lib/Utils';
 
 const Navbar = async () => {
-    const session = await getServerSession();
+    const user = await getUser();
 
     return (
         <div className="flex flex-wrap sm:flex-nowrap gap-4 w-full place-items-center mb-4">
@@ -26,25 +26,35 @@ const Navbar = async () => {
                 <code className="text-xl font-medium">Rankings</code>
             </Button>
 
-            {session && (
+            {user && (
                 <Button
                     variant={'subtle'}
                     link="/account"
                     className="w-full text-center"
                 >
                     <code className="text-xl font-medium">
-                        {session.user?.name as string}
+                        {user.name as string}
                     </code>
+                </Button>
+            )}
+
+            {user?.admin && (
+                <Button
+                    variant={'subtle'}
+                    link="/admin"
+                    className="w-full text-center"
+                >
+                    <code className="text-xl font-medium">Admin</code>
                 </Button>
             )}
 
             <Button
                 variant={'subtle'}
                 className="w-full text-center"
-                link={session ? '/api/auth/signout' : '/api/auth/signin'}
+                link={user ? '/api/auth/signout' : '/api/auth/signin'}
             >
                 <code className="text-xl font-medium">
-                    {session ? 'Sign out' : 'Sign in'}
+                    {user ? 'Sign out' : 'Sign in'}
                 </code>
             </Button>
         </div>

@@ -1,21 +1,20 @@
-'use client';
-
-import { FormEvent, useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
-import { Status, Statuses } from '@/components/Status';
-
-interface SettingForm {
-    key: string;
-    defaultValue: {
-        value: string;
-        public: boolean;
-    };
-    datatype: string;
-    onSubmit: (e: FormEvent<HTMLFormElement>) => void;
-    transformData?: (input: string) => string;
-}
+import { Input } from '../Input';
 
 export const SettingsMenu = () => {
+    const settings = [
+        {
+            key: 'CTF_START_TIME',
+            name: 'CTF Start Time',
+            submit: async (form: FormData) => {
+                'use server';
+
+                console.log(form);
+            },
+            datatype: 'datetime-local',
+        },
+    ];
+
+    /*
     const [settings, setSettings] = useState<SettingForm[]>([]);
 
     async function getSettings() {
@@ -142,47 +141,44 @@ export const SettingsMenu = () => {
         getSettings();
     }, []);
 
+    */
+
     return (
         <>
             <code className="text-white text-2xl text-center">Settings</code>
             {settings.map((setting) => (
                 <form
-                    onSubmit={setting.onSubmit}
+                    action={setting.submit}
                     key={setting.key}
-                    className="bg-slate-800 text-white p-2 border-4 border-slate-700 flex"
+                    className="p-2 rounded-lg bg-slate-800 grid grid-cols-4 place-items-center"
                 >
-                    <code className="text-white text-lg mx-auto text-center">
-                        {setting.key}
-                    </code>
-                    <label htmlFor="public" className="mr-2 my-auto">
-                        <code>Public</code>
+                    <label htmlFor="public" className="text-white font-mono">
+                        {setting.name}
                     </label>
-                    <input
-                        defaultChecked={setting.defaultValue.public}
-                        type={'checkbox'}
-                        name="public"
-                    />
-                    <input
+                    <Input
+                        name="data"
+                        variant={'subtle'}
                         type={setting.datatype}
-                        defaultValue={
-                            setting.transformData
-                                ? setting.transformData(
-                                      setting.defaultValue.value
-                                  )
-                                : setting.defaultValue.value
-                        }
-                        name="value"
-                        className="bg-slate-700 border-2 border-slate-500 focus:border-slate-400 outline-none mx-auto px-2"
                     />
-                    <button
-                        id={setting.key}
-                        type={'submit'}
-                        className={
-                            'bg-slate-800 cursor-pointer text-white mx-auto border-2 border-slate-700 hover:border-slate-500 px-6'
-                        }
-                    >
-                        Save
-                    </button>
+                    <div className="grid grid-cols-2">
+                        <label
+                            htmlFor="public"
+                            className="text-white font-mono my-auto"
+                        >
+                            Public
+                        </label>
+                        <Input
+                            name="public"
+                            variant={'subtle'}
+                            type="checkbox"
+                            className="w-5 h-5 m-auto"
+                        />
+                    </div>
+                    <Input
+                        variant={'subtle'}
+                        type="submit"
+                        className="cursor-pointer w-full"
+                    />
                 </form>
             ))}
         </>

@@ -1,6 +1,6 @@
 import { CreateChallenge } from '@/components/challenge/CreateChallenge';
 import HostContainer from '@/components/HostContainer';
-import { SettingsMenu } from '@/components/SettingsMenu';
+import { SettingsMenu } from '@/components/settings/SettingsMenu';
 import { admin } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 
