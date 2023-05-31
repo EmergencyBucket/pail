@@ -24,10 +24,17 @@ const CreateChallenge = ({ className, challenge }: Props) => {
     function submit() {
         setOpen(false);
 
-        fetch(`/api/challenges`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-        }).then(() => router.refresh());
+        if (!challenge) {
+            fetch(`/api/challenges`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+            }).then(() => router.refresh());
+        } else {
+            fetch(`/api/challenges/${challenge.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify(data),
+            }).then(() => router.refresh());
+        }
     }
 
     function deleteChallenge() {

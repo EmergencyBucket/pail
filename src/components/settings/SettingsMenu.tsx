@@ -1,4 +1,5 @@
 import { Input } from '../Input';
+import prisma from '@/lib/prismadb';
 
 export const SettingsMenu = () => {
     const settings = [
@@ -8,7 +9,18 @@ export const SettingsMenu = () => {
             submit: async (form: FormData) => {
                 'use server';
 
-                console.log(form);
+                await prisma.setting.upsert({
+                    where: {
+                        key: 'CTF_START_TIME',
+                    },
+                    update: {
+                        value: form.get('data')!.toString(),
+                    },
+                    create: {
+                        key: 'CTF_START_TIME',
+                        value: form.get('data')!.toString(),
+                    },
+                });
             },
             datatype: 'datetime-local',
         },
