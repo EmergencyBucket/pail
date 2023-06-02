@@ -1,4 +1,4 @@
-![Pail Logo](https://ebucket.dev/pail.png)
+![Pail Logo](pail.png)
 ## Pail is Emergency Bucket CTF's NextJS backend + frontend.
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/EmergencyBucket/pail/build.yml)
