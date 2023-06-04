@@ -95,7 +95,6 @@ const Challenge = ({ challenge }: Props) => {
                             />
                         }
                     >
-                        {/* @ts-expect-error Server Component */}
                         <MDXRemote source={challenge.description} />
                     </Suspense>
 
