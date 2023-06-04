@@ -1,6 +1,7 @@
 import { CreateChallenge } from '@/components/challenge/CreateChallenge';
 import HostContainer from '@/components/HostContainer';
 import { SettingsMenu } from '@/components/settings/SettingsMenu';
+import { Error } from '@/components/Error';
 import { admin } from '@/lib/Middleware';
 import prisma from '@/lib/prismadb';
 
@@ -10,11 +11,7 @@ export const metadata = {
 
 export default async function Home() {
     if (await admin()) {
-        return (
-            <code className="text-white text-2xl">
-                You must be an admin to access this page.
-            </code>
-        );
+        return <Error reason={'You must be an admin to access this page!'} />;
     }
 
     let challenges = await prisma.challenge.findMany();
