@@ -77,7 +77,7 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                         }
                     ></Input>
                     <Dropdown
-                        items={['Web', 'Crypto', 'Rev', 'Pwn', 'Misc']}
+                        items={['WEB', 'CRYPTO', 'REV', 'PWN', 'MISC']}
                         defaultValue={challenge?.category}
                         onChange={(e) =>
                             setData({

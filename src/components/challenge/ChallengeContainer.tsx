@@ -1,7 +1,7 @@
 'use client';
 
 import { Challenge, Solve } from '@prisma/client';
-import { FormEvent, Suspense, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { Button } from '../Button';
 import Modal from '../Modal';
 import { Status, Statuses } from '@/components/Status';
@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { Input } from '../Input';
 import Code from '../Code';
 import { DownloadIcon, PowerIcon } from 'lucide-react';
-import { MDXRemote } from 'next-mdx-remote/rsc';
+import Markdown from 'marked-react';
 
 interface Props {
     challenge: Omit<
@@ -75,7 +75,7 @@ const Challenge = ({ challenge }: Props) => {
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
-                <div className="bg-slate-800 p-2 rounded-sm m-3  text-center">
+                <div className="bg-slate-800 p-2 rounded-sm m-3 text-center overflow-y-scroll h-full">
                     <h1 className="text-2xl font-bold">
                         {challenge.category} / {challenge.name}
                     </h1>
@@ -87,16 +87,9 @@ const Challenge = ({ challenge }: Props) => {
                         </span>
                     </h2>
 
-                    <Suspense
-                        fallback={
-                            <Status
-                                status={Statuses.Loading}
-                                className="mx-auto"
-                            />
-                        }
-                    >
-                        <MDXRemote source={challenge.description} />
-                    </Suspense>
+                    <div className="prose lg:prose-xl prose-invert">
+                        <Markdown>{challenge.description}</Markdown>
+                    </div>
 
                     <hr className="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700" />
                     {challenge.image && (
@@ -155,15 +148,22 @@ const Challenge = ({ challenge }: Props) => {
                     ))}
                 </div>
             </Modal>
-            <Button variant={'subtle'} onClick={() => setOpen(true)}>
-                {challenge.category +
-                    ' - ' +
-                    challenge.name +
-                    ' - ' +
-                    challenge.points +
-                    ' - ' +
-                    challenge.difficulty +
-                    (challenge.done ? ' - ✔️' : '')}
+            <Button
+                size={'lg'}
+                variant={'subtle'}
+                onClick={() => setOpen(true)}
+                className="block h-full py-2"
+            >
+                <code className="text-xl">{challenge.name}</code>
+                <hr />
+                <code className="text-lg">
+                    {challenge.category +
+                        ' - ' +
+                        challenge.points +
+                        ' - ' +
+                        challenge.difficulty +
+                        (challenge.done ? ' - ✔️' : '')}
+                </code>
             </Button>
         </>
     );
