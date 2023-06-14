@@ -92,7 +92,7 @@ export default async function Home() {
                 </p>
             </div>
             <p className="text-white text-3xl font-bold font-mono">Web</p>
-            <div className="grid sm:grid-cols-6 gap-4 my-4">
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
                     .filter((c) => c.category == Category.WEB)
                     .map((challenge) => (
@@ -112,7 +112,7 @@ export default async function Home() {
                     ))}
             </div>
             <p className="text-white text-3xl font-bold font-mono">Crypto</p>
-            <div className="grid sm:grid-cols-6 gap-4 my-4">
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
                     .filter((c) => c.category == Category.CRYPTO)
                     .map((challenge) => (
@@ -132,7 +132,7 @@ export default async function Home() {
                     ))}
             </div>
             <p className="text-white text-3xl font-bold font-mono">Rev</p>
-            <div className="grid sm:grid-cols-6 gap-4 my-4">
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
                     .filter((c) => c.category == Category.REV)
                     .map((challenge) => (
@@ -152,7 +152,7 @@ export default async function Home() {
                     ))}
             </div>
             <p className="text-white text-3xl font-bold font-mono">Pwn</p>
-            <div className="grid sm:grid-cols-6 gap-4 my-4">
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
                     .filter((c) => c.category == Category.PWN)
                     .map((challenge) => (
@@ -172,7 +172,7 @@ export default async function Home() {
                     ))}
             </div>
             <p className="text-white text-3xl font-bold font-mono">Misc</p>
-            <div className="grid sm:grid-cols-6 gap-4 my-4">
+            <div className="grid sm:grid-cols-4 gap-4 my-4">
                 {challengesWithoutSecrets
                     .filter((c) => c.category == Category.MISC)
                     .map((challenge) => (
