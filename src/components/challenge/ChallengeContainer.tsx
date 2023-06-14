@@ -150,9 +150,11 @@ const Challenge = ({ challenge }: Props) => {
             </Modal>
             <Button
                 size={'lg'}
-                variant={'subtle'}
+                variant={challenge.done ? 'unstyled' : 'subtle'}
                 onClick={() => setOpen(true)}
-                className="block h-full py-2"
+                className={`block h-full py-2 ${
+                    challenge.done && 'bg-teal-900 text-slate-100'
+                }`}
             >
                 <code className="text-xl">{challenge.name}</code>
                 <hr />
