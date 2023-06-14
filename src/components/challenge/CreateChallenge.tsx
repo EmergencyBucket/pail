@@ -124,12 +124,18 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                 </div>
             </Modal>
             <Button
-                className={className}
+                className={className + ' block h-full'}
                 onClick={() => setOpen(true)}
                 variant={'subtle'}
             >
                 {challenge ? (
-                    <code>{challenge?.name}</code>
+                    <>
+                        <code className="text-xl">{challenge.name}</code>
+                        <hr />
+                        <code className="text-lg">
+                            {challenge.category + ' - ' + challenge.difficulty}
+                        </code>
+                    </>
                 ) : (
                     <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -38,14 +38,27 @@ export interface ButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement>,
         VariantProps<typeof buttonVariants> {
     link?: string;
+    linkClassName?: string;
     icon?: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant, link, size, icon, children, ...props }, ref) => {
+    (
+        {
+            className,
+            linkClassName,
+            variant,
+            link,
+            size,
+            icon,
+            children,
+            ...props
+        },
+        ref
+    ) => {
         if (link) {
             return (
-                <Link href={link} className={className}>
+                <Link href={link} className={linkClassName}>
                     <button
                         className={bkct(
                             buttonVariants({ variant, size, className })

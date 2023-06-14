@@ -18,13 +18,14 @@ export default async function Home() {
 
     return (
         <div className="mt-4 flex flex-wrap h-full">
-            <div className="w-1/2 grid gap-4 px-2 h-1/2">
+            <div className="w-1/2 grid gap-4 pr-2 h-1/2">
                 <Button
                     link="admin/challenges"
                     variant={'unstyled'}
-                    className="text-white bg-blue-950 border-2 border-blue-900 hover:border-indigo-900 hover:bg-indigo-950 h-full"
+                    linkClassName="w-full h-full"
+                    className="w-full text-white bg-blue-950 border-2 border-blue-900 hover:border-indigo-900 hover:bg-indigo-950 h-full"
                 >
-                    Challenges
+                    <code>Challenges</code>
                 </Button>
             </div>
             <div className="w-1/2 grid gap-4 px-2 h-min">
