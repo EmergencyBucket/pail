@@ -75,7 +75,7 @@ const Challenge = ({ challenge }: Props) => {
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
-                <div className="bg-slate-800 p-2 rounded-sm m-3 text-center overflow-y-scroll h-full">
+                <div className="bg-slate-800 p-2 rounded-sm m-3 text-center overflow-y-auto h-full">
                     <h1 className="text-2xl font-bold">
                         {challenge.category} / {challenge.name}
                     </h1>
