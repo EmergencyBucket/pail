@@ -39,6 +39,7 @@ export interface ButtonProps
         VariantProps<typeof buttonVariants> {
     link?: string;
     linkClassName?: string;
+    target?: string;
     icon?: React.ReactNode;
 }
 
@@ -47,6 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {
             className,
             linkClassName,
+            target,
             variant,
             link,
             size,
@@ -58,7 +60,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ) => {
         if (link) {
             return (
-                <Link href={link} className={linkClassName}>
+                <Link href={link} className={linkClassName} target={target}>
                     <button
                         className={bkct(
                             buttonVariants({ variant, size, className })

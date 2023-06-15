@@ -135,8 +135,9 @@ const Challenge = ({ challenge }: Props) => {
                         <Button
                             key={file}
                             variant="ghost"
+                            link="file"
+                            target="_blank"
                             className="w-full"
-                            onClick={() => window.open(file)}
                             icon={<DownloadIcon></DownloadIcon>}
                         >
                             <span className="text-md font-bold">Download</span>
