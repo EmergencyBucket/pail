@@ -101,7 +101,7 @@ const HostContainer = ({ className, data }: Props) => {
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
-                <p className="text-white text-4xl">Create a host</p>
+                <p className="text-white text-4xl py-2">Create a host</p>
                 <form
                     onSubmit={submit}
                     onChange={validateSSL}
@@ -123,16 +123,14 @@ const HostContainer = ({ className, data }: Props) => {
                         }
                         variant={'subtle'}
                     />
-                    <input
+                    <Input
                         type={'text'}
                         placeholder="IP"
                         name="ip"
                         defaultValue={data ? (data.ip as string) : undefined}
-                        className={
-                            'bg-slate-700 border-2 border-slate-500 focus:border-slate-400 mt-2 pl-2 w-full outline-none'
-                        }
+                        variant={'subtle'}
                     />
-                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 w-full outline-none">
                         <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
@@ -141,7 +139,7 @@ const HostContainer = ({ className, data }: Props) => {
                         </label>
                         <input name="ca" type={'file'} className={'px-2'} />
                     </div>
-                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 w-full outline-none">
                         <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
@@ -150,7 +148,7 @@ const HostContainer = ({ className, data }: Props) => {
                         </label>
                         <input name="cert" type={'file'} className={'px-2'} />
                     </div>
-                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 my-4 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 w-full outline-none">
                         <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
