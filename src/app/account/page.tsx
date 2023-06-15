@@ -3,6 +3,7 @@ import { Input } from '@/components/Input';
 import { getUser } from '@/lib/Utils';
 import prisma from '@/lib/prismadb';
 import { revalidatePath } from 'next/cache';
+import Image from 'next/image';
 
 export const metadata = {
     title: 'EBucket | Account',
@@ -110,7 +111,7 @@ export default async function Home() {
     return (
         <div className="mx-auto w-1/3 border border-slate-700 rounded-lg p-4">
             <div className="flex">
-                <img
+                <Image
                     src={user?.image!}
                     alt={user?.name!}
                     width={100}
