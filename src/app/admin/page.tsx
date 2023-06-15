@@ -1,7 +1,5 @@
-import HostContainer from '@/components/HostContainer';
 import { Error } from '@/components/Error';
 import { admin } from '@/lib/Middleware';
-import prisma from '@/lib/prismadb';
 import { Button } from '@/components/Button';
 
 export const metadata = {
@@ -13,11 +11,9 @@ export default async function Home() {
         return <Error reason={'You must be an admin to access this page!'} />;
     }
 
-    let hosts = await prisma.host.findMany();
-
     return (
-        <div className="mt-4 grid grid-cols-2 grid-rows-2 h-full">
-            <div className="grid gap-4 pr-2">
+        <div className="mt-4 grid grid-cols-2 grid-rows-2 gap-4 h-full">
+            <div className="grid gap-4">
                 <Button
                     link="admin/challenges"
                     variant={'unstyled'}
@@ -27,7 +23,7 @@ export default async function Home() {
                     <code>Challenges</code>
                 </Button>
             </div>
-            <div className="grid gap-4 px-2">
+            <div className="grid gap-4">
                 <Button
                     link="admin/settings"
                     variant={'unstyled'}
@@ -37,12 +33,15 @@ export default async function Home() {
                     <code>Settings</code>
                 </Button>
             </div>
-            <div className="w-1/2 grid gap-4 px-2 h-min">
-                <code className="text-white text-2xl text-center">Hosts</code>
-                {hosts.map((host) => (
-                    <HostContainer data={host} key={Math.random()} />
-                ))}
-                <HostContainer />
+            <div className="grid gap-4">
+                <Button
+                    link="admin/hosts"
+                    variant={'unstyled'}
+                    linkClassName="w-full h-full"
+                    className="w-full text-white bg-fuchsia-950 border-2 border-fuchsia-900 hover:border-pink-900 hover:bg-pink-950 h-full text-3xl"
+                >
+                    <code>Hosts</code>
+                </Button>
             </div>
             <div className="w-1/2"></div>
         </div>
