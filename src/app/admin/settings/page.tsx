@@ -34,10 +34,52 @@ export default async function Home() {
             },
             datatype: 'datetime-local',
         },
+        {
+            key: 'CTF_END_TIME',
+            name: 'CTF End Time',
+            submit: async (form: FormData) => {
+                'use server';
+
+                await prisma.setting.upsert({
+                    where: {
+                        key: 'CTF_END_TIME',
+                    },
+                    update: {
+                        value: form.get('data')!.toString(),
+                    },
+                    create: {
+                        key: 'CTF_END_TIME',
+                        value: form.get('data')!.toString(),
+                    },
+                });
+            },
+            datatype: 'datetime-local',
+        },
+        {
+            key: 'DISCORD_TOKEN',
+            name: 'Discord Token',
+            submit: async (form: FormData) => {
+                'use server';
+
+                await prisma.setting.upsert({
+                    where: {
+                        key: 'DISCORD_TOKEN',
+                    },
+                    update: {
+                        value: form.get('data')!.toString(),
+                    },
+                    create: {
+                        key: 'DISCORD_TOKEN',
+                        value: form.get('data')!.toString(),
+                    },
+                });
+            },
+            datatype: 'password',
+        },
     ];
 
     return (
-        <>
+        <div className="grid gap-4">
             {settings.map((setting) => (
                 <form
                     action={setting.submit}
@@ -73,6 +115,6 @@ export default async function Home() {
                     />
                 </form>
             ))}
-        </>
+        </div>
     );
 }
