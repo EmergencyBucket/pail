@@ -4,7 +4,7 @@ import prisma from '@/lib/prismadb';
 import { Input } from '@/components/Input';
 
 export const metadata = {
-    title: 'EBucket | Admin | Challenges',
+    title: 'EBucket | Admin | Settings',
 };
 
 export default async function Home() {
