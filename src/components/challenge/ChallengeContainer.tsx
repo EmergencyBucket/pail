@@ -135,7 +135,7 @@ const Challenge = ({ challenge }: Props) => {
                         <Button
                             key={file}
                             variant="ghost"
-                            link="file"
+                            link={file}
                             target="_blank"
                             className="w-full"
                             icon={<DownloadIcon></DownloadIcon>}
