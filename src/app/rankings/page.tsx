@@ -46,6 +46,12 @@ export default async function Home() {
 
     let myTeam = await getTeam();
 
+    let users = await prisma.user.findMany({
+        include: {
+            solves: true,
+        },
+    });
+
     let challenges: (Challenge & {
         solved: Solve[];
         points?: number;
@@ -115,6 +121,14 @@ export default async function Home() {
                                                             (challenge) =>
                                                                 challenge.id ==
                                                                 solve.challengeId
+                                                        )!.name
+                                                    }
+                                                    &nbsp;-&nbsp;
+                                                    {
+                                                        users.find(
+                                                            (user) =>
+                                                                user.id ==
+                                                                solve.userId
                                                         )!.name
                                                     }
                                                 </code>

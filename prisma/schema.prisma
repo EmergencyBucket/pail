@@ -48,6 +48,7 @@ model User {
   sessions      Session[]
   team          Team?     @relation(fields: [teamId], references: [id])
   teamId        String?
+  solves        Solve[]
   admin         Boolean   @default(false)
 }
 
@@ -87,6 +88,8 @@ model Solve {
   challengeId String
   team        Team      @relation(fields: [teamId], references: [id])
   teamId      String
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
   time        DateTime
 }
 

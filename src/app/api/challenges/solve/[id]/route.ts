@@ -108,6 +108,11 @@ export async function POST(
                                 id: challenge.id,
                             },
                         },
+                        user: {
+                            connect: {
+                                id: user.id,
+                            },
+                        },
                         time: time,
                     },
                 },
