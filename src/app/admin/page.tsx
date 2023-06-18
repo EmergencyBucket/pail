@@ -43,7 +43,16 @@ export default async function Home() {
                     <code>Hosts</code>
                 </Button>
             </div>
-            <div className="w-1/2"></div>
+            <div className="grid gap-4">
+                <Button
+                    link="admin/teams"
+                    variant={'unstyled'}
+                    linkClassName="w-full h-full"
+                    className="w-full text-white bg-fuchsia-950 border-2 border-fuchsia-900 hover:border-pink-900 hover:bg-pink-950 h-full text-3xl"
+                >
+                    <code>Teams</code>
+                </Button>
+            </div>
         </div>
     );
 }
