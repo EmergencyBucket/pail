@@ -48,7 +48,7 @@ export default async function Home() {
                     link="admin/teams"
                     variant={'unstyled'}
                     linkClassName="w-full h-full"
-                    className="w-full text-white bg-fuchsia-950 border-2 border-fuchsia-900 hover:border-pink-900 hover:bg-pink-950 h-full text-3xl"
+                    className="w-full text-white bg-orange-950 border-2 border-orange-900 hover:border-amber-900 hover:bg-amber-950 h-full text-3xl"
                 >
                     <code>Teams</code>
                 </Button>

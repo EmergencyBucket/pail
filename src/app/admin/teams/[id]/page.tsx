@@ -25,6 +25,10 @@ export default async function Home({
         },
     });
 
+    if (!team) {
+        return <Error reason={'Team not found!'} />;
+    }
+
     let solves = await prisma.solve.findMany({
         where: {
             teamId: team?.id,
