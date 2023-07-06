@@ -106,21 +106,24 @@ const Challenge = ({ challenge }: Props) => {
                         </div>
                     )}
                     <form
-                        className="grid grid-cols-4 gap-2 m-3"
+                        className="flex gap-2 m-3"
                         onSubmit={submit}
                     >
-                        <div className="col-span-3">
+                        <div className="w-3/4">
                             <Input
                                 className="w-full"
                                 variant={'outline'}
                                 name="flag"
                                 placeholder="bucket{...}"
+                                required
                             ></Input>
                         </div>
-                        <Status status={status} />
-                        <Button variant={'outline'} formAction="submit">
+                        
+                        {status === Statuses.Unsubmitted ? <Button variant={'outline'} formAction="submit" className='w-1/4'>
                             Submit Flag
-                        </Button>
+                        </Button> : <div className='rounded-lg ring-1 ring-slate-700 w-1/4'>
+                            <Status status={status} className='m-auto' />
+                        </div>}
                     </form>
 
                     {challenge.files.length > 0 && (
@@ -153,9 +156,8 @@ const Challenge = ({ challenge }: Props) => {
                 size={'lg'}
                 variant={challenge.done ? 'unstyled' : 'subtle'}
                 onClick={() => setOpen(true)}
-                className={`block h-full py-2 ${
-                    challenge.done && 'bg-teal-900 text-slate-100'
-                }`}
+                className={`block h-full py-2 ${challenge.done && 'bg-teal-900 text-slate-100'
+                    }`}
             >
                 <code className="text-xl">{challenge.name}</code>
                 <hr />
