@@ -31,7 +31,7 @@ const solveChallengeRequestValidator = ajv.compile(SolveChallengeRequest);
 
 export async function POST(
     req: Request,
-    { params }: { params: { id?: string } }
+    { params }: { params: { id?: string } },
 ) {
     let middleware = await Middleware([CTFStart(), CTFEnd(), teamMember()]);
     if (middleware) return middleware;
@@ -47,7 +47,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 
@@ -79,7 +79,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.NOT_FOUND,
-            }
+            },
         );
     }
 
@@ -92,7 +92,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 
@@ -127,7 +127,7 @@ export async function POST(
 
         if (
             solvedTeam.solves.filter(
-                (solve) => solve.challengeId == challenge.id
+                (solve) => solve.challengeId == challenge.id,
             ).length > 1
         ) {
             await prisma.solve.deleteMany({
@@ -144,7 +144,7 @@ export async function POST(
                 },
                 {
                     status: StatusCodes.CONFLICT,
-                }
+                },
             );
         }
 
@@ -174,7 +174,7 @@ export async function POST(
             client.once(Events.ClientReady, (client) => {
                 (
                     client.channels.cache.get(
-                        channel?.value as string
+                        channel?.value as string,
                     ) as TextChannel
                 ).send({ embeds: [firstBlood] });
             });
@@ -188,7 +188,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.OK,
-            }
+            },
         );
     }
 
@@ -198,6 +198,6 @@ export async function POST(
         },
         {
             status: StatusCodes.BAD_REQUEST,
-        }
+        },
     );
 }

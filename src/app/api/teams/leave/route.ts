@@ -13,7 +13,7 @@ export async function POST() {
             },
             {
                 status: StatusCodes.UNAUTHORIZED,
-            }
+            },
         );
     }
 

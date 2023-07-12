@@ -41,7 +41,7 @@ const CreateChallenge = ({ className, challenge }: Props) => {
         setOpen(false);
 
         fetch(`/api/challenges/${challenge!.id}`, { method: 'DELETE' }).then(
-            () => router.refresh()
+            () => router.refresh(),
         );
     }
 

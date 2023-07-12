@@ -6,7 +6,7 @@ import prisma from '@/lib/prismadb';
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { key?: string } }
+    { params }: { params: { key?: string } },
 ) {
     const { key } = params;
 
@@ -17,7 +17,7 @@ export async function GET(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 
@@ -34,7 +34,7 @@ export async function GET(
             },
             {
                 status: StatusCodes.NOT_FOUND,
-            }
+            },
         );
     }
 

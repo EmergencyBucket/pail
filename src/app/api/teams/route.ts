@@ -42,7 +42,7 @@ export async function POST(req: Request) {
             },
             {
                 status: StatusCodes.UNAUTHORIZED,
-            }
+            },
         );
     }
 
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
                 },
                 {
                     status: StatusCodes.BAD_REQUEST,
-                }
+                },
             );
         }
 
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
                 },
                 {
                     status: StatusCodes.BAD_REQUEST,
-                }
+                },
             );
         }
 
@@ -112,7 +112,7 @@ export async function POST(req: Request) {
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 }

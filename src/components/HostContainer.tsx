@@ -157,7 +157,7 @@ const HostContainer = ({ className, data }: Props) => {
                         </label>
                         <input name="key" type={'file'} className={'px-2'} />
                     </div>
-                    <Input type='submit' variant={'subtle'} />
+                    <Input type="submit" variant={'subtle'} />
                 </form>
             </Modal>
             <Button

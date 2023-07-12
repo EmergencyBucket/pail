@@ -120,7 +120,7 @@ export default async function Home() {
                                                         challenges.find(
                                                             (challenge) =>
                                                                 challenge.id ==
-                                                                solve.challengeId
+                                                                solve.challengeId,
                                                         )!.name
                                                     }
                                                     &nbsp;-&nbsp;
@@ -128,7 +128,7 @@ export default async function Home() {
                                                         users.find(
                                                             (user) =>
                                                                 user.id ==
-                                                                solve.userId
+                                                                solve.userId,
                                                         )!.name
                                                     }
                                                 </code>

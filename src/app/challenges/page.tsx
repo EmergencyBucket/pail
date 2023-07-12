@@ -14,7 +14,7 @@ export const metadata = {
 
 function exclude<Challenge, Key extends keyof Challenge>(
     challenge: Challenge,
-    keys: Key[]
+    keys: Key[],
 ): Omit<Challenge, Key> {
     for (let key of keys) {
         delete challenge[key];
@@ -58,13 +58,13 @@ export default async function Home() {
             challenge.points = await pointValue(
                 challenge as Challenge & {
                     solved?: Solve[];
-                }
+                },
             );
-        })
+        }),
     );
 
     let challengesWithoutSecrets = challenges.map((chall) =>
-        exclude(chall, ['flag'])
+        exclude(chall, ['flag']),
     );
 
     challengesWithoutSecrets = tidy(challenges, arrange(asc('points')));

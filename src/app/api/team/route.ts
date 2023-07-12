@@ -13,7 +13,7 @@ export async function GET() {
             },
             {
                 status: StatusCodes.UNAUTHORIZED,
-            }
+            },
         );
     }
 
@@ -30,7 +30,7 @@ export async function GET() {
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 

@@ -21,7 +21,7 @@ const Dropdown = React.forwardRef<HTMLSelectElement, SelectProps>(
                 <option key={item}>{item}</option>
             ))}
         </select>
-    )
+    ),
 );
 Dropdown.displayName = 'Dropdown';
 

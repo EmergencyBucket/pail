@@ -8,7 +8,7 @@ import { Category, Difficulty } from '@prisma/client';
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id?: string } }
+    { params }: { params: { id?: string } },
 ) {
     let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
@@ -22,7 +22,7 @@ export async function DELETE(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 
@@ -42,7 +42,7 @@ export async function DELETE(
             },
             {
                 status: StatusCodes.NOT_FOUND,
-            }
+            },
         );
     }
 
@@ -64,7 +64,7 @@ export async function DELETE(
         },
         {
             status: StatusCodes.OK,
-        }
+        },
     );
 }
 
@@ -107,7 +107,7 @@ const editChallengeValidator = ajv.compile(EditChallengeSchema);
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: { id?: string } }
+    { params }: { params: { id?: string } },
 ) {
     let middleware = await Middleware([admin()]);
     if (middleware) return middleware;
@@ -121,7 +121,7 @@ export async function PATCH(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 
@@ -134,7 +134,7 @@ export async function PATCH(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 

@@ -15,7 +15,7 @@ const limiter = rateLimit({
 
 export async function POST(
     req: Request,
-    { params }: { params: { id?: string } }
+    { params }: { params: { id?: string } },
 ) {
     let session = await getServerSession();
 
@@ -35,7 +35,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 
@@ -52,7 +52,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.NOT_FOUND,
-            }
+            },
         );
     }
 
@@ -65,7 +65,7 @@ export async function POST(
             },
             {
                 status: StatusCodes.SERVICE_UNAVAILABLE,
-            }
+            },
         );
     }
 
@@ -115,6 +115,6 @@ export async function POST(
         },
         {
             status: StatusCodes.OK,
-        }
+        },
     );
 }

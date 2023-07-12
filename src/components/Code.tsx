@@ -24,7 +24,7 @@ const Code: React.FC<CodeProps> = ({ children }) => {
                 },
                 (err) => {
                     console.error('Unable to copy text to clipboard', err);
-                }
+                },
             );
         } else {
             console.error('Clipboard API not supported');

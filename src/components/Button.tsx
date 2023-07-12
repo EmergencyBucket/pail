@@ -31,7 +31,7 @@ const buttonVariants = cva(
             variant: 'default',
             size: 'default',
         },
-    }
+    },
 );
 
 export interface ButtonProps
@@ -56,14 +56,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             children,
             ...props
         },
-        ref
+        ref,
     ) => {
         if (link) {
             return (
                 <Link href={link} className={linkClassName} target={target}>
                     <button
                         className={bkct(
-                            buttonVariants({ variant, size, className })
+                            buttonVariants({ variant, size, className }),
                         )}
                         ref={ref}
                         {...props}
@@ -85,7 +85,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {children}
             </button>
         );
-    }
+    },
 );
 Button.displayName = 'Button';
 

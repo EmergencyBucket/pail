@@ -30,7 +30,7 @@ export async function getRankings(): Promise<Ranking[]> {
     await Promise.all(
         challenges.map(async (challenge) => {
             challenge.points = await pointValue(challenge);
-        })
+        }),
     );
 
     let teams: (Team & {
@@ -47,7 +47,7 @@ export async function getRankings(): Promise<Ranking[]> {
     await Promise.all(
         teams.map(async (team) => {
             team.points = await countPoints(team, challenges);
-        })
+        }),
     );
 
     teams = tidy(teams, arrange(desc('points')));
@@ -68,7 +68,7 @@ export async function pointValue(
     challenge: Challenge & {
         solved?: Solve[];
         points?: number;
-    }
+    },
 ): Promise<number> {
     if (challenge.points) {
         return challenge.points;
@@ -105,7 +105,7 @@ export async function countPoints(
     },
     challenges?: (Challenge & {
         solved: Solve[];
-    })[]
+    })[],
 ): Promise<number> {
     if (!team.solves) {
         team.solves = await prisma.solve.findMany({

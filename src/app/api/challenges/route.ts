@@ -40,7 +40,7 @@ const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
 };
 
 const createChallengeRequestValidator = ajv.compile(
-    CreateChallengeRequestSchema
+    CreateChallengeRequestSchema,
 );
 
 export async function GET() {
@@ -78,7 +78,7 @@ export async function POST(req: Request) {
             },
             {
                 status: StatusCodes.FORBIDDEN,
-            }
+            },
         );
     }
 

@@ -39,7 +39,7 @@ async function CTFStart(): Promise<Response | undefined> {
             },
             {
                 status: StatusCodes.FORBIDDEN,
-            }
+            },
         );
     }
 
@@ -78,7 +78,7 @@ async function CTFEnd(): Promise<Response | undefined> {
             },
             {
                 status: StatusCodes.FORBIDDEN,
-            }
+            },
         );
     }
 
@@ -99,7 +99,7 @@ async function admin(): Promise<Response | undefined> {
             },
             {
                 status: StatusCodes.FORBIDDEN,
-            }
+            },
         );
     }
 
@@ -119,7 +119,7 @@ async function admin(): Promise<Response | undefined> {
         },
         {
             status: StatusCodes.FORBIDDEN,
-        }
+        },
     );
 }
 
@@ -151,7 +151,7 @@ async function teamMember(): Promise<Response | undefined> {
         },
         {
             status: StatusCodes.FORBIDDEN,
-        }
+        },
     );
 }
 
@@ -168,7 +168,7 @@ async function user(): Promise<Response | undefined> {
         },
         {
             status: StatusCodes.FORBIDDEN,
-        }
+        },
     );
 }
 

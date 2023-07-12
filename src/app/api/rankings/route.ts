@@ -39,14 +39,14 @@ export async function GET() {
             points: (
                 challenge: Challenge & {
                     solved: Solve[];
-                }
+                },
             ) =>
                 challenge.staticPoints
                     ? challenge.staticPoints
                     : challenge.solved.length > 150
                     ? 200
                     : 500 - challenge.solved.length * 2,
-        })
+        }),
     );
 
     teams = tidy(
@@ -56,17 +56,17 @@ export async function GET() {
                 team: Team & {
                     solves: Solve[];
                     points?: number;
-                }
+                },
             ) => {
                 let points = 0;
                 team.solves.forEach((solve) => {
                     points += challenges.find(
-                        (challenge) => challenge.id == solve.challengeId
+                        (challenge) => challenge.id == solve.challengeId,
                     )?.points as number;
                 });
                 return points;
             },
-        })
+        }),
     );
 
     let rankings: Array<{

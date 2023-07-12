@@ -32,7 +32,7 @@ export default function rateLimit(options?: Options) {
                         'X-RateLimit-Remaining':
                             (isRateLimited ? 0 : limit - currentUsage) + '',
                     },
-                }
+                },
             );
 
             return isRateLimited ? res : undefined;

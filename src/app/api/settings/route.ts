@@ -84,7 +84,7 @@ export async function POST(req: Request) {
             },
             {
                 status: StatusCodes.BAD_REQUEST,
-            }
+            },
         );
     }
 }

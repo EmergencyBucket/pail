@@ -6,11 +6,11 @@ import bucket from '../../public/bucket.json';
 const Bucket = () => {
     async function load() {
         let c: HTMLCanvasElement = document.getElementById(
-            'canvas'
+            'canvas',
         ) as HTMLCanvasElement;
 
         let ctx: CanvasRenderingContext2D = c.getContext(
-            '2d'
+            '2d',
         ) as CanvasRenderingContext2D;
 
         for (let x = 0; x < bucket.length; x++) {
