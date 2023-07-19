@@ -7,6 +7,8 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import rateLimit from '@/lib/rate-limit';
 import { logger } from '@/lib/Logger';
+import { getUser } from '@/lib/Utils';
+import { User } from '@prisma/client';
 
 const limiter = rateLimit({
     interval: 60 * 1000, // 60 seconds
@@ -25,6 +27,8 @@ export async function POST(
         limiter.check(5, session!.user!.name as string),
     ]);
     if (middleware) return middleware;
+
+    let u = (await getUser()) as User;
 
     const { id } = params;
 
@@ -94,6 +98,16 @@ export async function POST(
             PortBindings: {
                 '80/tcp': [{ HostPort: '0' }],
             },
+        },
+    });
+
+    await prisma.container.create({
+        data: {
+            id: container.id,
+            hostId: host.id,
+            userId: u.id,
+            challengeId: challenge.id,
+            created: new Date(),
         },
     });
 

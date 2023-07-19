@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "prisma db push --force-reset && next build",
+        "build": "yarn lint --fix && prisma db push && next build",
         "start": "next start",
         "lint": "next lint",
         "cypress": "cypress open"
@@ -28,7 +28,6 @@
         "@typescript-eslint/parser": "^6.0.0",
         "ajv": "^8.12.0",
         "autoprefixer": "^10.4.14",
-        "aws-crt": "^1.15.20",
         "bufferutil": "^4.0.7",
         "chart.js": "^4.3.0",
         "class-variance-authority": "^0.6.1",
