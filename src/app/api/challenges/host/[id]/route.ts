@@ -5,15 +5,9 @@ import isString from 'is-string';
 import { CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import rateLimit from '@/lib/rate-limit';
 import { logger } from '@/lib/Logger';
 import { getUser } from '@/lib/Utils';
 import { User } from '@prisma/client';
-
-const limiter = rateLimit({
-    interval: 60 * 1000, // 60 seconds
-    uniqueTokenPerInterval: 500, // Max 500 users per second
-});
 
 export async function POST(
     req: Request,
@@ -24,7 +18,6 @@ export async function POST(
     let middleware = await Middleware([
         CTFStart(),
         user(),
-        limiter.check(5, session!.user!.name as string),
     ]);
     if (middleware) return middleware;
 
@@ -48,6 +41,13 @@ export async function POST(
             id: id,
         },
     });
+
+    let cont = await prisma.container.findFirst({
+        where: {
+            userId: u.id,
+            challengeId: challenge!.id,
+        }
+    })
 
     if (!challenge || !challenge.image) {
         return NextResponse.json(
@@ -117,11 +117,6 @@ export async function POST(
         .HostPort;
 
     logger.info(session?.user?.name + ' - ' + container.id);
-
-    setTimeout(async () => {
-        await container.kill();
-        await container.remove();
-    }, 1000 * 900);
 
     return NextResponse.json(
         {
