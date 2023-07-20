@@ -1,42 +1,18 @@
 import { Challenge, Solve } from '@prisma/client';
-import { ChartData, ChartOptions } from 'chart.js';
-import { Graph } from '@/components/BarGraph';
 import prisma from '@/lib/prismadb';
 import { CTFStart, Middleware } from '@/lib/Middleware';
 import { Error } from '@/components/Error';
-import { getRankings } from '@/lib/Rankings';
+import { getRankings, pointValue } from '@/lib/Rankings';
 import { getTeam } from '@/lib/Utils';
 import { StarIcon } from 'lucide-react';
+import { Graph } from '@/components/BarGraph';
 
 export const metadata = {
     title: 'EBucket | Rankings',
 };
 
-const options: ChartOptions = {
-    responsive: true,
-    color: '#FFFFFF',
-    borderColor: '#FFFFFF',
-    scales: {
-        y: {
-            grid: {
-                color: '#FFFFFF',
-            },
-            title: {
-                display: true,
-                text: 'Points',
-                color: 'white',
-                font: {
-                    size: 24,
-                },
-            },
-        },
-    },
-};
-
-function getColor() {
-    return `rgba(${255 * Math.random()}, ${255 * Math.random()}, ${
-        255 * Math.random()
-    }, 0.25)`;
+function getColor(num: number) {
+    return `hsl(${num % 360}, 100%, 50%)`;
 }
 
 export default async function Home() {
@@ -61,11 +37,17 @@ export default async function Home() {
         },
     });
 
+    challenges = await Promise.all(
+        challenges.map(async (chall) => {
+            chall.points = await pointValue(chall);
+            return chall;
+        }),
+    );
+
     let rankings: Array<{
         label: string;
         id: string;
         data: number[];
-        backgroundColor: string;
         solves: Solve[];
     }> = [];
 
@@ -75,14 +57,21 @@ export default async function Home() {
         label: ranking.team.name,
         id: ranking.team.id,
         data: [ranking.team.points ?? 0],
-        backgroundColor: getColor(),
         solves: ranking.team.solves,
     }));
 
-    const data: ChartData<'bar', number[], string> = {
-        labels: [''],
-        datasets: rankings.slice(0, 10) ?? [],
-    };
+    let top10 = rankings.slice(0, 9).map((ranking) => {
+        let r: any = {};
+        r.name = ranking.label;
+        ranking.solves.forEach((solve) => {
+            let chall = challenges.find((c) => c.id === solve.challengeId);
+            r[chall!.name] = chall!.points;
+            r[chall!.name + 'Color'] = getColor(chall!.points!);
+        });
+        return r;
+    });
+
+    console.log(top10);
 
     return (
         <>
@@ -139,7 +128,10 @@ export default async function Home() {
                         ))}
                 </div>
                 <div className="w-1/2">
-                    <Graph options={options} data={data} />
+                    <Graph
+                        data={top10}
+                        challengeNames={challenges.map((c) => c.name)}
+                    />
                 </div>
             </div>
         </>

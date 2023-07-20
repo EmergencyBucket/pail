@@ -15,10 +15,7 @@ export async function POST(
 ) {
     let session = await getServerSession();
 
-    let middleware = await Middleware([
-        CTFStart(),
-        user(),
-    ]);
+    let middleware = await Middleware([CTFStart(), user()]);
     if (middleware) return middleware;
 
     let u = (await getUser()) as User;
@@ -41,13 +38,6 @@ export async function POST(
             id: id,
         },
     });
-
-    let cont = await prisma.container.findFirst({
-        where: {
-            userId: u.id,
-            challengeId: challenge!.id,
-        }
-    })
 
     if (!challenge || !challenge.image) {
         return NextResponse.json(
@@ -80,6 +70,28 @@ export async function POST(
         cert: host.cert!,
         key: host.key!,
     });
+
+    let cont = await prisma.container.findFirst({
+        where: {
+            userId: u.id,
+            challengeId: challenge!.id,
+        },
+    });
+
+    // Check if it was created 15 minutes ago
+    if (cont && cont.created.getTime() - Date.now() > 900000) {
+        await docker.getContainer(cont.id).kill();
+        await docker.getContainer(cont.id).remove();
+    } else if (cont) {
+        return NextResponse.json(
+            {
+                Error: 'You already have a running container for this problem.',
+            },
+            {
+                status: StatusCodes.SERVICE_UNAVAILABLE,
+            },
+        );
+    }
 
     let auth: AuthConfig = {
         username: process.env.DOCKER_USERNAME!,
