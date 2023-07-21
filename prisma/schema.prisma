@@ -123,6 +123,11 @@ model Container {
   userId      String
 }
 
+model Customization {
+  key String @id @unique
+  value String
+}
+
 enum Category {
   WEB
   CRYPTO
