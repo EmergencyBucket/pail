@@ -13,44 +13,54 @@ export default async function Home() {
 
     return (
         <div className="mt-4 grid grid-cols-2 grid-rows-2 gap-4 h-full">
-            <div className="grid gap-4">
+            <div className="grid gap-4 rounded-2xl bg-gradient-to-r from-red-700 via-purple-700 to-blue-700 p-0.5">
                 <Button
                     link="admin/challenges"
-                    variant={'unstyled'}
+                    variant={'ghost'}
                     linkClassName="w-full h-full"
-                    className="w-full text-white bg-blue-950 border-2 border-blue-900 hover:border-indigo-900 hover:bg-indigo-950 h-full text-3xl"
+                    className="rounded-2xl w-full text-white bg-slate-800 h-full text-3xl"
                 >
                     <code>Challenges</code>
                 </Button>
             </div>
-            <div className="grid gap-4">
+            <div className="grid gap-4 rounded-2xl bg-gradient-to-r from-blue-700 via-cyan-700 to-green-700 p-0.5">
                 <Button
                     link="admin/settings"
-                    variant={'unstyled'}
+                    variant={'ghost'}
                     linkClassName="w-full h-full"
-                    className="w-full text-white bg-emerald-950 border-2 border-emerald-900 hover:border-teal-900 hover:bg-teal-950 h-full text-3xl"
+                    className="rounded-2xl w-full text-white bg-slate-800 h-full text-3xl"
                 >
                     <code>Settings</code>
                 </Button>
             </div>
-            <div className="grid gap-4">
+            <div className="grid gap-4 rounded-2xl bg-gradient-to-r from-green-700 via-lime-700 to-amber-700 p-0.5">
                 <Button
                     link="admin/hosts"
-                    variant={'unstyled'}
+                    variant={'ghost'}
                     linkClassName="w-full h-full"
-                    className="w-full text-white bg-fuchsia-950 border-2 border-fuchsia-900 hover:border-pink-900 hover:bg-pink-950 h-full text-3xl"
+                    className="rounded-2xl w-full text-white bg-slate-800 h-full text-3xl"
                 >
                     <code>Hosts</code>
                 </Button>
             </div>
-            <div className="grid gap-4">
+            <div className="grid gap-4 rounded-2xl bg-gradient-to-r from-amber-700 via-orange-700 to-red-700 p-0.5">
                 <Button
                     link="admin/teams"
-                    variant={'unstyled'}
+                    variant={'ghost'}
                     linkClassName="w-full h-full"
-                    className="w-full text-white bg-orange-950 border-2 border-orange-900 hover:border-amber-900 hover:bg-amber-950 h-full text-3xl"
+                    className="rounded-2xl w-full text-white bg-slate-800 h-full text-3xl"
                 >
                     <code>Teams</code>
+                </Button>
+            </div>
+            <div className="grid gap-4 rounded-2xl bg-gradient-to-r from-red-700 via-pink-700 to-purple-700 p-0.5">
+                <Button
+                    link="admin/containers"
+                    variant={'ghost'}
+                    linkClassName="w-full h-full"
+                    className="rounded-2xl w-full text-white bg-slate-800 h-full text-3xl"
+                >
+                    <code>Containers</code>
                 </Button>
             </div>
         </div>
