@@ -2,6 +2,7 @@ import { admin } from '@/lib/Middleware';
 import { Error } from '@/components/Error';
 import prisma from '@/lib/prismadb';
 import { Input } from '@/components/Input';
+import { Button } from '@/components/Button';
 
 export const metadata = {
     title: 'EBucket | Admin | Settings',
@@ -108,11 +109,13 @@ export default async function Home() {
                             className="w-5 h-5 m-auto"
                         />
                     </div>
-                    <Input
+                    <Button
                         variant={'subtle'}
                         type="submit"
-                        className="cursor-pointer w-full"
-                    />
+                        className="cursor-pointer w-full font-mono"
+                    >
+                        Save
+                    </Button>
                 </form>
             ))}
         </div>
