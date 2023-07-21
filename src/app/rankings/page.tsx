@@ -5,12 +5,13 @@ import { Error } from '@/components/Error';
 import { getRankings, pointValue } from '@/lib/Rankings';
 import { getTeam } from '@/lib/Utils';
 import { StarIcon } from 'lucide-react';
-import { Graph } from '@/components/BarGraph';
+import * as echarts from 'echarts';
 
 export const metadata = {
     title: 'EBucket | Rankings',
 };
 
+// eslint-disable-next-line
 function getColor(num: number) {
     return `hsl(${num % 360}, 100%, 50%)`;
 }
@@ -60,16 +61,37 @@ export default async function Home() {
         solves: ranking.team.solves,
     }));
 
-    let top10 = rankings.slice(0, 9).map((ranking) => {
-        let r: any = {};
-        r.name = ranking.label;
-        ranking.solves.forEach((solve) => {
-            let chall = challenges.find((c) => c.id === solve.challengeId);
-            r[chall!.name] = chall!.points;
-            r[chall!.name + 'Color'] = getColor(chall!.points!);
+    let top10 = rankings.slice(0, 9);
+
+    function renderChart() {
+        const chart = echarts.init(null, null, {
+            renderer: 'svg',
+            ssr: true,
+            width: 400,
+            height: 300,
         });
-        return r;
-    });
+
+        chart.setOption({
+            xAxis: {
+                type: 'category',
+                data: top10.map((t) => t.label),
+            },
+            yAxis: {
+                type: 'value',
+            },
+            series: [
+                {
+                    data: top10.map((t) => t.data[0]),
+                    type: 'bar',
+                    animationDelay: (idx: any) => {
+                        return idx * 100;
+                    },
+                },
+            ],
+        });
+
+        return chart.renderToSVGString();
+    }
 
     console.log(top10);
 
@@ -127,12 +149,10 @@ export default async function Home() {
                             </div>
                         ))}
                 </div>
-                <div className="w-1/2">
-                    <Graph
-                        data={top10}
-                        challengeNames={challenges.map((c) => c.name)}
-                    />
-                </div>
+                <div
+                    className="w-1/2"
+                    dangerouslySetInnerHTML={{ __html: renderChart() }}
+                ></div>
             </div>
         </>
     );

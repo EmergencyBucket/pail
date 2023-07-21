@@ -82,6 +82,11 @@ export async function POST(
     if (cont && cont.created.getTime() - Date.now() > 900000) {
         await docker.getContainer(cont.id).kill();
         await docker.getContainer(cont.id).remove();
+        await prisma.container.delete({
+            where: {
+                id: cont.id,
+            },
+        });
     } else if (cont) {
         return NextResponse.json(
             {
