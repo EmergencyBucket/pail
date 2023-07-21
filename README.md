@@ -27,6 +27,9 @@
  
 ![Alt](https://repobeats.axiom.co/api/embed/a038bcda85628f372bee7badd55b31e06a3cac7d.svg "Repobeats analytics image")
 
+## Screenshots
+![Main page](https://i.mrxbox98.me/file/2023/07/chrome_MkrXHVuZsn.png)
+
 ## Installation
 ### Railway one-click (Recommended)
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/DrJIzA?referralCode=GswMXR)
