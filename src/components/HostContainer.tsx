@@ -4,11 +4,8 @@ import { FormEvent, useRef, useState } from 'react';
 import { Button } from './Button';
 import Modal from './Modal';
 import { Status, Statuses } from './Status';
-import forge from 'node-forge';
 import { Host } from '@prisma/client';
 import { Input } from './Input';
-
-let pki = forge.pki;
 
 interface Props {
     className?: string;
@@ -87,8 +84,6 @@ const HostContainer = ({ className, data }: Props) => {
             }
 
             try {
-                pki.createCaStore([ssl.current.ca]);
-
                 if (ssl.current.ca && ssl.current.cert && ssl.current.key) {
                     setCertStatus(Statuses.Correct);
                 }
@@ -130,7 +125,7 @@ const HostContainer = ({ className, data }: Props) => {
                         defaultValue={data ? (data.ip as string) : undefined}
                         variant={'subtle'}
                     />
-                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 rounded-lg w-full outline-none">
                         <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
@@ -139,7 +134,7 @@ const HostContainer = ({ className, data }: Props) => {
                         </label>
                         <input name="ca" type={'file'} className={'px-2'} />
                     </div>
-                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 rounded-lg w-full outline-none">
                         <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
@@ -148,7 +143,7 @@ const HostContainer = ({ className, data }: Props) => {
                         </label>
                         <input name="cert" type={'file'} className={'px-2'} />
                     </div>
-                    <div className="mx-auto grid grid-cols-3 bg-slate-700 border-2 border-slate-500 focus:border-slate-400 w-full outline-none">
+                    <div className="mx-auto grid grid-cols-3 bg-slate-700 rounded-lg w-full outline-none">
                         <div className="m-auto">
                             <Status status={certStatus} />
                         </div>
