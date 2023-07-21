@@ -2,18 +2,23 @@ import { Container } from '@prisma/client';
 import prisma from '@/lib/prismadb';
 import Dockerode from 'dockerode';
 import { Button } from '../Button';
-import { User } from 'lucide-react';
+import { Container as ContainerIcon, Flag, User } from 'lucide-react';
+import { revalidatePath } from 'next/cache';
 
 interface Props {
     container: Container;
 }
 
 const ContainerDetails = async ({ container }: Props) => {
-    //let stats = await dockerContainer.stats();
-
     let user = await prisma.user.findUnique({
         where: {
             id: container.userId,
+        },
+    });
+
+    let challenge = await prisma.challenge.findUnique({
+        where: {
+            id: container.challengeId,
         },
     });
 
@@ -44,13 +49,27 @@ const ContainerDetails = async ({ container }: Props) => {
                 id: dockerContainer.id,
             },
         });
+
+        revalidatePath('/admin/containers');
     }
 
     return (
         <div className="p-2 rounded-lg bg-slate-800 grid grid-cols-2 place-items-center">
-            <div className="flex">
-                <User className="text-white" />
-                <code className="text-white">{user!.name}</code>
+            <div>
+                <div className="flex">
+                    <User className="text-white mx-2" />
+                    <code className="text-white">{user!.name}</code>
+                </div>
+                <div className="flex">
+                    <ContainerIcon className="text-white mx-2" />
+                    <code className="text-white">
+                        {container.id.substring(0, 12)}
+                    </code>
+                </div>
+                <div className="flex">
+                    <Flag className="text-white mx-2" />
+                    <code className="text-white">{challenge?.name}</code>
+                </div>
             </div>
             <form action={stopAndRemove}>
                 <Button
