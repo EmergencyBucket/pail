@@ -98,6 +98,14 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                     />
                     <Input
                         variant={'subtle'}
+                        placeholder="Image"
+                        defaultValue={challenge?.image ?? ''}
+                        onChange={(e) =>
+                            setData({ ...data, image: e.target.value })
+                        }
+                    ></Input>
+                    <Input
+                        variant={'subtle'}
                         placeholder="Flag"
                         defaultValue={challenge?.flag}
                         onChange={(e) =>

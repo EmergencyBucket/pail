@@ -10,7 +10,7 @@ const ajv = new Ajv();
 interface CreateChallengeRequest {
     name: string;
     description: string;
-    files: string[];
+    files?: string[];
     image?: string;
     flag: string;
     category: string;
@@ -23,7 +23,7 @@ const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
     properties: {
         name: { type: 'string', minLength: 1, maxLength: 100 },
         description: { type: 'string', minLength: 1 },
-        files: { type: 'array', items: { type: 'string' } },
+        files: { type: 'array', items: { type: 'string' }, nullable: true },
         image: { type: 'string', nullable: true },
         flag: { type: 'string', minLength: 4 },
         category: {
@@ -36,7 +36,7 @@ const CreateChallengeRequestSchema: JSONSchemaType<CreateChallengeRequest> = {
         },
         staticPoints: { type: 'integer', nullable: true },
     },
-    required: ['name', 'description', 'files', 'flag'],
+    required: ['name', 'description', 'flag'],
 };
 
 const createChallengeRequestValidator = ajv.compile(
@@ -77,7 +77,7 @@ export async function POST(req: Request) {
                 Error: 'Bad request',
             },
             {
-                status: StatusCodes.FORBIDDEN,
+                status: StatusCodes.BAD_REQUEST,
             },
         );
     }
@@ -86,9 +86,7 @@ export async function POST(req: Request) {
         data: {
             name: content.name,
             description: content.description,
-            files: content.files.filter((s) => s.length).length
-                ? content.files
-                : [],
+            files: content.files ?? [],
             image: content.image,
             flag: content.flag,
             category: content.category as Category,
