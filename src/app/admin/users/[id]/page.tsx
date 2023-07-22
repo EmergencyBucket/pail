@@ -39,6 +39,15 @@ export default async function Home({
         })
     )?.team;
 
+    let solves = await prisma.solve.findMany({
+        where: {
+            userId: id,
+        },
+        include: {
+            challenge: true,
+        },
+    });
+
     async function leaveTeam() {
         'use server';
 
@@ -72,7 +81,19 @@ export default async function Home({
             });
         }
 
-        revalidatePath('/account');
+        revalidatePath(`/admin/users/${id}`);
+    }
+
+    async function removeSolve(data: FormData) {
+        let solveId = data.get('solveId')?.valueOf() as string;
+
+        await prisma.solve.delete({
+            where: {
+                id: solveId,
+            },
+        });
+
+        revalidatePath(`/admin/users/${id}`);
     }
 
     return (
@@ -124,6 +145,37 @@ export default async function Home({
                         <form action={leaveTeam} className="grid">
                             <Button variant={'destructive'}>Leave Team</Button>
                         </form>
+                    </div>
+                )}
+            </div>
+            <hr className="my-4 border-slate-700" />
+            <div className="grid gap-2">
+                {solves && (
+                    <div className="border border-slate-700 rounded-lg p-2 grid gap-2">
+                        <div className="text-mono text-2xl text-white text-center">
+                            {team!.name}&apos;s Solves
+                        </div>
+
+                        <hr className="border-slate-700" />
+
+                        {solves.map((solve) => (
+                            <div
+                                className="text-mono text-white text-center grid grid-cols-2"
+                                key={solve.id}
+                            >
+                                {solve.challenge.name}
+                                <form action={removeSolve}>
+                                    <input
+                                        name="id"
+                                        type="hidden"
+                                        defaultValue={solve.id}
+                                    />
+                                    <button className="text-red-600">
+                                        Remove
+                                    </button>
+                                </form>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
