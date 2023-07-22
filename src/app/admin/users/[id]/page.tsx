@@ -150,7 +150,7 @@ export default async function Home({
             </div>
             <hr className="my-4 border-slate-700" />
             <div className="grid gap-2">
-                {solves && (
+                {solves.length > 0 && (
                     <div className="border border-slate-700 rounded-lg p-2 grid gap-2">
                         <div className="text-mono text-2xl text-white text-center">
                             {team!.name}&apos;s Solves

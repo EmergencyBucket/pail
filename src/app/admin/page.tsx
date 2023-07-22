@@ -63,6 +63,16 @@ export default async function Home() {
                     <code>Containers</code>
                 </Button>
             </div>
+            <div className="grid gap-4 rounded-2xl bg-gradient-to-r from-purple-700 via-blue-700 to-cyan-700 p-0.5">
+                <Button
+                    link="admin/users"
+                    variant={'ghost'}
+                    linkClassName="w-full h-full"
+                    className="rounded-2xl w-full text-white bg-slate-800 h-full text-3xl"
+                >
+                    <code>Users</code>
+                </Button>
+            </div>
         </div>
     );
 }
