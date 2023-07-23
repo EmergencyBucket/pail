@@ -1,0 +1,19 @@
+# Setup
+
+Pail is a full stack NextJS application meaning only one web service needs to be run along with a PostgreSQL database.
+The easiest way to deploy is via Railway which will manage nearly all settings for you.
+
+# Manual Setup
+
+1. Clone the project off of GitHub.
+2. Install all dependencies by running
+```bash
+npm install -g yarn
+yarn install
+```
+3. Install + setup PostgreSQL and set an environment variable ``DATABASE_URL_NON_POOLING`` to the full connection URL.
+4. Also set a ``NEXTAUTH_SECRET`` in your ``.env`` file (this should be completely random).
+5. Setup GitHub sign in via the tutorial [here](https://next-auth.js.org/providers/github) (Set the ``GITHUB_CLIENT_ID`` and ``GITHUB_CLIENT_SECRET`` in your environment variables).
+6. Optionally set the ``DOCKER_USERNAME`` and ``DOCKER_PASSWORD`` to pull images from the GitHub container registry.
+7. Push the db schema and build the website by running ``yarn build``.
+
