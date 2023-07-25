@@ -93,8 +93,6 @@ export default async function Home() {
         return chart.renderToSVGString();
     }
 
-    console.log(top10);
-
     return (
         <>
             <div className="flex w-full">

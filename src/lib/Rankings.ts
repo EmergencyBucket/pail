@@ -1,7 +1,6 @@
 import { Challenge, Solve, Team } from '@prisma/client';
 import prisma from './prismadb';
 import { tidy, arrange, desc } from '@tidyjs/tidy';
-import { logger } from './Logger';
 
 interface Ranking {
     team: Team & {
@@ -16,8 +15,6 @@ interface Ranking {
  * @returns Rankings for all teams in the @interface Ranking
  */
 export async function getRankings(): Promise<Ranking[]> {
-    logger.info(`Started team data collection.`);
-
     let challenges: (Challenge & {
         solved: Solve[];
         points?: number;
@@ -41,8 +38,6 @@ export async function getRankings(): Promise<Ranking[]> {
             solves: true,
         },
     });
-
-    logger.info(`Ended team data collection.`);
 
     await Promise.all(
         teams.map(async (team) => {

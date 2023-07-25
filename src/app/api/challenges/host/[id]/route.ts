@@ -4,8 +4,6 @@ import { StatusCodes } from 'http-status-codes';
 import isString from 'is-string';
 import { CTFStart, Middleware, user } from '@/lib/Middleware';
 import { NextResponse } from 'next/server';
-import { getServerSession } from 'next-auth';
-import { logger } from '@/lib/Logger';
 import { getUser } from '@/lib/Utils';
 import { User } from '@prisma/client';
 
@@ -13,8 +11,6 @@ export async function POST(
     req: Request,
     { params }: { params: { id?: string } },
 ) {
-    let session = await getServerSession();
-
     let middleware = await Middleware([CTFStart(), user()]);
     if (middleware) return middleware;
 
@@ -132,8 +128,6 @@ export async function POST(
 
     let port = (await container.inspect()).NetworkSettings.Ports['80/tcp'][0]
         .HostPort;
-
-    logger.info(session?.user?.name + ' - ' + container.id);
 
     return NextResponse.json(
         {
