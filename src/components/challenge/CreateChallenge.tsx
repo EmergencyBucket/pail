@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '../Button';
 import Modal from '../Modal';
-import { Category, Challenge, Difficulty } from '@prisma/client';
+import { Challenge } from '@prisma/client';
 import { Input } from '../Input';
 import { Dropdown } from '../Dropdown';
 import { Textarea } from '../Textarea';
+import { createChallenge } from '@/app/api/challenges/actions';
 
 interface Props {
     className?: string;
@@ -17,7 +18,7 @@ interface Props {
 const CreateChallenge = ({ className, challenge }: Props) => {
     const [open, setOpen] = useState(false);
 
-    const [data, setData] = useState<Partial<Challenge>>(challenge ?? {});
+    const [data] = useState<Partial<Challenge>>(challenge ?? {});
 
     const router = useRouter();
 
@@ -49,68 +50,45 @@ const CreateChallenge = ({ className, challenge }: Props) => {
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl mb-6">Challenge</p>
-                <div className="w-full grid gap-4">
+                <form className="w-full grid gap-4" action={createChallenge}>
                     <Input
+                        name="name"
                         variant={'subtle'}
                         placeholder="Name"
                         defaultValue={challenge?.name}
-                        onChange={(e) =>
-                            setData({ ...data, name: e.target.value })
-                        }
                     ></Input>
                     <Textarea
+                        name="description"
                         placeholder="Description"
                         defaultValue={challenge?.description}
-                        onChange={(e) =>
-                            setData({ ...data, description: e.target.value })
-                        }
                     />
                     <Input
+                        name="files"
                         variant={'subtle'}
                         placeholder="Files"
                         defaultValue={challenge?.files}
-                        onChange={(e) =>
-                            setData({
-                                ...data,
-                                files: e.target.value.split(','),
-                            })
-                        }
                     ></Input>
                     <Dropdown
+                        name="category"
                         items={['WEB', 'CRYPTO', 'REV', 'PWN', 'MISC']}
                         defaultValue={challenge?.category}
-                        onChange={(e) =>
-                            setData({
-                                ...data,
-                                category: e.target.value as Category,
-                            })
-                        }
                     />
                     <Dropdown
-                        items={['Easy', 'Medium', 'Hard']}
+                        name="difficulty"
+                        items={['EASY', 'MEDIUM', 'HARD']}
                         defaultValue={challenge?.difficulty}
-                        onChange={(e) =>
-                            setData({
-                                ...data,
-                                difficulty: e.target.value as Difficulty,
-                            })
-                        }
                     />
                     <Input
+                        name="image"
                         variant={'subtle'}
                         placeholder="Image"
                         defaultValue={challenge?.image ?? ''}
-                        onChange={(e) =>
-                            setData({ ...data, image: e.target.value })
-                        }
                     ></Input>
                     <Input
+                        name="flag"
                         variant={'subtle'}
                         placeholder="Flag"
                         defaultValue={challenge?.flag}
-                        onChange={(e) =>
-                            setData({ ...data, flag: e.target.value })
-                        }
                     ></Input>
                     {challenge ? (
                         <div className="grid grid-cols-2 gap-4">
@@ -125,11 +103,9 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                             </Button>
                         </div>
                     ) : (
-                        <Button variant={'outline'} onClick={submit}>
-                            Submit
-                        </Button>
+                        <Button variant={'outline'}>Submit</Button>
                     )}
-                </div>
+                </form>
             </Modal>
             <Button
                 className={className + ' block h-full'}
