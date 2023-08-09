@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from '../Button';
 import Modal from '../Modal';
@@ -8,7 +7,11 @@ import { Challenge } from '@prisma/client';
 import { Input } from '../Input';
 import { Dropdown } from '../Dropdown';
 import { Textarea } from '../Textarea';
-import { createChallenge } from '@/app/api/challenges/actions';
+import {
+    createChallenge,
+    deleteChallenge,
+    editChallenge,
+} from '@/app/api/challenges/actions';
 
 interface Props {
     className?: string;
@@ -18,39 +21,12 @@ interface Props {
 const CreateChallenge = ({ className, challenge }: Props) => {
     const [open, setOpen] = useState(false);
 
-    const [data] = useState<Partial<Challenge>>(challenge ?? {});
-
-    const router = useRouter();
-
-    function submit() {
-        setOpen(false);
-
-        if (!challenge) {
-            fetch(`/api/challenges`, {
-                method: 'POST',
-                body: JSON.stringify(data),
-            }).then(() => router.refresh());
-        } else {
-            fetch(`/api/challenges/${challenge.id}`, {
-                method: 'PATCH',
-                body: JSON.stringify(data),
-            }).then(() => router.refresh());
-        }
-    }
-
-    function deleteChallenge() {
-        setOpen(false);
-
-        fetch(`/api/challenges/${challenge!.id}`, { method: 'DELETE' }).then(
-            () => router.refresh(),
-        );
-    }
-
     return (
         <>
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <p className="text-white text-4xl mb-6">Challenge</p>
                 <form className="w-full grid gap-4" action={createChallenge}>
+                    <input hidden name="id" value={challenge?.id}></input>
                     <Input
                         name="name"
                         variant={'subtle'}
@@ -92,12 +68,15 @@ const CreateChallenge = ({ className, challenge }: Props) => {
                     ></Input>
                     {challenge ? (
                         <div className="grid grid-cols-2 gap-4">
-                            <Button variant={'outline'} onClick={submit}>
+                            <Button
+                                variant={'outline'}
+                                formAction={editChallenge}
+                            >
                                 Save
                             </Button>
                             <Button
                                 variant={'destructive'}
-                                onClick={deleteChallenge}
+                                formAction={deleteChallenge}
                             >
                                 Delete
                             </Button>
