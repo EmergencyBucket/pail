@@ -30,7 +30,7 @@ export default function Home() {
         <>
             <Bucket />
             <h1 className="text-4xl sm:text-6xl font-bold mx-auto text-center text-white">
-                BucketCTF<i>[2023]</i>
+                BucketCTF<i>[2024]</i>
             </h1>
 
             <div className="grid mt-6 gap-2">
